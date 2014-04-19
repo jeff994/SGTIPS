@@ -28,8 +28,8 @@
 
 -(BOOL) saveData:(NSString*)registerNumber name:(NSString *) name department:(NSString*)department year:(NSString * )year;
 -(NSArray *) findByRegisterNumber:(NSString *) registerNumber;
--(void)saveImage: (UIImage*)image path:(NSString*)path;
--(UIImage*)loadImage:(NSString*)path;
+-(void)saveImage: (UIImage*)image path:(NSString*)imgName;
+-(UIImage*)loadImage:(NSString*)imgName;
 
 @end
 

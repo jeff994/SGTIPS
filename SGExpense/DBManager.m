@@ -19,6 +19,7 @@ static sqlite3_stmt  * statement = nil;
         [sharedInstance createDB];
         [sharedInstance createCategory];
         [sharedInstance createEntryTable];
+        [sharedInstance createCategoryImage];
     }
     return sharedInstance;
 }
@@ -82,7 +83,9 @@ static sqlite3_stmt  * statement = nil;
 -(BOOL)createCategoryImage // Used to create initial set of category images
 {
     // Save all the images to the image table once for all
-    // Each category should have an idenpendent images icon 
+    // Each category should have an idenpendent images icon
+    UIImage * pImage = [UIImage imageNamed:@"money.png"];
+    [self saveImage:pImage path:@"money.png"];
     return true;
 }
 
@@ -163,25 +166,39 @@ static sqlite3_stmt  * statement = nil;
     return isSuccess;
 }
 
-- (void)saveImage: (UIImage*)image path:(NSString*)path;
+- (void)saveImage: (UIImage*)image path:(NSString*)imgName;
 {
     if (image != nil)
     {
+        NSFileManager *filemgr = [NSFileManager defaultManager];
+        
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
                                                              NSUserDomainMask, YES);
         NSString *documentsDirectory = [paths objectAtIndex:0];
-        NSString* path = [documentsDirectory stringByAppendingPathComponent:@"image\\"];
-        NSData* data = UIImagePNGRepresentation(image);
-        [data writeToFile:path atomically:YES];
+        
+        NSString* dataPath = [documentsDirectory stringByAppendingPathComponent:@"cfgimg"];
+        NSError *error;
+        
+        if ([filemgr fileExistsAtPath:dataPath ] == NO)
+            [filemgr createDirectoryAtPath:dataPath withIntermediateDirectories:NO attributes:nil error:&error];
+        
+        
+        NSString* path = [dataPath stringByAppendingPathComponent:imgName];
+       
+        if ([filemgr fileExistsAtPath:path ] == NO)
+        {
+            NSData* data = UIImagePNGRepresentation(image);
+            [data writeToFile:path atomically:YES];
+        }
     }
 }
 
-- (UIImage*)loadImage:(NSString*)path
+- (UIImage*)loadImage:(NSString*)imgName
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
                                                          NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString* spath = [documentsDirectory stringByAppendingPathComponent:path];
+    NSString* spath = [[documentsDirectory stringByAppendingPathComponent:@"cfgimg"] stringByAppendingPathComponent:imgName];
     UIImage* image = [UIImage imageWithContentsOfFile:spath];
     return image;
 }

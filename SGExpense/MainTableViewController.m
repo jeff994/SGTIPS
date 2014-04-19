@@ -68,7 +68,8 @@
     NSString * pCatName = [_pCategory objectAtIndex:indexPath.row];
     
     cell.textLabel.text = pCatName;
-    cell.imageView.image = [UIImage imageNamed:@"pig.jpg"];
+    UIImage * pImage = [_pDbManager loadImage:@"money.png"];
+    cell.imageView.image = pImage;
     return cell;
 }
 

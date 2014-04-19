@@ -5,36 +5,36 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>0D549B64-B76E-4AE3-B440-A3193C940873</string>
+	<string>A9243A69-82D3-4C23-BD86-A1D8210ADDBC</string>
 	<key>IDESourceControlProjectName</key>
 	<string>SGExpense</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>F8160DE7-2776-4645-99DF-BE6F4C7B0BCD</key>
-		<string>git://github.com/yorikvanhavre/IfcOpenShell.git</string>
+		<key>9F5C4277-6FE4-47ED-BEAB-082115703EAF</key>
+		<string>https://github.com/jeff994/github.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>SGExpense/SGExpense.xcodeproj/project.xcworkspace</string>
+	<string>SGExpense.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>F8160DE7-2776-4645-99DF-BE6F4C7B0BCD</key>
-		<string>../../..</string>
+		<key>9F5C4277-6FE4-47ED-BEAB-082115703EAF</key>
+		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>git://github.com/yorikvanhavre/IfcOpenShell.git</string>
+	<string>https://github.com/jeff994/github.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>F8160DE7-2776-4645-99DF-BE6F4C7B0BCD</string>
+	<string>9F5C4277-6FE4-47ED-BEAB-082115703EAF</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>F8160DE7-2776-4645-99DF-BE6F4C7B0BCD</string>
+			<string>9F5C4277-6FE4-47ED-BEAB-082115703EAF</string>
 			<key>IDESourceControlWCCName</key>
-			<string>github</string>
+			<string>SGExpense</string>
 		</dict>
 	</array>
 </dict>
