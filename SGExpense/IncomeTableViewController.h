@@ -1,15 +1,15 @@
 //
-//  MainTableViewController.h
+//  IncomeTableViewController.h
 //  SGExpense
 //
-//  Created by Hu Jianbo on 18/4/14.
+//  Created by Hu Jianbo on 19/4/14.
 //  Copyright (c) 2014 SD. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 #import "DBManager.h"
 
-@interface MainTableViewController : UITableViewController
+@interface IncomeTableViewController : UITableViewController
 
 @property DBManager * pDbManager; // Used to get the database manager
 @property NSMutableArray * pCategory;

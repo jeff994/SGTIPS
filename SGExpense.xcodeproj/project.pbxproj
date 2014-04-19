@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		8F9E855D19021D0200EFF900 /* money.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F9E855C19021D0200EFF900 /* money.png */; };
+		8FDC33C8190263A80085806C /* SubCategoryTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FDC33C7190263A80085806C /* SubCategoryTableViewController.m */; };
+		8FDC33CE19027C490085806C /* IncomeTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FDC33CD19027C490085806C /* IncomeTableViewController.m */; };
 		8FE8A7581901208D009A8417 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FE8A7571901208D009A8417 /* Foundation.framework */; };
 		8FE8A75A1901208D009A8417 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FE8A7591901208D009A8417 /* CoreGraphics.framework */; };
 		8FE8A75C1901208D009A8417 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FE8A75B1901208D009A8417 /* UIKit.framework */; };
@@ -40,6 +42,10 @@
 
 /* Begin PBXFileReference section */
 		8F9E855C19021D0200EFF900 /* money.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = money.png; sourceTree = "<group>"; };
+		8FDC33C6190263A80085806C /* SubCategoryTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubCategoryTableViewController.h; sourceTree = "<group>"; };
+		8FDC33C7190263A80085806C /* SubCategoryTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubCategoryTableViewController.m; sourceTree = "<group>"; };
+		8FDC33CC19027C490085806C /* IncomeTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IncomeTableViewController.h; sourceTree = "<group>"; };
+		8FDC33CD19027C490085806C /* IncomeTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IncomeTableViewController.m; sourceTree = "<group>"; };
 		8FE8A7541901208D009A8417 /* SGExpense.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SGExpense.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8FE8A7571901208D009A8417 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		8FE8A7591901208D009A8417 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -181,9 +187,13 @@
 			isa = PBXGroup;
 			children = (
 				8FE8A7911901218F009A8417 /* MainTableViewController.h */,
+				8FDC33C6190263A80085806C /* SubCategoryTableViewController.h */,
+				8FDC33C7190263A80085806C /* SubCategoryTableViewController.m */,
 				8FE8A7921901218F009A8417 /* MainTableViewController.m */,
 				8FE8A76C1901208D009A8417 /* ViewController.h */,
 				8FE8A76D1901208D009A8417 /* ViewController.m */,
+				8FDC33CC19027C490085806C /* IncomeTableViewController.h */,
+				8FDC33CD19027C490085806C /* IncomeTableViewController.m */,
 			);
 			name = ViewContollers;
 			sourceTree = "<group>";
@@ -289,6 +299,8 @@
 			files = (
 				8FE8A76E1901208D009A8417 /* ViewController.m in Sources */,
 				8FE8A7681901208D009A8417 /* AppDelegate.m in Sources */,
+				8FDC33C8190263A80085806C /* SubCategoryTableViewController.m in Sources */,
+				8FDC33CE19027C490085806C /* IncomeTableViewController.m in Sources */,
 				8FE8A7641901208D009A8417 /* main.m in Sources */,
 				8FE8A7931901218F009A8417 /* MainTableViewController.m in Sources */,
 				8FE8A78F1901216F009A8417 /* DBManager.m in Sources */,

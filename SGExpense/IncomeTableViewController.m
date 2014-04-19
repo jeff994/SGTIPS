@@ -1,18 +1,18 @@
 //
-//  MainTableViewController.m
+//  IncomeTableViewController.m
 //  SGExpense
 //
-//  Created by Hu Jianbo on 18/4/14.
+//  Created by Hu Jianbo on 19/4/14.
 //  Copyright (c) 2014 SD. All rights reserved.
 //
 
-#import "MainTableViewController.h"
-#import "SubCategoryTableViewController.h"
+#import "IncomeTableViewController.h"
 
-@interface MainTableViewController ()
+@interface IncomeTableViewController ()
+
 @end
 
-@implementation MainTableViewController
+@implementation IncomeTableViewController
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -25,13 +25,16 @@
 
 - (void)viewDidLoad
 {
+    
     [super viewDidLoad];
     self.pSelectedCategory = nil;
+     [self setTitle:@"Income"];
     // Get the db manager from the DBManager
     _pDbManager = [DBManager getSharedInstance];
-    NSArray * pMainCat = [_pDbManager getChildCatetory:@"Expense"];
+    NSArray * pMainCat = [_pDbManager getChildCatetory:@"Income"];
     _pCategory = [NSMutableArray arrayWithArray:pMainCat];
     return;
+
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
@@ -49,14 +52,12 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    // Return the number of sections.
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // Return the number of rows in the section.
-    return [self.pCategory count];
+   return [self.pCategory count];
 }
 
 
@@ -71,15 +72,7 @@
     UIImage * pImage = [_pDbManager loadImage:@"money.png"];
     cell.imageView.image = pImage;
     return cell;
-}
 
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    [tableView deselectRowAtIndexPath:indexPath animated:NO];
-    self.pSelectedCategory = [_pCategory objectAtIndex:indexPath.row];
-    [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-    
 }
 
 
@@ -121,25 +114,15 @@
 }
 */
 
-
+/*
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    NSIndexPath *ip = [self.tableView indexPathForSelectedRow];
-    self.pSelectedCategory = [_pCategory objectAtIndex:ip.row];
-
-    if([segue.identifier isEqualToString:@"idNavigateSubCat"])
-    {
-        SubCategoryTableViewController* dest = (SubCategoryTableViewController*)segue.destinationViewController;
-        dest.pMainCat = self.pSelectedCategory;
-        self.pSelectedCategory = nil;
-    }
-    
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
 }
-
+*/
 
 @end
