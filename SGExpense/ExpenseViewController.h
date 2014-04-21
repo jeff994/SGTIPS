@@ -16,5 +16,6 @@
 @property (strong, nonatomic) IBOutlet UITextField *pEntryDate;
 @property (strong, nonatomic) IBOutlet UIDatePicker *pDatePicker;
 @property (strong, nonatomic) IBOutlet UIButton *pImageButton;
+@property (strong, nonatomic) IBOutlet UIScrollView *pScrollView;
 
 @end

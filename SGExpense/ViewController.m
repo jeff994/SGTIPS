@@ -17,6 +17,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.pScrollView.layer.borderWidth = 2;
+    self.pScrollView.layer.borderColor = [UIColor blackColor].CGColor;
+    //[self.pScrollView setContentOffset:CGPointMake(0, 100) animated:YES];
 	// Do any additional setup after loading the view, typically from a nib.
 }
 

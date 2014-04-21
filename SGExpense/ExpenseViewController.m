@@ -49,13 +49,23 @@
     self.pCategory.inputView = self.pCategoryPicker;
     self.pCategory.inputAccessoryView = toolBar;
     self.pEntryDate.inputView = self.pDatePicker;
-    [[self.pImageButton layer] setCornerRadius:8.0f];
-    
-    [[self.pImageButton layer] setMasksToBounds:YES];
-    
+    CGRect buttonFrame = self.pImageButton.frame;
+    buttonFrame.size = CGSizeMake(150, 150);
+    self.pImageButton.frame = buttonFrame;
+    [[self.pImageButton layer] setCornerRadius:60.0f];
     [[self.pImageButton layer] setBorderWidth:1.0f];
-    // Do any additional setup after loading the view.
+    self.pScrollView.layer.borderWidth = 1;
+    //self.view.layer.borderWidth =1 ;
+    //self.view.layer.borderColor = [UIColor blackColor].CGColor;
+    self.pScrollView.layer.borderColor = [UIColor blackColor].CGColor;
+           // Do any additional setup after loading the view.
 }
+- (void)viewDidLayoutSubviews {
+      [self.pScrollView setContentOffset:CGPointMake(0, 0) animated:YES];
+    self.pScrollView.contentSize = CGSizeMake(320, 400);
+
+}
+
 - (IBAction)beginEditingDate:(id)sender {
     self.pDatePicker.hidden = NO;
 }
