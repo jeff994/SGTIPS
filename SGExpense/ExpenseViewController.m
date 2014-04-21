@@ -31,6 +31,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.pCategoryPicker.hidden = YES;
     self.pCategoryArray  = [[NSArray alloc]         initWithObjects:@"Blue",@"Green",@"Orange",@"Purple",@"Red",@"Yellow" , nil];
     self.pCategoryPicker.dataSource = self;
     self.pCategoryPicker.delegate = self;
@@ -47,7 +48,16 @@
     [toolBar setItems:toolbarItems];
     self.pCategory.inputView = self.pCategoryPicker;
     self.pCategory.inputAccessoryView = toolBar;
+    self.pEntryDate.inputView = self.pDatePicker;
+    [[self.pImageButton layer] setCornerRadius:8.0f];
+    
+    [[self.pImageButton layer] setMasksToBounds:YES];
+    
+    [[self.pImageButton layer] setBorderWidth:1.0f];
     // Do any additional setup after loading the view.
+}
+- (IBAction)beginEditingDate:(id)sender {
+    self.pDatePicker.hidden = NO;
 }
 
 - (void)didReceiveMemoryWarning
@@ -93,7 +103,19 @@
 
 -(void)done:(id)sender
 {
+    self.pCategoryPicker.hidden = YES;
     [self.pCategory resignFirstResponder];
 }
+
+- (IBAction)datePickerValueChanged:(id)sender {
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd 'at' HH:mm"];
+    
+    NSString *formattedDateString = [dateFormatter stringFromDate:self.pDatePicker.date];
+    self.pEntryDate.text = formattedDateString;
+  
+}
+
+
 
 @end
