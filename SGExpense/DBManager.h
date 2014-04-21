@@ -14,8 +14,6 @@
     NSString * databasePath;
 }
 +(DBManager *)getSharedInstance;
--(BOOL) createDB;
-
 /// ----- Category table handing
 // Used to create category of accounts
 -(BOOL) createCategory;
@@ -26,10 +24,18 @@
 
 -(BOOL) createCategoryImage;
 
--(BOOL) saveData:(NSString*)registerNumber name:(NSString *) name department:(NSString*)department year:(NSString * )year;
+- (BOOL) saveEntryData:(NSString*)category value:(float)value
+              currency:(NSString*)currency description:(NSString *)description
+                  date:(NSString*)date imgpath:(NSString *)imgpath bRepeat:(BOOL)bRepeat;
+
 -(NSArray *) findByRegisterNumber:(NSString *) registerNumber;
+
 -(void)saveImage: (UIImage*)image path:(NSString*)imgName;
+
 -(UIImage*)loadImage:(NSString*)imgName;
 
+-(BOOL) cleanSettings;
+
+-(BOOL) initDatabase;
 @end
 
