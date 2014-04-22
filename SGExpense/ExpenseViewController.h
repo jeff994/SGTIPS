@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "EntryItem.h"
 
 @interface ExpenseViewController : UIViewController <UITextFieldDelegate, UIPickerViewDataSource,UIPickerViewDelegate,  UIScrollViewDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
@@ -21,6 +22,7 @@
 @property (strong, nonatomic) IBOutlet UIScrollView *pScrollView;
 @property (strong, nonatomic) IBOutlet UITextField  *pDescriptionField;
 @property (strong, nonatomic) IBOutlet UITextField  *pAmountField;
+@property                               EntryItem   *pEntry;
 -(void) initCategoryPicker;
 -(void) initDatePicker;
 -(void) initAmountField;
