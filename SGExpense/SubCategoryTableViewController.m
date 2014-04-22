@@ -7,6 +7,7 @@
 //
 
 #import "SubCategoryTableViewController.h"
+#import "ExpenseViewController.h"
 
 @interface SubCategoryTableViewController ()
 
@@ -27,10 +28,9 @@
 {
     [super viewDidLoad];
     [self setTitle:_pMainCat];
-    _pDbManager = [DBManager getSharedInstance];
+    self.pDbManager = [DBManager getSharedInstance];
     
-    NSArray * pSubCat = [_pDbManager getChildCatetory:_pMainCat];
-    _pCategory = [NSMutableArray arrayWithArray:pSubCat];
+    self.pCategory = [_pDbManager getChildCatetory:_pMainCat];
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -107,7 +107,7 @@
 }
 */
 
-/*
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -115,7 +115,29 @@
 {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    NSIndexPath *ip = [self.tableView indexPathForSelectedRow];
+    self.pSelectedCategory = [_pCategory objectAtIndex:ip.row];
+    
+    if([segue.identifier isEqualToString:@"idNewEntry"])
+    {
+        ExpenseViewController* dest = (ExpenseViewController*)segue.destinationViewController;
+        dest.pMainCategoryName = self.pMainCat;
+        dest.pCategoryArray = [NSArray arrayWithArray:self.pCategory];
+        self.pSelectedCategory = nil;
+    }
+    
 }
-*/
+
+- (IBAction)unwindToList:(UIStoryboardSegue *)segue
+{
+    
+}
+
+- (IBAction)addNewEntry:(UIStoryboardSegue *)segue
+{
+    
+}
+
+
 
 @end

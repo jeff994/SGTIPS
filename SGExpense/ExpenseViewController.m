@@ -31,7 +31,6 @@
 - (void) initCategoryPicker
 {
     self.pCategoryPicker.hidden = YES;
-    self.pCategoryArray  = [[NSArray alloc]         initWithObjects:@"Blue",@"Green",@"Orange",@"Purple",@"Red",@"Yellow" , nil];
     self.pCategoryPicker.dataSource = self;
     self.pCategoryPicker.delegate = self;
     self.pCategoryPicker.showsSelectionIndicator = YES;
@@ -88,26 +87,30 @@
     [self.view addGestureRecognizer:tapRecognizer];
 }
 
-- (void)viewDidLoad
+- (void) initReciptButton
 {
-    [super viewDidLoad];
     CGRect buttonFrame = self.pImageButton.frame;
     buttonFrame.size = CGSizeMake(150, 150);
     self.pImageButton.frame = buttonFrame;
     [[self.pImageButton layer] setCornerRadius:70.0f];
     [[self.pImageButton layer] setBorderWidth:1.0f];
-    self.pScrollView.layer.borderWidth = 1;
+    self.pImageButton.contentMode = UIViewContentModeScaleAspectFit;
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    [self setTitle:self.pMainCategoryName];
+    //self.pScrollView.layer.borderWidth = 1;
     //self.view.layer.borderWidth =1 ;
     //self.view.layer.borderColor = [UIColor blackColor].CGColor;
-    self.pScrollView.layer.borderColor = [UIColor blackColor].CGColor;
+    //self.pScrollView.layer.borderColor = [UIColor blackColor].CGColor;
     [self.pDescriptionField setDelegate:self];
     [self initCategoryPicker];
     [self initDatePicker];
     [self initAmountField];
-    self.pImageButton.contentMode = UIViewContentModeScaleAspectFit;
-    [self.pImageButton setBackgroundImage:[UIImage imageNamed:@"money.png"]
-                                 forState:UIControlStateNormal];
-           // Do any additional setup after loading the view.
+    [self initReciptButton];
+    // Do any additional setup after loading the view.
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -134,16 +137,29 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
+    if (sender == self.doneButton)
+    {
+        // Prepare to pack the data and send it to the calling view;
+        // And data validation
+        
+        // the value cannot be null
+        // The description 
+        return;
+    }
+    
+    
+    return;
+    
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
 }
-*/
+
 
 
 // returns the number of 'columns' to display.
@@ -156,7 +172,7 @@
 // returns the # of rows in each component..
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent: (NSInteger)component
 {
-    return 6;
+    return [self.pCategoryArray count] ;
     
 }
 
@@ -240,8 +256,11 @@
     
     UIImage *chosenImage = info[UIImagePickerControllerEditedImage];
     //self.imageView.image = chosenImage;
-    [self.pImageButton setBackgroundImage:chosenImage
-                        forState:UIControlStateNormal];
+    if(chosenImage!= nil)
+    {
+        [self.pImageButton setBackgroundImage:chosenImage forState:UIControlStateNormal];
+        [self.pImageButton setTitle:nil forState:UIControlStateNormal];
+    }
     [picker dismissViewControllerAnimated:YES completion:NULL];
     
 }

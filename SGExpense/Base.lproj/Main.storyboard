@@ -91,7 +91,7 @@
                     <navigationItem key="navigationItem" id="mUF-km-Hpn">
                         <barButtonItem key="rightBarButtonItem" title="+" id="JQd-az-jOK">
                             <connections>
-                                <segue destination="FV4-Yf-n3Y" kind="push" id="PxJ-np-hB8"/>
+                                <segue destination="FV4-Yf-n3Y" kind="push" identifier="idNewEntry" id="PxJ-np-hB8"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -244,8 +244,20 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                             <constraint firstAttribute="trailing" secondItem="EjH-wc-3av" secondAttribute="trailing" id="ut0-Uh-kPr"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="oi1-Ms-ZYR"/>
+                    <navigationItem key="navigationItem" id="oi1-Ms-ZYR">
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="ACh-cx-tIo">
+                            <connections>
+                                <segue destination="GoK-c6-kbf" kind="unwind" unwindAction="unwindToList:" id="m6p-Hh-Qn1"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Done" id="lo7-4N-pTq">
+                            <connections>
+                                <segue destination="GoK-c6-kbf" kind="unwind" unwindAction="addNewEntry:" id="oe2-s6-6f0"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
+                        <outlet property="doneButton" destination="lo7-4N-pTq" id="sPD-Z4-a5y"/>
                         <outlet property="pAmountField" destination="ZKf-pK-wT0" id="rbh-LQ-w6T"/>
                         <outlet property="pCategory" destination="LkA-s4-vfo" id="rQJ-Od-Aec"/>
                         <outlet property="pCategoryPicker" destination="ivT-bK-EEi" id="rSt-dn-w5m"/>
@@ -257,6 +269,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LBx-ON-QFD" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="GoK-c6-kbf" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="3300" y="-235"/>
         </scene>

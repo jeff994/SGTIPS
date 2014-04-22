@@ -12,6 +12,8 @@
 @interface SubCategoryTableViewController : UITableViewController
 @property NSString *pMainCat;
 @property DBManager * pDbManager; // Used to get the database manager
-@property NSMutableArray * pCategory;
+@property NSArray * pCategory;
 @property NSString * pSelectedCategory;
+- (IBAction)unwindToList:(UIStoryboardSegue *)segue;
+- (IBAction)addNewEntry:(UIStoryboardSegue *)segue;
 @end
