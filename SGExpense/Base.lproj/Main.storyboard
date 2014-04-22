@@ -166,6 +166,9 @@
                                                 <state key="normal" title="Add a receipt">
                                                     <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="getReceiptImage:" destination="FV4-Yf-n3Y" eventType="touchUpInside" id="ui2-53-Twl"/>
+                                                </connections>
                                             </button>
                                             <datePicker hidden="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="YkZ-dO-aEy">
                                                 <rect key="frame" x="20" y="306" width="297" height="162"/>
@@ -291,8 +294,8 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
                     <connections>
-                        <segue destination="7bg-R2-Bca" kind="relationship" relationship="viewControllers" id="brt-au-sW4"/>
                         <segue destination="RqH-Mv-9B3" kind="relationship" relationship="viewControllers" id="xYw-nI-XCo"/>
+                        <segue destination="7bg-R2-Bca" kind="relationship" relationship="viewControllers" id="brt-au-sW4"/>
                         <segue destination="4Qi-bH-Ird" kind="relationship" relationship="viewControllers" id="YXY-NH-1G0"/>
                         <segue destination="3gn-MD-lfV" kind="relationship" relationship="viewControllers" id="RuA-hq-5gP"/>
                     </connections>

@@ -49,6 +49,21 @@
     self.pCategory.inputAccessoryView = toolBar;
 }
 
+- (IBAction)getReceiptImage:(id)sender {
+    NSString *actionSheetTitle = nil; //Action Sheet Title
+    NSString *destructiveTitle = @"Take photo"; //Action Sheet Button Titles
+    NSString *other1 = @"Choose photo";
+    NSString *cancelTitle = @"Cancel";
+    UIActionSheet *actionSheet = [[UIActionSheet alloc]
+                                  initWithTitle:actionSheetTitle
+                                  delegate:self
+                                  cancelButtonTitle:cancelTitle
+                                  destructiveButtonTitle:destructiveTitle
+                                  otherButtonTitles:other1, nil];
+    actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
+    [actionSheet showInView:self.view];
+}
+
 - (void) initDatePicker
 {
     self.pDatePicker.hidden = YES;
@@ -89,7 +104,9 @@
     [self initCategoryPicker];
     [self initDatePicker];
     [self initAmountField];
-    
+    self.pImageButton.contentMode = UIViewContentModeScaleAspectFit;
+    [self.pImageButton setBackgroundImage:[UIImage imageNamed:@"money.png"]
+                                 forState:UIControlStateNormal];
            // Do any additional setup after loading the view.
 }
 
@@ -173,7 +190,66 @@
   
 }
 
+-(void)takePhoto
+{
+    if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        
+        UIAlertView *myAlertView = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                              message:@"Device has no camera"
+                                                             delegate:nil
+                                                    cancelButtonTitle:@"OK"
+                                                    otherButtonTitles: nil];
+        
+        [myAlertView show];
+        return;
+    }
+    
+    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+    picker.delegate = self;
+    picker.allowsEditing = YES;
+    picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+    
+    [self presentViewController:picker animated:YES completion:NULL];
 
+}
 
+-(void) selectPhoto
+{
+    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+    picker.delegate = self;
+    picker.allowsEditing = YES;
+    picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    
+    [self presentViewController:picker animated:YES completion:NULL];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    switch (buttonIndex)
+    {
+        case 0:
+            [self takePhoto];
+            break;
+        case 1:
+             [self selectPhoto];
+            break;
+    } 
+}
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    
+    UIImage *chosenImage = info[UIImagePickerControllerEditedImage];
+    //self.imageView.image = chosenImage;
+    [self.pImageButton setBackgroundImage:chosenImage
+                        forState:UIControlStateNormal];
+    [picker dismissViewControllerAnimated:YES completion:NULL];
+    
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    
+    [picker dismissViewControllerAnimated:YES completion:NULL];
+    
+}
 
 @end

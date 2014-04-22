@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ExpenseViewController : UIViewController <UITextFieldDelegate, UIPickerViewDataSource,UIPickerViewDelegate,  UIScrollViewDelegate>
+@interface ExpenseViewController : UIViewController <UITextFieldDelegate, UIPickerViewDataSource,UIPickerViewDelegate,  UIScrollViewDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 @property (strong, nonatomic) IBOutlet UITextField  *pCategory;
 @property (strong, nonatomic)          NSArray      *pCategoryArray;
@@ -21,7 +21,8 @@
 @property (strong, nonatomic) IBOutlet UITextField  *pAmountField;
 -(void) initCategoryPicker;
 -(void) initDatePicker;
-- (void) initAmountField;
+-(void) initAmountField;
+-(void) takePhoto;
 @end
 
 
