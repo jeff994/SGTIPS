@@ -28,9 +28,8 @@
     return self;
 }
 
-- (void)viewDidLoad
+- (void) initCategoryPicker
 {
-    [super viewDidLoad];
     self.pCategoryPicker.hidden = YES;
     self.pCategoryArray  = [[NSArray alloc]         initWithObjects:@"Blue",@"Green",@"Orange",@"Purple",@"Red",@"Yellow" , nil];
     self.pCategoryPicker.dataSource = self;
@@ -48,20 +47,62 @@
     [toolBar setItems:toolbarItems];
     self.pCategory.inputView = self.pCategoryPicker;
     self.pCategory.inputAccessoryView = toolBar;
+}
+
+- (void) initDatePicker
+{
+    self.pDatePicker.hidden = YES;
+    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc]
+                                   initWithTitle:@"Done" style:UIBarButtonItemStyleDone
+                                   target:self action:@selector(done:)];
+    UIToolbar *toolBar = [[UIToolbar alloc]initWithFrame:
+                          CGRectMake(0, self.view.frame.size.height-
+                                     self.pCategory.frame.size.height-50, 320, 50)];
+    [toolBar setBarStyle:UIBarStyleBlackOpaque];
+    NSArray *toolbarItems = [NSArray arrayWithObjects:
+                             doneButton, nil];
+    [toolBar setItems:toolbarItems];
     self.pEntryDate.inputView = self.pDatePicker;
+    self.pEntryDate.inputAccessoryView = toolBar;
+}
+
+- (void) initAmountField
+{
+    [self.pAmountField setDelegate:self];
+    UITapGestureRecognizer * tapRecognizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tap:)];
+    [self.view addGestureRecognizer:tapRecognizer];
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
     CGRect buttonFrame = self.pImageButton.frame;
     buttonFrame.size = CGSizeMake(150, 150);
     self.pImageButton.frame = buttonFrame;
-    [[self.pImageButton layer] setCornerRadius:60.0f];
+    [[self.pImageButton layer] setCornerRadius:70.0f];
     [[self.pImageButton layer] setBorderWidth:1.0f];
     self.pScrollView.layer.borderWidth = 1;
     //self.view.layer.borderWidth =1 ;
     //self.view.layer.borderColor = [UIColor blackColor].CGColor;
     self.pScrollView.layer.borderColor = [UIColor blackColor].CGColor;
+    [self.pDescriptionField setDelegate:self];
+    [self initCategoryPicker];
+    [self initDatePicker];
+    [self initAmountField];
+    
            // Do any additional setup after loading the view.
 }
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [self.pDescriptionField resignFirstResponder];
+    [self.pAmountField resignFirstResponder];
+    [self.pEntryDate resignFirstResponder];
+    return YES;
+}
+
 - (void)viewDidLayoutSubviews {
-      [self.pScrollView setContentOffset:CGPointMake(0, 0) animated:YES];
+    [self.pScrollView setContentOffset:CGPointMake(0, 0) animated:YES];
     self.pScrollView.contentSize = CGSizeMake(320, 400);
 
 }
@@ -115,16 +156,23 @@
 {
     self.pCategoryPicker.hidden = YES;
     [self.pCategory resignFirstResponder];
+    [self.pEntryDate resignFirstResponder];
+}
+
+-(void)tap:(id)sender
+{
+    [self.view endEditing:YES];
 }
 
 - (IBAction)datePickerValueChanged:(id)sender {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd 'at' HH:mm"];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
     
     NSString *formattedDateString = [dateFormatter stringFromDate:self.pDatePicker.date];
     self.pEntryDate.text = formattedDateString;
   
 }
+
 
 
 

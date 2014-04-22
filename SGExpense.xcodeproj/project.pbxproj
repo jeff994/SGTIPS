@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8F00F2CD190552860052AC56 /* NewEntryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F00F2CC190552860052AC56 /* NewEntryViewController.m */; };
 		8F06C742190358170078B94D /* DealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F06C741190358170078B94D /* DealViewController.m */; };
 		8F06C7451904ED960078B94D /* ExpenseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F06C7441904ED960078B94D /* ExpenseViewController.m */; };
 		8F9E855D19021D0200EFF900 /* money.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F9E855C19021D0200EFF900 /* money.png */; };
@@ -44,8 +43,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		8F00F2CB190552860052AC56 /* NewEntryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewEntryViewController.h; sourceTree = "<group>"; };
-		8F00F2CC190552860052AC56 /* NewEntryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewEntryViewController.m; sourceTree = "<group>"; };
 		8F06C740190358170078B94D /* DealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DealViewController.h; sourceTree = "<group>"; };
 		8F06C741190358170078B94D /* DealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DealViewController.m; sourceTree = "<group>"; };
 		8F06C7431904ED960078B94D /* ExpenseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExpenseViewController.h; sourceTree = "<group>"; };
@@ -197,8 +194,6 @@
 			children = (
 				8F06C7431904ED960078B94D /* ExpenseViewController.h */,
 				8F06C7441904ED960078B94D /* ExpenseViewController.m */,
-				8F00F2CB190552860052AC56 /* NewEntryViewController.h */,
-				8F00F2CC190552860052AC56 /* NewEntryViewController.m */,
 				8FE8A7911901218F009A8417 /* MainTableViewController.h */,
 				8FDC33C6190263A80085806C /* SubCategoryTableViewController.h */,
 				8FDC33C7190263A80085806C /* SubCategoryTableViewController.m */,
@@ -316,7 +311,6 @@
 				8FE8A7681901208D009A8417 /* AppDelegate.m in Sources */,
 				8FDC33C8190263A80085806C /* SubCategoryTableViewController.m in Sources */,
 				8FDC33CE19027C490085806C /* IncomeTableViewController.m in Sources */,
-				8F00F2CD190552860052AC56 /* NewEntryViewController.m in Sources */,
 				8F06C742190358170078B94D /* DealViewController.m in Sources */,
 				8F06C7451904ED960078B94D /* ExpenseViewController.m in Sources */,
 				8FE8A7641901208D009A8417 /* main.m in Sources */,

@@ -10,12 +10,18 @@
 
 @interface ExpenseViewController : UIViewController <UITextFieldDelegate, UIPickerViewDataSource,UIPickerViewDelegate,  UIScrollViewDelegate>
 
-@property (strong, nonatomic) IBOutlet UITextField *pCategory;
-@property (strong, nonatomic)          NSArray *pCategoryArray;
+@property (strong, nonatomic) IBOutlet UITextField  *pCategory;
+@property (strong, nonatomic)          NSArray      *pCategoryArray;
 @property (strong, nonatomic) IBOutlet UIPickerView *pCategoryPicker;
-@property (strong, nonatomic) IBOutlet UITextField *pEntryDate;
+@property (strong, nonatomic) IBOutlet UITextField  *pEntryDate;
 @property (strong, nonatomic) IBOutlet UIDatePicker *pDatePicker;
-@property (strong, nonatomic) IBOutlet UIButton *pImageButton;
+@property (strong, nonatomic) IBOutlet UIButton     *pImageButton;
 @property (strong, nonatomic) IBOutlet UIScrollView *pScrollView;
-
+@property (strong, nonatomic) IBOutlet UITextField  *pDescriptionField;
+@property (strong, nonatomic) IBOutlet UITextField  *pAmountField;
+-(void) initCategoryPicker;
+-(void) initDatePicker;
+- (void) initAmountField;
 @end
+
+
