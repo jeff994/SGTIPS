@@ -31,7 +31,7 @@
     [self setTitle:_pMainCat];
     [self initEntryData];
     self.pDbManager = [DBManager getSharedInstance];
-    
+    self.tableView.layer.cornerRadius = 5;
     self.pCategory = [_pDbManager getChildCatetory:_pMainCat];
     
     // Uncomment the following line to preserve selection between presentations.
@@ -81,30 +81,38 @@
     cell.detailTextLabel.text = pDetailed;
     UIImage * pImage = [_pDbManager loadImage:@"money.png"];
     cell.imageView.image = pImage;
+    cell.layer.cornerRadius = 10;
     return cell;
 }
 
-/*
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Return NO if you do not want the specified item to be editable.
     return YES;
 }
-*/
 
-/*
+
+
+
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
+        // perform the deletion here
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
+    }
+    //[self.tableView setEditing:YES animated:YES];
+
 }
-*/
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+   
+        return UITableViewCellEditingStyleDelete;
+}
 
 /*
 // Override to support rearranging the table view.
