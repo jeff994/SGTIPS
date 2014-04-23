@@ -233,6 +233,8 @@
 
 -(void)tap:(id)sender
 {
+    [self.pAmountField resignFirstResponder];
+    self.pEntry.fAmountSpent = [self.pAmountField.text doubleValue];
     [self.view endEditing:YES];
     if ([self.pEntry validEntry])
         self.navigationItem.rightBarButtonItem.enabled = YES;
