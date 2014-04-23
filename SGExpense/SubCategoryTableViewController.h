@@ -15,7 +15,7 @@
 @property NSArray * pCategory;
 @property NSString * pSelectedCategory;
 
-@property NSMutableArray *allEntryData;  // Used to hold all entry data
+@property NSMutableDictionary *allEntryData;  // Used to hold all entry data
 
 - (IBAction)unwindToList:(UIStoryboardSegue *)segue;
 - (IBAction)addNewEntry:(UIStoryboardSegue *)segue;

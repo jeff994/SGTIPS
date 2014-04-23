@@ -62,9 +62,8 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     NSString * pCatName = [_pCategory objectAtIndex:section];
-    
-    NSDictionary *dictionary = [self.allEntryData objectAtIndex:section];
-    NSArray *array = [dictionary objectForKey:pCatName];
+
+    NSMutableArray *array = [self.allEntryData objectForKey:pCatName];
     return [array count];
 }
 
@@ -74,18 +73,14 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"idSubCategory" forIndexPath:indexPath];
     NSString * pCatName = [_pCategory objectAtIndex:indexPath.section];
     
-    NSDictionary *dictionary = [self.allEntryData objectAtIndex:indexPath.section];
-    NSArray *array = [dictionary objectForKey:pCatName];
+    NSMutableArray *array = [self.allEntryData objectForKey:pCatName];
     
     EntryItem * pEntry = [array objectAtIndex:indexPath.row];
     cell.textLabel.text = pEntry.description;
+    NSString * pDetailed = [NSString stringWithFormat:@"%.2f %@", pEntry.fAmountSpent, pEntry.currency];
+    cell.detailTextLabel.text = pDetailed;
     UIImage * pImage = [_pDbManager loadImage:@"money.png"];
     cell.imageView.image = pImage;
-    
-    
-    
-    
-    
     return cell;
 }
 
@@ -157,35 +152,40 @@
 {
     ExpenseViewController *pSource = [segue sourceViewController];
     EntryItem * pEntryItem = pSource.pEntry;
+    NSString * pCatName = pEntryItem.categoryName;
+    NSMutableArray *array = [self.allEntryData objectForKey:pCatName];
+    [array addObject:pEntryItem];
+     [self.tableView reloadData];
     return; 
 }
 
 -(void) initEntryData
 {
-    self.allEntryData = [[NSMutableArray alloc] init];
+    self.allEntryData = [[NSMutableDictionary alloc] init];
     NSDate *today = [NSDate date];
-    EntryItem * pItem1 = [[EntryItem alloc] init:@"Mortage" date:today description:@"Rent of hdb" amount:700.00 receipt:nil];
+    EntryItem * pItem1 = [[EntryItem alloc] init:@"Mortage" date:today description:@"Mortage" amount:700.00 receipt:nil];
     EntryItem * pItem2 = [[EntryItem alloc] init:@"Rent" date:today description:@"Rent of hdb" amount:700.00 receipt:nil];
-    EntryItem * pItem3 = [[EntryItem alloc] init:@"Home Improvements" date:today description:@"Rent of hdb" amount:700.00 receipt:nil];
-    EntryItem * pItem4 = [[EntryItem alloc] init:@"Home Repairs" date:today description:@"Rent of hdb" amount:700.00 receipt:nil];
+    EntryItem * pItem3 = [[EntryItem alloc] init:@"Home Improvements" date:today description:@"Home improves" amount:700.00 receipt:nil];
+    EntryItem * pItem4 = [[EntryItem alloc] init:@"Home Repairs" date:today description:@"Home repair expense" amount:700.00 receipt:nil];
+    pItem1.currency = @"S$";
+    pItem2.currency = @"S$";
+    pItem3.currency = @"S$";
+    pItem4.currency = @"S$";
     
-    NSArray *itemsArray1 = [[NSArray alloc] initWithObjects:pItem1, nil];
-    NSDictionary *itemsArrayDict1 = [NSDictionary dictionaryWithObject:itemsArray1 forKey:@"Mortage"];
-    [self.allEntryData addObject:itemsArrayDict1];
+    NSMutableArray *itemsArray1 = [[NSMutableArray alloc] initWithObjects:pItem1, nil];
+    self.allEntryData = [NSMutableDictionary dictionaryWithObject:itemsArray1 forKey:@"Mortage"];
     
     
-    NSArray *itemsArray2 = [[NSArray alloc] initWithObjects:pItem2, nil];
-    NSDictionary *itemsArrayDict2 = [NSDictionary dictionaryWithObject:itemsArray2 forKey:@"Rent"];
-    [self.allEntryData addObject:itemsArrayDict2];
+    NSMutableArray *itemsArray2 = [[NSMutableArray alloc] initWithObjects:pItem2, nil];
+    [self.allEntryData setObject:itemsArray2 forKey:@"Rent"];
     
-    NSArray *itemsArray3 = [[NSArray alloc] initWithObjects:pItem3, nil];
-    NSDictionary *itemsArrayDict3 = [NSDictionary dictionaryWithObject:itemsArray3 forKey:@"Home Improvements"];
-    [self.allEntryData addObject:itemsArrayDict3];
-    
-    NSArray *itemsArray4 = [[NSArray alloc] initWithObjects:pItem4, nil];
-    NSDictionary *itemsArrayDict4 = [NSDictionary dictionaryWithObject:itemsArray4 forKey:@"Home Repairs"];
-    [self.allEntryData addObject:itemsArrayDict4];
+    NSMutableArray *itemsArray3 = [[ NSMutableArray alloc] initWithObjects:pItem3, nil];
+    [self.allEntryData setObject:itemsArray3 forKey:@"Home Improvements"];
 
+    
+    NSMutableArray *itemsArray4 = [[ NSMutableArray alloc] initWithObjects:pItem4, nil];
+     [self.allEntryData setObject:itemsArray4 forKey:@"Home Repairs"];
+    
 }
 
 

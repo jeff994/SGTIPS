@@ -197,6 +197,9 @@
     // Pass the selected object to the new view controller.
 }
 
+- (IBAction)descriptionChanged:(id)sender {
+     self.pEntry.description = self.pDescriptionField.text;
+}
 
 
 // returns the number of 'columns' to display.
