@@ -250,7 +250,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                 <segue destination="GoK-c6-kbf" kind="unwind" unwindAction="unwindToList:" id="m6p-Hh-Qn1"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Done" id="lo7-4N-pTq">
+                        <barButtonItem key="rightBarButtonItem" enabled="NO" title="Done" id="lo7-4N-pTq">
                             <connections>
                                 <segue destination="GoK-c6-kbf" kind="unwind" unwindAction="addNewEntry:" id="oe2-s6-6f0"/>
                             </connections>

@@ -9,5 +9,11 @@
 #import "EntryItem.h"
 
 @implementation EntryItem
+-(BOOL) validEntry
+{
+    BOOL notValid = TRUE;
+    notValid = [self.categoryName length] == 0 || self.fAmountSpent <= 0 || self.entryDate == nil;
+    return !notValid;
+}
 
 @end

@@ -36,7 +36,7 @@
     self.pCategoryPicker.showsSelectionIndicator = YES;
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc]
                                    initWithTitle:@"Done" style:UIBarButtonItemStyleDone
-                                   target:self action:@selector(done:)];
+                                   target:self action:@selector(donePickCategory:)];
     UIToolbar *toolBar = [[UIToolbar alloc]initWithFrame:
                           CGRectMake(0, self.view.frame.size.height-
                                      self.pCategory.frame.size.height-50, 320, 50)];
@@ -46,6 +46,7 @@
     [toolBar setItems:toolbarItems];
     self.pCategory.inputView = self.pCategoryPicker;
     self.pCategory.inputAccessoryView = toolBar;
+    self.categoryRow = 0;
 }
 
 - (IBAction)getReceiptImage:(id)sender {
@@ -68,7 +69,7 @@
     self.pDatePicker.hidden = YES;
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc]
                                    initWithTitle:@"Done" style:UIBarButtonItemStyleDone
-                                   target:self action:@selector(done:)];
+                                   target:self action:@selector(donePickDate:)];
     UIToolbar *toolBar = [[UIToolbar alloc]initWithFrame:
                           CGRectMake(0, self.view.frame.size.height-
                                      self.pCategory.frame.size.height-50, 320, 50)];
@@ -110,14 +111,28 @@
     [self initDatePicker];
     [self initAmountField];
     [self initReciptButton];
+    self.pEntry = [[EntryItem alloc] init];
     // Do any additional setup after loading the view.
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    [self.pDescriptionField resignFirstResponder];
-    [self.pAmountField resignFirstResponder];
-    [self.pEntryDate resignFirstResponder];
+    if(textField == self.pDescriptionField)
+    {
+        
+        [self.pDescriptionField resignFirstResponder];
+        self.pEntry.description = self.pDescriptionField.text;
+    }
+    if(textField == self.pAmountField)
+    {
+        [self.pAmountField resignFirstResponder];
+        self.pEntry.fAmountSpent = [self.pAmountField.text doubleValue];
+        if ([self.pEntry validEntry])
+            self.navigationItem.rightBarButtonItem.enabled = YES;
+        else
+            self.navigationItem.rightBarButtonItem.enabled = NO;
+        
+    }
     return YES;
 }
 
@@ -149,7 +164,7 @@
         // And data validation
         
         // the value cannot be null
-        // The description 
+        // The description
         return;
     }
     
@@ -183,18 +198,47 @@
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row   inComponent:(NSInteger)component{
     self.pCategory.text = [self.pCategoryArray objectAtIndex:row];
+    self.pEntry.categoryName = [self.pCategoryArray objectAtIndex:row];
+    self.categoryRow = row;
 }
 
--(void)done:(id)sender
+-(void)donePickCategory:(id)sender
 {
     self.pCategoryPicker.hidden = YES;
     [self.pCategory resignFirstResponder];
+    self.pCategory.text = [self.pCategoryArray objectAtIndex:self.categoryRow];
+    self.pEntry.categoryName = [self.pCategoryArray objectAtIndex:self.categoryRow];
+
+    if ([self.pEntry validEntry])
+        self.navigationItem.rightBarButtonItem.enabled = YES;
+    else
+        self.navigationItem.rightBarButtonItem.enabled = NO;
+}
+
+-(void) donePickDate:(id)sender
+{
     [self.pEntryDate resignFirstResponder];
+    self.pEntry.entryDate = self.pDatePicker.date;
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    
+    NSString *formattedDateString = [dateFormatter stringFromDate:self.pDatePicker.date];
+    self.pEntryDate.text = formattedDateString;
+    if ([self.pEntry validEntry])
+        self.navigationItem.rightBarButtonItem.enabled = YES;
+    else
+        self.navigationItem.rightBarButtonItem.enabled = NO;
+
 }
 
 -(void)tap:(id)sender
 {
     [self.view endEditing:YES];
+    if ([self.pEntry validEntry])
+        self.navigationItem.rightBarButtonItem.enabled = YES;
+    else
+        self.navigationItem.rightBarButtonItem.enabled = NO;
+
 }
 
 - (IBAction)datePickerValueChanged:(id)sender {
@@ -203,6 +247,7 @@
     
     NSString *formattedDateString = [dateFormatter stringFromDate:self.pDatePicker.date];
     self.pEntryDate.text = formattedDateString;
+ 
   
 }
 
@@ -260,6 +305,7 @@
     {
         [self.pImageButton setBackgroundImage:chosenImage forState:UIControlStateNormal];
         [self.pImageButton setTitle:nil forState:UIControlStateNormal];
+        self.pEntry.receipt = chosenImage;
     }
     [picker dismissViewControllerAnimated:YES completion:NULL];
     
