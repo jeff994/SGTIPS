@@ -16,4 +16,18 @@
     return !notValid;
 }
 
+- (id)init:(NSString *)category date:(NSDate *)date description:(NSString *)description amount:(double)amount receipt:(UIImage*)receipt
+{
+    self = [super init];
+    if(self)
+    {
+        _categoryName = category;
+        _entryDate = date;
+        _description = description;
+        _fAmountSpent = amount;
+        _receipt = receipt;
+    }
+    return self;
+}
+
 @end

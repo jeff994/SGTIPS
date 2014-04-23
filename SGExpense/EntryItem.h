@@ -19,5 +19,7 @@
     @property UIImage   * receipt;          // Recipt should be Loaded/Saved from receipt path
     @property NSString  * receiptPath;
     @property NSString  * currency;
+    @property BOOL      bRepat;
 -(BOOL) validEntry;
+-(id) init:(NSString *)category date:(NSDate *)date description:(NSString *)description amount:(double)amount receipt:(UIImage*)receipt ;
 @end

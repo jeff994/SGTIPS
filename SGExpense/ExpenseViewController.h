@@ -11,6 +11,8 @@
 
 @interface ExpenseViewController : UIViewController <UITextFieldDelegate, UIPickerViewDataSource,UIPickerViewDelegate,  UIScrollViewDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
+@property (strong, nonatomic) IBOutlet UISwitch     *repeatSwitch;
+@property (strong, nonatomic) IBOutlet UILabel      *currencyLabel;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *doneButton;
 @property                               NSString    *pMainCategoryName;
 @property (strong, nonatomic) IBOutlet UITextField  *pCategory;
@@ -29,6 +31,8 @@
 -(void) initAmountField;
 -(void) initReciptButton; 
 -(void) takePhoto;
-@end
+-(void) initEntryData;
+-(void) initUIData; 
+ @end
 
 

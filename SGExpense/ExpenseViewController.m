@@ -98,21 +98,43 @@
     self.pImageButton.contentMode = UIViewContentModeScaleAspectFit;
 }
 
+-(void) initEntryData
+{
+    if(self.pEntry == nil)
+    {
+        self.pEntry = [[EntryItem alloc] init];
+        self.pEntry.currency = @"S$";
+    }
+}
+
+// Init initinal value of the input field
+-(void) initUIData
+{
+    [self setTitle:self.pMainCategoryName];
+    self.currencyLabel.text = self.pEntry.currency;
+    [self.repeatSwitch setOn:self.pEntry.bRepat];
+    
+    self.pDescriptionField.text = self.pEntry.description;
+    self.pCategory.text = self.pEntry.categoryName;
+    if(self.pEntry.fAmountSpent > 0) self.pAmountField.text = [NSString stringWithFormat:@"%.2f", self.pEntry.fAmountSpent];
+    
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self setTitle:self.pMainCategoryName];
-    //self.pScrollView.layer.borderWidth = 1;
-    //self.view.layer.borderWidth =1 ;
-    //self.view.layer.borderColor = [UIColor blackColor].CGColor;
-    //self.pScrollView.layer.borderColor = [UIColor blackColor].CGColor;
+    
     [self.pDescriptionField setDelegate:self];
     [self initCategoryPicker];
     [self initDatePicker];
     [self initAmountField];
     [self initReciptButton];
-    self.pEntry = [[EntryItem alloc] init];
+    [self initEntryData];
+    [self initUIData];
     // Do any additional setup after loading the view.
+}
+- (IBAction)repeatSwitched:(id)sender {
+    self.pEntry.bRepat = [self.repeatSwitch isOn];
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -215,6 +237,18 @@
         self.navigationItem.rightBarButtonItem.enabled = NO;
 }
 
+- (IBAction)amountSpecified:(id)sender {
+    [self.pAmountField resignFirstResponder];
+    self.pEntry.fAmountSpent = [self.pAmountField.text doubleValue];
+    [self.view endEditing:YES];
+    if ([self.pEntry validEntry])
+        self.navigationItem.rightBarButtonItem.enabled = YES;
+    else
+        self.navigationItem.rightBarButtonItem.enabled = NO;
+
+    
+}
+
 -(void) donePickDate:(id)sender
 {
     [self.pEntryDate resignFirstResponder];
@@ -235,6 +269,7 @@
 {
     [self.pAmountField resignFirstResponder];
     self.pEntry.fAmountSpent = [self.pAmountField.text doubleValue];
+    self.pEntry.bRepat = [self.repeatSwitch isOn];
     [self.view endEditing:YES];
     if ([self.pEntry validEntry])
         self.navigationItem.rightBarButtonItem.enabled = YES;
