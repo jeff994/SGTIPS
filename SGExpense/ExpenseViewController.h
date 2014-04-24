@@ -34,7 +34,9 @@
 -(void) initReciptButton; 
 -(void) takePhoto;
 -(void) initEntryData;
--(void) initUIData; 
+-(void) initUIData;
+-(NSDate*) getFirstDateMonth:(NSInteger)nMonth;
+-(NSDate*) getLastDateMonth:(NSInteger)nMonth;
  @end
 
 

@@ -65,7 +65,7 @@
     self.pDbManager = [DBManager getSharedInstance];
     self.pCategory = [_pDbManager getChildCatetory:_pMainCat];
     self.pCurrency = @"S$";
-    self.nMonth = 2;
+    self.nMonth = 4;
     self.nYear = 2014;
     
 }

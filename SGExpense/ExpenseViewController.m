@@ -49,6 +49,33 @@
     self.categoryRow = 0;
 }
 
+-(NSDate*) getFirstDateMonth:(NSInteger)nMonth
+{
+    NSDate *today = [NSDate date];  // returns correctly 28 february 2013
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents *dateComponents = [calendar components:
+                                        (NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit |
+                                         NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit)
+                                                   fromDate:today];
+    [dateComponents setDay:1];
+    [dateComponents setMonth:nMonth];
+    return [calendar dateFromComponents:dateComponents];;
+}
+
+-(NSDate*) getLastDateMonth:(NSInteger)nMonth
+{
+    NSDate *today = [NSDate date];  // returns correctly 28 february 2013
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents *dateComponents = [calendar components:
+                                        (NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit |
+                                         NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit)
+                                                   fromDate:today];
+    [dateComponents setDay:1];
+    [dateComponents setMonth:nMonth + 1];
+    [dateComponents setDay:0];
+    return [calendar dateFromComponents:dateComponents];;
+}
+
 - (IBAction)getReceiptImage:(id)sender {
     NSString *actionSheetTitle = nil; //Action Sheet Title
     NSString *destructiveTitle = @"Take photo"; //Action Sheet Button Titles
@@ -77,7 +104,11 @@
     NSArray *toolbarItems = [NSArray arrayWithObjects:
                              doneButton, nil];
     [toolBar setItems:toolbarItems];
-    self.pDatePicker.maximumDate = [NSDate date];
+    NSDate * pMaxDate = [self getLastDateMonth:self.nMonth];
+    NSDate * pMinDate = [self getFirstDateMonth:self.nMonth];
+    self.pDatePicker.maximumDate = pMaxDate;
+    self.pDatePicker.minimumDate = pMinDate;
+    
     self.pDatePicker.datePickerMode = UIDatePickerModeDate;
     self.pEntryDate.inputView = self.pDatePicker;
     self.pEntryDate.inputAccessoryView = toolBar;
