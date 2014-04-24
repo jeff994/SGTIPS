@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8F0293C3190949300079D441 /* UIMonthYearPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F0293C2190949300079D441 /* UIMonthYearPicker.m */; };
 		8F06C742190358170078B94D /* DealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F06C741190358170078B94D /* DealViewController.m */; };
 		8F06C7451904ED960078B94D /* ExpenseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F06C7441904ED960078B94D /* ExpenseViewController.m */; };
 		8F80699E190660E900A2691D /* EntryItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F80699D190660E900A2691D /* EntryItem.m */; };
@@ -44,6 +45,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8F0293C1190949300079D441 /* UIMonthYearPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIMonthYearPicker.h; sourceTree = "<group>"; };
+		8F0293C2190949300079D441 /* UIMonthYearPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIMonthYearPicker.m; sourceTree = "<group>"; };
 		8F06C740190358170078B94D /* DealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DealViewController.h; sourceTree = "<group>"; };
 		8F06C741190358170078B94D /* DealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DealViewController.m; sourceTree = "<group>"; };
 		8F06C7431904ED960078B94D /* ExpenseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExpenseViewController.h; sourceTree = "<group>"; };
@@ -145,6 +148,8 @@
 				8FE8A78C19012149009A8417 /* DbManager */,
 				8FE8A7661901208D009A8417 /* AppDelegate.h */,
 				8FE8A7671901208D009A8417 /* AppDelegate.m */,
+				8F0293C1190949300079D441 /* UIMonthYearPicker.h */,
+				8F0293C2190949300079D441 /* UIMonthYearPicker.m */,
 				8FE8A7691901208D009A8417 /* Main.storyboard */,
 				8FE8A76F1901208D009A8417 /* Images.xcassets */,
 				8FE8A75E1901208D009A8417 /* Supporting Files */,
@@ -318,6 +323,7 @@
 				8FDC33CE19027C490085806C /* IncomeTableViewController.m in Sources */,
 				8F06C742190358170078B94D /* DealViewController.m in Sources */,
 				8F06C7451904ED960078B94D /* ExpenseViewController.m in Sources */,
+				8F0293C3190949300079D441 /* UIMonthYearPicker.m in Sources */,
 				8FE8A7641901208D009A8417 /* main.m in Sources */,
 				8F80699E190660E900A2691D /* EntryItem.m in Sources */,
 				8FE8A7931901218F009A8417 /* MainTableViewController.m in Sources */,

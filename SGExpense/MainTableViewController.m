@@ -23,11 +23,50 @@
     return self;
 }
 
+- (void) initTableHeader
+{
+    UIView* headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 60)];
+    headerView.backgroundColor = [UIColor clearColor];
+    NSString *CellIdentifier = @"HeaderCell";
+    UITextField * pHeaderField = [[UITextField alloc] initWithFrame:CGRectMake( 15, 10, self.tableView.frame.size.width - 30, 40)];
+    pHeaderField.backgroundColor = [UIColor clearColor];
+     pHeaderField.clearButtonMode = UITextFieldViewModeWhileEditing;
+    double fSummary = 0.0;
+    pHeaderField.borderStyle = UITextBorderStyleRoundedRect;
+    pHeaderField.contentVerticalAlignment =
+    UIControlContentVerticalAlignmentCenter;
+    [pHeaderField setFont:[UIFont boldSystemFontOfSize:12]];
+    /*for (NSString* key in self.allEntryData) {
+        NSMutableArray *array  = [self.allEntryData objectForKey:key];
+        for (EntryItem * pItem in array) {
+            fSummary += pItem.fAmountSpent;
+        }
+        // do stuff
+    }
+     */
+    
+    NSDateFormatter *df = [[NSDateFormatter alloc] init];
+    NSArray * monthnames =[df monthSymbols];
+    //NSString *monthName = [monthnames objectAtIndex:(self.nMonth-1)];
+    
+    //pHeaderCell.textLabel.text = [NSString stringWithFormat:@"%@ %ld", monthName, (long)self.nYear];
+    //NSString *summary = [NSString stringWithFormat:@"Total: %@ %.2f", self.currency, fSummary];
+    //pHeaderCell.detailTextLabel.text = summary;
+    //pHeaderCell.imageView.image = self.pCategoryImage;
+    pHeaderField.text = @"Test";
+    pHeaderField.enabled = YES;
+    pHeaderField.inputView = self.pMonthYearPicker;
+    [headerView addSubview:pHeaderField];
+    self.tableView.tableHeaderView = headerView;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     self.pSelectedCategory = nil;
     // Get the db manager from the DBManager
+    [self initTableHeader];
+
     _pDbManager = [DBManager getSharedInstance];
     NSArray * pMainCat = [_pDbManager getChildCatetory:@"Expense"];
     _pCategory = [NSMutableArray arrayWithArray:pMainCat];

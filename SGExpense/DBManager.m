@@ -235,7 +235,7 @@ static sqlite3_stmt  * statement = nil;
     const char *dbpath = [databasePath UTF8String];
     if (sqlite3_open(dbpath, &database) == SQLITE_OK)
     {
-        NSString *insertSQL = [NSString stringWithFormat:@"insert into entry (entry_id, category_name,value, description, entry_date, photo_path, repeating) values (%d, \"%@\", %f, \"%@\", \"%@\", \"%@\", %ld)",entry_id, category, value, description, imgpath, formattedDateString, bRepeat];
+        NSString *insertSQL = [NSString stringWithFormat:@"insert into entry (entry_id, category_name,value, description, entry_date, photo_path, repeating) values (%ld, \"%@\", %f, \"%@\", \"%@\", \"%@\", %d)", entry_id, category, value, description, imgpath, formattedDateString, bRepeat];
         const char *insert_stmt = [insertSQL UTF8String];
         sqlite3_prepare_v2(database, insert_stmt,-1, &statement, NULL);
         if (sqlite3_step(statement) == SQLITE_DONE)
@@ -378,7 +378,7 @@ static sqlite3_stmt  * statement = nil;
     // Step 2: Save receipt image
     if(entry.receipt != nil)
     {
-        entry.receiptPath = [NSString stringWithFormat:@"receipt-%d.png", entry.entry_id];
+        entry.receiptPath = [NSString stringWithFormat:@"receipt-%ld.png", entry.entry_id];
         [[DBManager getSharedInstance] saveImage:entry.receipt directory:@"receipts" imgName:entry.receiptPath];
     }
     // Step 3: enter record in the databse 
