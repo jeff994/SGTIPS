@@ -19,6 +19,7 @@ static sqlite3_stmt  * statement = nil;
         [sharedInstance cleanSettings];
         [sharedInstance initDatabase];
         [sharedInstance createCategoryImage];
+        [sharedInstance initEntryDataForTesting];
     }
     return sharedInstance;
 }
@@ -104,7 +105,7 @@ static sqlite3_stmt  * statement = nil;
     // Save all the images to the image table once for all
     // Each category should have an idenpendent images icon
     UIImage * pImage = [UIImage imageNamed:@"money.png"];
-    [self saveImage:pImage path:@"money.png"];
+    [self saveImage:pImage directory:@"cfgimg" imgName:@"money.png"];
     return true;
 }
 
@@ -117,7 +118,7 @@ static sqlite3_stmt  * statement = nil;
         char *errMsg;
         // Create table
         const char *sql_stmt =
-        "CREATE TABLE entry(category_name VCHAR(256) NOT NULL, value REAL NOT NULL, currency Currency NULL, description VARCHAR(1024) not NULL,  entry_date Date NULL, photo_path VCHAR(256) NULL, Repeating Logic NULL);";
+        "CREATE TABLE entry(entry_id INT AUTO_INCREMENT PRIMARY KEY, category_name VCHAR(256) NOT NULL, value REAL NOT NULL, description VARCHAR(1024) not NULL,  entry_date Date NULL, photo_path VCHAR(256) NULL, repeating Logic NULL);";
         if (sqlite3_exec(database, sql_stmt, NULL, NULL, &errMsg)
             != SQLITE_OK)
         {
@@ -135,7 +136,7 @@ static sqlite3_stmt  * statement = nil;
     return isSuccess;
 }
 
-- (void)saveImage: (UIImage*)image path:(NSString*)imgName;
+- (void)saveImage:(UIImage*)image directory:(NSString*)directory imgName:(NSString*)imgName;
 {
     if (image != nil)
     {
@@ -145,7 +146,7 @@ static sqlite3_stmt  * statement = nil;
                                                              NSUserDomainMask, YES);
         NSString *documentsDirectory = [paths objectAtIndex:0];
         
-        NSString* dataPath = [documentsDirectory stringByAppendingPathComponent:@"cfgimg"];
+        NSString* dataPath = [documentsDirectory stringByAppendingPathComponent:directory];
         NSError *error;
         
         if ([filemgr fileExistsAtPath:dataPath ] == NO)
@@ -162,12 +163,12 @@ static sqlite3_stmt  * statement = nil;
     }
 }
 
-- (UIImage*)loadImage:(NSString*)imgName
+- (UIImage*)loadImage:(NSString*)directory imgName:(NSString*)imgName
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
                                                          NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString* spath = [[documentsDirectory stringByAppendingPathComponent:@"cfgimg"] stringByAppendingPathComponent:imgName];
+    NSString* spath = [[documentsDirectory stringByAppendingPathComponent:directory] stringByAppendingPathComponent:imgName];
     UIImage* image = [UIImage imageWithContentsOfFile:spath];
     return image;
 }
@@ -197,16 +198,44 @@ static sqlite3_stmt  * statement = nil;
     return nil;
 }
 
-- (BOOL) saveEntryData:(NSString*)category value:(float)value
-              currency:(NSString*)currency description:(NSString *)description
-              date:(NSString*)date imgpath:(NSString *)imgpath bRepeat:(BOOL)bRepeat;
 
+-(NSInteger) getMaxEntryID
 {
-    NSString *sRepeat =  bRepeat ? @"true" : @"false";
     const char *dbpath = [databasePath UTF8String];
     if (sqlite3_open(dbpath, &database) == SQLITE_OK)
     {
-        NSString *insertSQL = [NSString stringWithFormat:@"insert into entry (category_name,value, currency, description, entry_date, photo_path, Repeating) values (\"%f\",\"%@\", \"%@\", \"%@\", \"%@\")",value, currency, description, date, sRepeat];
+        NSString *querySQL = [NSString stringWithFormat:@"select max(entry_id) from entry"];
+        const char *query_stmt = [querySQL UTF8String];
+        if (sqlite3_prepare_v2(database,
+                               query_stmt, -1, &statement, NULL) == SQLITE_OK)
+        {
+            NSInteger nRet = -1;
+            while (sqlite3_step(statement) == SQLITE_ROW)
+            {
+                nRet = sqlite3_column_int(statement, 0);
+            }
+            
+            return nRet;
+        }
+    }
+    return -1;
+}
+
+
+- (BOOL) saveEntryData:(NSInteger)entry_id category:(NSString*)category value:(float)value
+               description:(NSString *)description
+              date:(NSDate*)date imgpath:(NSString *)imgpath bRepeat:(BOOL)bRepeat;
+
+{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    
+    NSString *formattedDateString = [dateFormatter stringFromDate:date];
+
+    const char *dbpath = [databasePath UTF8String];
+    if (sqlite3_open(dbpath, &database) == SQLITE_OK)
+    {
+        NSString *insertSQL = [NSString stringWithFormat:@"insert into entry (entry_id, category_name,value, description, entry_date, photo_path, repeating) values (%d, \"%@\", %f, \"%@\", \"%@\", \"%@\", %ld)",entry_id, category, value, description, imgpath, formattedDateString, bRepeat];
         const char *insert_stmt = [insertSQL UTF8String];
         sqlite3_prepare_v2(database, insert_stmt,-1, &statement, NULL);
         if (sqlite3_step(statement) == SQLITE_DONE)
@@ -220,6 +249,7 @@ static sqlite3_stmt  * statement = nil;
     }
     return NO;
 }
+
 
 - (NSArray*) findByRegisterNumber:(NSString*)registerNumber
 {
@@ -255,4 +285,104 @@ static sqlite3_stmt  * statement = nil;
     return nil;
 }
 
+-(NSMutableArray*)getAllEntry:(NSString *)catergory
+{
+    const char *dbpath = [databasePath UTF8String];
+    NSMutableArray *resultArray = [[NSMutableArray alloc]init];
+    if (sqlite3_open(dbpath, &database) == SQLITE_OK)
+    {
+        NSString *querySQL = [NSString stringWithFormat:@"select entry_id, category_name,value, description, entry_date, photo_path, repeating from entry where category_name=\"%@\"", catergory];
+        const char *query_stmt = [querySQL UTF8String];
+               if (sqlite3_prepare_v2(database,
+                               query_stmt, -1, &statement, NULL) == SQLITE_OK)
+        {
+            while (sqlite3_step(statement) == SQLITE_ROW)
+            {
+                NSInteger entry_id = sqlite3_column_int(statement, 0);
+                NSString *cat_name = [[NSString alloc] initWithUTF8String:
+                                  (const char *) sqlite3_column_text(statement, 1)];
+                double fAmount = sqlite3_column_double(statement, 2);
+                NSString *description = [[NSString alloc] initWithUTF8String:
+                                        (const char *) sqlite3_column_text(statement, 3)];
+                NSString *entry_date = [[NSString alloc] initWithUTF8String:
+                                        (const char *) sqlite3_column_text(statement, 4)];
+                
+                NSString *photo_path = [[NSString alloc] initWithUTF8String:
+                                        (const char *) sqlite3_column_text(statement, 5)];
+                NSInteger repeating = sqlite3_column_int(statement, 6);
+             
+                NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+                [dateFormat setDateFormat:@"yyyy-MM-dd"];
+                NSDate *pDate = [dateFormat dateFromString:entry_date];
+                
+                //UIImage * pImage = nil ;
+                //if([photo_path length] > 0) pImage =[self loadImage:@"receipt" imgName:photo_path];
+                EntryItem * pNewEntry = [[EntryItem alloc] init:cat_name date:pDate description:description amount:fAmount receipt:nil];
+                pNewEntry.entry_id = entry_id;
+                pNewEntry.bRepat = repeating > 0;
+                pNewEntry.receiptPath = photo_path;
+                [resultArray addObject:pNewEntry];
+            }
+            sqlite3_reset(statement);
+            return  resultArray;
+        }
+    }
+    return resultArray;
+
+}
+
+-(void) initEntryDataForTesting
+{
+    const char *dbpath = [databasePath UTF8String];
+    if (sqlite3_open(dbpath, &database) == SQLITE_OK)
+    {
+        char *errMsg;
+        const char *sql_insert = "insert into entry (entry_id, category_name,value, description, entry_date, photo_path, repeating) values (0, \"Mortage\", 123.889999, \"expense 1\", \"\", \"2014-04-01\", 0);";
+    
+        if (sqlite3_exec(database, sql_insert, NULL, NULL, &errMsg) != SQLITE_OK)
+        {
+            NSLog(@"Failed to put the data inside the table");
+        }
+        const char *sql_insert1 = "insert into entry (entry_id, category_name,value, description, entry_date, photo_path, repeating) values (1, \"Rent\", 123.889999, \"expense 1\", \"\", \"2014-04-01\", 0);";
+        
+        if (sqlite3_exec(database, sql_insert1, NULL, NULL, &errMsg) != SQLITE_OK)
+        {
+            NSLog(@"Failed to put the data inside the table");
+        }
+        
+        const char *sql_insert2 = "insert into entry (entry_id, category_name,value, description, entry_date, photo_path, repeating) values (2, \"Home Improvements\", 123.889999, \"expense 1\", \"\", \"2014-04-01\", 0);";
+        
+        if (sqlite3_exec(database, sql_insert2, NULL, NULL, &errMsg) != SQLITE_OK)
+        {
+            NSLog(@"Failed to put the data inside the table");
+        }
+        
+        const char *sql_insert3 = "insert into entry (entry_id, category_name,value, description, entry_date, photo_path, repeating) values (3, \"Home Repairs\", 123.889999, \"expense 1\", \"\", \"2014-04-01\", 0);";
+        
+        if (sqlite3_exec(database, sql_insert3, NULL, NULL, &errMsg) != SQLITE_OK)
+        {
+            NSLog(@"Failed to put the data inside the table");
+        }
+        
+        sqlite3_close(database);
+    }
+    
+}
+
+-(BOOL) saveNewEntryData:(EntryItem *)entry
+{
+    // Object is not a new entry;
+    if(entry.entry_id >=0)  return FALSE;
+    // Step 1:  Get a new id
+    entry.entry_id = [[DBManager getSharedInstance] getMaxEntryID] + 1;
+    // Step 2: Save receipt image
+    if(entry.receipt != nil)
+    {
+        entry.receiptPath = [NSString stringWithFormat:@"receipt-%d.png", entry.entry_id];
+        [[DBManager getSharedInstance] saveImage:entry.receipt directory:@"receipts" imgName:entry.receiptPath];
+    }
+    // Step 3: enter record in the databse 
+    [[DBManager getSharedInstance] saveEntryData:entry.entry_id category:entry.categoryName value:entry.fAmountSpent description:entry.description date:entry.entryDate imgpath:entry.receiptPath bRepeat:entry.bRepat];
+    return TRUE;
+}
 @end

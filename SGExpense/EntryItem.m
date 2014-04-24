@@ -7,6 +7,7 @@
 //
 
 #import "EntryItem.h"
+#import "DBManager.h"
 
 @implementation EntryItem
 -(BOOL) validEntry

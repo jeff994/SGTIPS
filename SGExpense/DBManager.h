@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <sqlite3.h>
+#import "EntryItem.h"
 
 @interface DBManager : NSObject
 {
@@ -24,18 +25,28 @@
 
 -(BOOL) createCategoryImage;
 
-- (BOOL) saveEntryData:(NSString*)category value:(float)value
-              currency:(NSString*)currency description:(NSString *)description
-                  date:(NSString*)date imgpath:(NSString *)imgpath bRepeat:(BOOL)bRepeat;
+
+-(BOOL) saveNewEntryData:(EntryItem *)entry;
+
+-(BOOL) saveEntryData:(NSInteger)entry_id category:(NSString*)category value:(float)value
+               description:(NSString *)description
+                  date:(NSDate*)date imgpath:(NSString *)imgpath bRepeat:(BOOL)bRepeat;
 
 -(NSArray *) findByRegisterNumber:(NSString *) registerNumber;
 
--(void)saveImage: (UIImage*)image path:(NSString*)imgName;
+-(void)saveImage:(UIImage*)image directory:(NSString*)directory imgName:(NSString*)imgName;
 
--(UIImage*)loadImage:(NSString*)imgName;
+-(UIImage*)loadImage:(NSString*)directory imgName:(NSString*)imgName;
 
 -(BOOL) cleanSettings;
 
+-(NSInteger) getMaxEntryID;
+
 -(BOOL) initDatabase;
+
+-(void) initEntryDataForTesting;
+
+// Find all data of a particular catergory (leaf category) 
+-(NSMutableArray*) getAllEntry:(NSString*)catergory;
 @end
 

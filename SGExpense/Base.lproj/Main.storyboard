@@ -108,7 +108,11 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="mUF-km-Hpn">
-                        <barButtonItem key="rightBarButtonItem" title="+" id="JQd-az-jOK"/>
+                        <barButtonItem key="rightBarButtonItem" title="+" id="JQd-az-jOK">
+                            <connections>
+                                <segue destination="FV4-Yf-n3Y" kind="push" identifier="idNewEntry" id="L9e-s0-0Jc"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4kP-nh-OTc" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -454,4 +458,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="L9e-s0-0Jc"/>
+    </inferredMetricsTieBreakers>
 </document>

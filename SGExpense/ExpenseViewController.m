@@ -159,6 +159,8 @@
     if(self.pEntry == nil)
     {
         self.pEntry = [[EntryItem alloc] init];
+        self.pEntry.entry_id = -1;
+        
     }
 }
 

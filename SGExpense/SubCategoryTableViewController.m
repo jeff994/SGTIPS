@@ -66,7 +66,7 @@
     self.pCurrency = @"S$";
     self.nMonth = 4;
     self.nYear = 2014;
-    self.pCatergoryImage = [_pDbManager loadImage:@"money.png"];
+    self.pCatergoryImage = [_pDbManager loadImage:@"cfgimg" imgName:@"money.png"];
     
 }
 
@@ -145,7 +145,7 @@
     
     EntryItem * pEntry = [array objectAtIndex:indexPath.row];
     if([pEntry.description length] == 0)
-        pEntry.description = [NSString stringWithFormat:@"%@ %d", pCatName, indexPath.row + 1];
+        pEntry.description = [NSString stringWithFormat:@"%@ %ld", pCatName, indexPath.row + 1];
     cell.textLabel.text = pEntry.description;
     NSString * pDetailed = [NSString stringWithFormat:@" %@ %.2f",self.pCurrency, pEntry.fAmountSpent];
     cell.detailTextLabel.text = pDetailed;
@@ -255,6 +255,9 @@
     EntryItem * pEntryItem = pSource.pEntry;
     NSString * pCatName = pEntryItem.categoryName;
     NSMutableArray *array = [self.allEntryData objectForKey:pCatName];
+    // Save data into database
+    if(pEntryItem.entry_id < 0) [self.pDbManager saveNewEntryData:pEntryItem];
+    
     [array addObject:pEntryItem];
     [self reloadTable];
     return; 
@@ -263,6 +266,14 @@
 -(void) initEntryData
 {
     self.allEntryData = [[NSMutableDictionary alloc] init];
+    
+    for (NSString* key in self.pCategory)
+    {
+        NSMutableArray *itemsArray = [self.pDbManager getAllEntry:key];
+        [self.allEntryData setObject:itemsArray forKey:key];
+    }
+    
+    /*
     NSDate *today = [NSDate date];
     EntryItem * pItem1 = [[EntryItem alloc] init:@"Mortage" date:today description:@"Mortage" amount:700.00 receipt:nil];
     EntryItem * pItem2 = [[EntryItem alloc] init:@"Rent" date:today description:@"Rent of hdb" amount:700.00 receipt:nil];
@@ -282,6 +293,7 @@
     
     NSMutableArray *itemsArray4 = [[ NSMutableArray alloc] initWithObjects:pItem4, nil];
      [self.allEntryData setObject:itemsArray4 forKey:@"Home Repairs"];
+     */
     
 }
 
