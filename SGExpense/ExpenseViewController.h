@@ -26,6 +26,7 @@
 @property (strong, nonatomic) IBOutlet UITextField  *pAmountField;
 @property                               EntryItem   *pEntry;
 @property                               NSInteger   categoryRow;
+@property                               NSString    *currency;
 @property                               NSInteger   nMonth;
 @property                               NSInteger   nYear;
 -(void) initCategoryPicker;

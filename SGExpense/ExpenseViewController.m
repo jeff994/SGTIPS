@@ -16,7 +16,17 @@
 
 
 - (IBAction)selectCategory:(id)sender {
-    self.pCategoryPicker.hidden = NO;
+     self.pCategoryPicker.hidden = NO;
+    
+    if([self.pCategory.text length] == 0) return;
+   
+    NSInteger nIndex = 0;
+    for (NSString* key in self.pCategoryArray)
+    {
+        if([key isEqualToString:self.pCategory.text]) break;
+        nIndex++;
+    }
+    [self.pCategoryPicker selectRow:nIndex inComponent:0 animated:YES];
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -47,6 +57,19 @@
     self.pCategory.inputView = self.pCategoryPicker;
     self.pCategory.inputAccessoryView = toolBar;
     self.categoryRow = 0;
+    
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    return YES;
+}
+
+
+- (void) viewWillAppear:(BOOL)animated
+{
+    [self initCategoryPicker];
+    return;
 }
 
 -(NSDate*) getFirstDateMonth:(NSInteger)nMonth
@@ -136,7 +159,6 @@
     if(self.pEntry == nil)
     {
         self.pEntry = [[EntryItem alloc] init];
-        self.pEntry.currency = @"S$";
     }
 }
 
@@ -144,13 +166,16 @@
 -(void) initUIData
 {
     [self setTitle:self.pMainCategoryName];
-    self.currencyLabel.text = self.pEntry.currency;
+    self.currencyLabel.text = self.currency;
     [self.repeatSwitch setOn:self.pEntry.bRepat];
     
     self.pDescriptionField.text = self.pEntry.description;
     self.pCategory.text = self.pEntry.categoryName;
     if(self.pEntry.fAmountSpent > 0) self.pAmountField.text = [NSString stringWithFormat:@"%.2f", self.pEntry.fAmountSpent];
-    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    NSString *formattedDateString = [dateFormatter stringFromDate:self.pEntry.entryDate];
+    self.pEntryDate.text = formattedDateString;
 }
 
 - (void)viewDidLoad
@@ -174,9 +199,8 @@
 {
     if(textField == self.pDescriptionField)
     {
-        
-        [self.pDescriptionField resignFirstResponder];
         self.pEntry.description = self.pDescriptionField.text;
+        [self.pDescriptionField resignFirstResponder];
     }
     if(textField == self.pAmountField)
     {
@@ -199,6 +223,9 @@
 
 - (IBAction)beginEditingDate:(id)sender {
     self.pDatePicker.hidden = NO;
+    if(self.pEntry == nil) return;
+    if(self.pEntry.entryDate == nil) return;
+    [self.pDatePicker setDate:self.pEntry.entryDate];
 }
 
 - (void)didReceiveMemoryWarning
@@ -303,6 +330,7 @@
 
 -(void)tap:(id)sender
 {
+    self.pEntry.description = self.pDescriptionField.text;
     [self.pAmountField resignFirstResponder];
     self.pEntry.fAmountSpent = [self.pAmountField.text doubleValue];
     self.pEntry.bRepat = [self.repeatSwitch isOn];

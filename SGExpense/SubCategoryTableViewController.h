@@ -19,7 +19,7 @@
 @property NSString * pCurrency;
 @property NSInteger  nMonth;
 @property NSInteger  nYear;
-
+@property UIImage * pCatergoryImage;
 
 @property NSMutableDictionary *allEntryData;  // Used to hold all entry data
 

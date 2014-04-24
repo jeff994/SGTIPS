@@ -47,11 +47,10 @@
     NSArray * monthnames =[df monthSymbols];
     NSString *monthName = [monthnames objectAtIndex:(self.nMonth-1)];
 
-    pHeaderCell.textLabel.text = [NSString stringWithFormat:@"%@ %d", monthName, self.nYear];
-    NSString *summary = [NSString stringWithFormat:@"Total: %@%.2f", self.pCurrency, fSummary];
+    pHeaderCell.textLabel.text = [NSString stringWithFormat:@"%@ %ld", monthName, (long)self.nYear];
+    NSString *summary = [NSString stringWithFormat:@"Total: %@ %.2f", self.pCurrency, fSummary];
     pHeaderCell.detailTextLabel.text = summary;
-    UIImage * pImage = [_pDbManager loadImage:@"money.png"];
-    pHeaderCell.imageView.image = pImage;
+    pHeaderCell.imageView.image = self.pCatergoryImage;
 
     
     
@@ -67,6 +66,7 @@
     self.pCurrency = @"S$";
     self.nMonth = 4;
     self.nYear = 2014;
+    self.pCatergoryImage = [_pDbManager loadImage:@"money.png"];
     
 }
 
@@ -101,7 +101,14 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-  return  [_pCategory objectAtIndex:section];
+    NSString * pCatName = [_pCategory objectAtIndex:section];
+    
+    NSMutableArray *array = [self.allEntryData objectForKey:pCatName];
+    if([array count] > 0)
+    {
+        return  [_pCategory objectAtIndex:section];
+    }
+    return nil;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -122,7 +129,7 @@
     }
     if(fSummary > 0)
     {
-        NSString *summary = [NSString stringWithFormat:@"Subotal: %.2f %@", fSummary, self.pCurrency];
+        NSString *summary = [NSString stringWithFormat:@"Subotal: %@ %.2f", self.pCurrency, fSummary];
         return summary;
     }
     return nil;
@@ -137,11 +144,15 @@
     NSMutableArray *array = [self.allEntryData objectForKey:pCatName];
     
     EntryItem * pEntry = [array objectAtIndex:indexPath.row];
+    if([pEntry.description length] == 0)
+        pEntry.description = [NSString stringWithFormat:@"%@ %d", pCatName, indexPath.row + 1];
     cell.textLabel.text = pEntry.description;
-    NSString * pDetailed = [NSString stringWithFormat:@"%.2f %@", pEntry.fAmountSpent, self.pCurrency];
+    NSString * pDetailed = [NSString stringWithFormat:@" %@ %.2f",self.pCurrency, pEntry.fAmountSpent];
     cell.detailTextLabel.text = pDetailed;
-    UIImage * pImage = [_pDbManager loadImage:@"money.png"];
-    cell.imageView.image = pImage;
+    if(pEntry.receipt == nil)
+        cell.imageView.image = self.pCatergoryImage;
+    else
+        cell.imageView.image = pEntry.receipt;
     return cell;
 }
 
@@ -153,7 +164,7 @@
 }
 
 
--(void) ReloadTable
+-(void) reloadTable
 {
     self.tableView.tableHeaderView = nil;
     [self initTableHeader];
@@ -170,7 +181,7 @@
         NSString * pCatName = [_pCategory objectAtIndex:indexPath.section];
         NSMutableArray *array = [self.allEntryData objectForKey:pCatName];
         [array removeObjectAtIndex:indexPath.row];
-        [self ReloadTable];
+        [self reloadTable];
         
         //[tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
@@ -210,16 +221,23 @@
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
     NSIndexPath *ip = [self.tableView indexPathForSelectedRow];
-    self.pSelectedCategory = [_pCategory objectAtIndex:ip.row];
+    self.pSelectedCategory = [_pCategory objectAtIndex:ip.section];
+    ExpenseViewController* dest = (ExpenseViewController*)segue.destinationViewController;
+    dest.nMonth = self.nMonth;
+    dest.nYear = self.nYear;
+    dest.currency = self.pCurrency;
+    dest.pMainCategoryName = self.pMainCat;
     
     if([segue.identifier isEqualToString:@"idNewEntry"])
     {
-        ExpenseViewController* dest = (ExpenseViewController*)segue.destinationViewController;
-        dest.pMainCategoryName = self.pMainCat;
         dest.pCategoryArray = [NSArray arrayWithArray:self.pCategory];
         self.pSelectedCategory = nil;
-        dest.nMonth = self.nMonth;
-        dest.nYear = self.nYear;
+    }
+    if([segue.identifier isEqualToString:@"idEditEntry"])
+    {
+        dest.pCategoryArray = [NSArray arrayWithArray:self.pCategory];
+        NSMutableArray *array = [self.allEntryData objectForKey:self.pSelectedCategory];
+        dest.pEntry = [array objectAtIndex:ip.row];
     }
     
 }
@@ -238,7 +256,7 @@
     NSString * pCatName = pEntryItem.categoryName;
     NSMutableArray *array = [self.allEntryData objectForKey:pCatName];
     [array addObject:pEntryItem];
-    [self ReloadTable];
+    [self reloadTable];
     return; 
 }
 
@@ -250,10 +268,6 @@
     EntryItem * pItem2 = [[EntryItem alloc] init:@"Rent" date:today description:@"Rent of hdb" amount:700.00 receipt:nil];
     EntryItem * pItem3 = [[EntryItem alloc] init:@"Home Improvements" date:today description:@"Home improves" amount:700.00 receipt:nil];
     EntryItem * pItem4 = [[EntryItem alloc] init:@"Home Repairs" date:today description:@"Home repair expense" amount:700.00 receipt:nil];
-    pItem1.currency = @"S$";
-    pItem2.currency = @"S$";
-    pItem3.currency = @"S$";
-    pItem4.currency = @"S$";
     
     NSMutableArray *itemsArray1 = [[NSMutableArray alloc] initWithObjects:pItem1, nil];
     self.allEntryData = [NSMutableDictionary dictionaryWithObject:itemsArray1 forKey:@"Mortage"];
