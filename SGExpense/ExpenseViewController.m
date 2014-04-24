@@ -77,6 +77,8 @@
     NSArray *toolbarItems = [NSArray arrayWithObjects:
                              doneButton, nil];
     [toolBar setItems:toolbarItems];
+    self.pDatePicker.maximumDate = [NSDate date];
+    self.pDatePicker.datePickerMode = UIDatePickerModeDate;
     self.pEntryDate.inputView = self.pDatePicker;
     self.pEntryDate.inputAccessoryView = toolBar;
 }

@@ -25,21 +25,66 @@
     return self;
 }
 
+- (void) initTableHeader
+{
+    UIView* headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 60)];
+    headerView.backgroundColor = [UIColor clearColor];
+    NSString *CellIdentifier = @"HeaderCell";
+    UITableViewCell * pHeaderCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+    pHeaderCell.backgroundColor = [UIColor clearColor];
+    
+    double fSummary = 0.0;
+    
+    for (NSString* key in self.allEntryData) {
+         NSMutableArray *array  = [self.allEntryData objectForKey:key];
+        for (EntryItem * pItem in array) {
+            fSummary += pItem.fAmountSpent;
+        }
+        // do stuff
+    }
+    
+    NSDateFormatter *df = [[NSDateFormatter alloc] init];
+    NSArray * monthnames =[df monthSymbols];
+    NSString *monthName = [monthnames objectAtIndex:(self.nMonth-1)];
+
+    pHeaderCell.textLabel.text = [NSString stringWithFormat:@"%@ %d", monthName, self.nYear];
+    NSString *summary = [NSString stringWithFormat:@"Total: %@%.2f", self.pCurrency, fSummary];
+    pHeaderCell.detailTextLabel.text = summary;
+    UIImage * pImage = [_pDbManager loadImage:@"money.png"];
+    pHeaderCell.imageView.image = pImage;
+
+    
+    
+    [headerView addSubview:pHeaderCell];
+    self.tableView.tableHeaderView = headerView;
+}
+
+-(void) initGlobalData
+{
+    [self setTitle:_pMainCat];
+    self.pDbManager = [DBManager getSharedInstance];
+    self.pCategory = [_pDbManager getChildCatetory:_pMainCat];
+    self.pCurrency = @"S$";
+    self.nMonth = 2;
+    self.nYear = 2014;
+    
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self setTitle:_pMainCat];
+    [self initGlobalData];
     [self initEntryData];
-    self.pDbManager = [DBManager getSharedInstance];
     self.tableView.layer.cornerRadius = 5;
-    self.pCategory = [_pDbManager getChildCatetory:_pMainCat];
+    [self initTableHeader];
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 22;
+}
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -67,6 +112,22 @@
     return [array count];
 }
 
+- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
+{
+    NSString * pCatName = [_pCategory objectAtIndex:section];
+    NSMutableArray *array = [self.allEntryData objectForKey:pCatName];
+    double fSummary = 0.0;
+    for (EntryItem * pItem in array) {
+        fSummary += pItem.fAmountSpent;
+    }
+    if(fSummary > 0)
+    {
+        NSString *summary = [NSString stringWithFormat:@"Subotal: %.2f %@", fSummary, self.pCurrency];
+        return summary;
+    }
+    return nil;
+}
+
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -77,11 +138,10 @@
     
     EntryItem * pEntry = [array objectAtIndex:indexPath.row];
     cell.textLabel.text = pEntry.description;
-    NSString * pDetailed = [NSString stringWithFormat:@"%.2f %@", pEntry.fAmountSpent, pEntry.currency];
+    NSString * pDetailed = [NSString stringWithFormat:@"%.2f %@", pEntry.fAmountSpent, self.pCurrency];
     cell.detailTextLabel.text = pDetailed;
     UIImage * pImage = [_pDbManager loadImage:@"money.png"];
     cell.imageView.image = pImage;
-    cell.layer.cornerRadius = 10;
     return cell;
 }
 
@@ -93,6 +153,12 @@
 }
 
 
+-(void) ReloadTable
+{
+    self.tableView.tableHeaderView = nil;
+    [self initTableHeader];
+    [self.tableView reloadData];
+}
 
 
 // Override to support editing the table view.
@@ -101,7 +167,12 @@
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
         // perform the deletion here
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        NSString * pCatName = [_pCategory objectAtIndex:indexPath.section];
+        NSMutableArray *array = [self.allEntryData objectForKey:pCatName];
+        [array removeObjectAtIndex:indexPath.row];
+        [self ReloadTable];
+        
+        //[tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
     }
@@ -147,6 +218,8 @@
         dest.pMainCategoryName = self.pMainCat;
         dest.pCategoryArray = [NSArray arrayWithArray:self.pCategory];
         self.pSelectedCategory = nil;
+        dest.nMonth = self.nMonth;
+        dest.nYear = self.nYear;
     }
     
 }
@@ -156,6 +229,8 @@
     
 }
 
+
+
 - (IBAction)addNewEntry:(UIStoryboardSegue *)segue
 {
     ExpenseViewController *pSource = [segue sourceViewController];
@@ -163,7 +238,7 @@
     NSString * pCatName = pEntryItem.categoryName;
     NSMutableArray *array = [self.allEntryData objectForKey:pCatName];
     [array addObject:pEntryItem];
-     [self.tableView reloadData];
+    [self ReloadTable];
     return; 
 }
 
