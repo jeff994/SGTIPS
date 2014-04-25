@@ -338,7 +338,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
         <scene sceneID="8vG-1R-oou">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="RqH-Mv-9B3" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Expense" image="test.png" id="4Y0-v7-Iaj"/>
+                    <tabBarItem key="tabBarItem" title="Expense" image="expense.png" id="4Y0-v7-Iaj"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Xow-tc-7Ep">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -369,10 +369,11 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
                     <connections>
-                        <segue destination="7bg-R2-Bca" kind="relationship" relationship="viewControllers" id="brt-au-sW4"/>
                         <segue destination="RqH-Mv-9B3" kind="relationship" relationship="viewControllers" id="xYw-nI-XCo"/>
-                        <segue destination="4Qi-bH-Ird" kind="relationship" relationship="viewControllers" id="YXY-NH-1G0"/>
+                        <segue destination="7bg-R2-Bca" kind="relationship" relationship="viewControllers" id="brt-au-sW4"/>
+                        <segue destination="5Y7-8G-Bid" kind="relationship" relationship="viewControllers" id="22T-gC-7sd"/>
                         <segue destination="3gn-MD-lfV" kind="relationship" relationship="viewControllers" id="RuA-hq-5gP"/>
+                        <segue destination="4Qi-bH-Ird" kind="relationship" relationship="viewControllers" id="YXY-NH-1G0"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xn2-VN-lEh" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -402,7 +403,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
         <scene sceneID="Xo9-zp-rrW">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="4Qi-bH-Ird" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Config" image="test.png" id="0ik-s3-MdD"/>
+                    <tabBarItem key="tabBarItem" title="Config" image="config.png" id="0ik-s3-MdD"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="gMi-1d-SsK">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -416,6 +417,25 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WLw-DZ-Lem" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1649" y="1151"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="arD-Fs-xkk">
+            <objects>
+                <viewController id="Gvg-Mz-Med" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="FYU-Oe-4ep"/>
+                        <viewControllerLayoutGuide type="bottom" id="gwg-kg-azX"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="QTT-Y2-3Q9">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="nCL-FE-s9o"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9bt-9E-qqv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2783" y="1951"/>
         </scene>
         <!--Income Table View Controller - Wealth Management-->
         <scene sceneID="fRk-Mq-PFJ">
@@ -476,7 +496,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
         <scene sceneID="Ztd-xh-fFA">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="7bg-R2-Bca" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Income" image="test.png" id="Y3a-Sa-CSz"/>
+                    <tabBarItem key="tabBarItem" title="Income" image="income.png" id="Y3a-Sa-CSz"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="vGt-yN-v18">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -510,8 +530,31 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
             </objects>
             <point key="canvasLocation" x="1672" y="427"/>
         </scene>
+        <!--Navigation Controller - Summary-->
+        <scene sceneID="DGq-jA-Ky2">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="5Y7-8G-Bid" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Summary" image="summary.png" id="ade-uC-y5H"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="GZT-pF-ZoB">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Gvg-Mz-Med" kind="relationship" relationship="rootViewController" id="3tB-kr-cRK"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ei4-dy-4xG" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1677" y="1887"/>
+        </scene>
     </scenes>
     <resources>
+        <image name="config.png" width="30" height="30"/>
+        <image name="expense.png" width="30" height="30"/>
+        <image name="income.png" width="30" height="30"/>
+        <image name="summary.png" width="30" height="30"/>
         <image name="test.png" width="30" height="30"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

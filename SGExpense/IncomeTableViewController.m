@@ -201,13 +201,14 @@
 {
     UIView* headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 60)];
     headerView.backgroundColor = [UIColor clearColor];
-    self.pHeaderField = [[UITextField alloc] initWithFrame:CGRectMake( 15, 10, self.tableView.frame.size.width - 30, 40)];
+    self.pHeaderField = [[UITextField alloc] initWithFrame:CGRectMake( 5, 5, self.tableView.frame.size.width - 10, 50)];
     self.pHeaderField.backgroundColor = [UIColor clearColor];
     self.pHeaderField.clearButtonMode = UITextFieldViewModeNever;
     self.pHeaderField.borderStyle = UITextBorderStyleRoundedRect;
     self.pHeaderField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+    self.pHeaderField.textAlignment = NSTextAlignmentCenter;
     self.pHeaderField.delegate = self;
-    [self.pHeaderField setFont:[UIFont boldSystemFontOfSize:12]];
+    [self.pHeaderField setFont:[UIFont boldSystemFontOfSize:15]];
     
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc]
                                    initWithTitle:@"Done" style:UIBarButtonItemStyleDone
