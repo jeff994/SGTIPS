@@ -75,6 +75,33 @@
     
 }
 
+- (void) initTableFooter
+{
+    UIView* headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 60)];
+    headerView.backgroundColor = [UIColor clearColor];
+    NSString *CellIdentifier = @"FooterCell";
+    UITableViewCell * pHeaderCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    pHeaderCell.backgroundColor = [UIColor clearColor];
+    
+    double fSummary = 0.0;
+    
+    
+    for(NSString* key in self.pCategory)
+    {
+        fSummary += [self.pDbManager getSummaryCategory:key year:self.nYear month:self.nMonth];
+    }
+    
+    //pHeaderCell.textLabel.text = [NSString stringWithFormat:@"%@ %ld", monthName, (long)self.nYear];
+    NSString *summary = [NSString stringWithFormat:@"Total: %@%.2f", self.currency, fSummary];
+    pHeaderCell.textLabel.text = summary;
+    //pHeaderCell.imageView.image = self.pCatergoryImage;
+    
+    
+    
+    [headerView addSubview:pHeaderCell];
+    self.tableView.tableFooterView = headerView;
+}
+
 -(void) InitGlobalData
 {
     self.currency = @"S$" ;
@@ -110,7 +137,9 @@
 
     _pDbManager = [DBManager getSharedInstance];
     NSArray * pMainCat = [_pDbManager getChildCatetory:@"Expense"];
+    [self setTitle:@"Expense"];
     _pCategory = [NSMutableArray arrayWithArray:pMainCat];
+    [self initTableFooter];
     return;
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -235,5 +264,6 @@
 - (IBAction)backFromSub:(UIStoryboardSegue *)segue
 {
     [self.tableView reloadData];
+    [self initTableFooter];
 }
 @end

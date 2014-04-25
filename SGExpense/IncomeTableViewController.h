@@ -10,7 +10,7 @@
 #import "DBManager.h"
 #import "UIMonthYearPicker.h"
 
-@interface IncomeTableViewController : UITableViewController
+@interface IncomeTableViewController : UITableViewController<UITextFieldDelegate>
 
 @property DBManager * pDbManager; // Used to get the database manager
 @property NSMutableArray * pCategory;
