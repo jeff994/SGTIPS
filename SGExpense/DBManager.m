@@ -330,8 +330,35 @@ static sqlite3_stmt  * statement = nil;
     const char *dbpath = [databasePath UTF8String];
     if (sqlite3_open(dbpath, &database) == SQLITE_OK)
     {
+        //NSString *querySQL = [NSString stringWithFormat:@"select SUM(value) from entry"];
+        NSString *querySQL = [NSString stringWithFormat:@"select SUM(value) from entry where strftime('%@', `entry_date`) = \"%@\" AND strftime('%@', `entry_date`)  = \"%ld\" and category_name in (select name from category where parent = (select category_id from category where name = \'%@\')) ", @"%m", smonth,  @"%Y", year, parentcategory];
+        const char *query_stmt = [querySQL UTF8String];
+        if (sqlite3_prepare_v2(database,
+                               query_stmt, -1, &statement, NULL) == SQLITE_OK)
+        {
+            if (sqlite3_step(statement) == SQLITE_ROW)
+            {
+                fSummary = sqlite3_column_double(statement, 0);
+            }
+            sqlite3_reset(statement);
+        }
+    }
+    return  fSummary;
+}
+
+
+-(double) getSummaryLeafCategory:(NSString *)parentcategory year:(NSInteger)year month:(NSInteger)month
+{
+    NSString *smonth = [NSString stringWithFormat:@"%02ld", month];
+    
+    //SELECT * FROM entry WHERE strftime("%m", `entry_date`) = "04" and category_name = "Home"
+    
+    double fSummary = 0;
+    const char *dbpath = [databasePath UTF8String];
+    if (sqlite3_open(dbpath, &database) == SQLITE_OK)
+    {
          //NSString *querySQL = [NSString stringWithFormat:@"select SUM(value) from entry"];
-       NSString *querySQL = [NSString stringWithFormat:@"select SUM(value) from entry where strftime('%@', `entry_date`) = \"%@\" AND strftime('%@', `entry_date`)  = \"%ld\" and category_name in (select name from category where parent = (select category_id from category where name = \'%@\')) ", @"%m", smonth,  @"%Y", year, parentcategory];
+       NSString *querySQL = [NSString stringWithFormat:@"select SUM(value) from entry where strftime('%@', `entry_date`) = \"%@\" AND strftime('%@', `entry_date`)  = \"%ld\" AND category_name = \"%@\"", @"%m", smonth,  @"%Y", year, parentcategory];
         const char *query_stmt = [querySQL UTF8String];
         if (sqlite3_prepare_v2(database,
                                query_stmt, -1, &statement, NULL) == SQLITE_OK)

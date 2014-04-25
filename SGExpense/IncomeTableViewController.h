@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "DBManager.h"
+#import "UIMonthYearPicker.h"
 
 @interface IncomeTableViewController : UITableViewController
 
@@ -18,5 +19,8 @@
 @property NSInteger nMonth;
 @property NSInteger  nYear;
 - (IBAction)backFromSub:(UIStoryboardSegue *)segue;
-
+@property (strong, nonatomic) IBOutlet UIMonthYearPicker *pMonthYearPicker;
+@property UITextField * pHeaderField;
+-(NSString *) formatMonthString:(NSDate *) date;
+-(void)donePickMonth:(id)sender;
 @end

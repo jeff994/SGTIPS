@@ -8,6 +8,7 @@
 
 #import "IncomeTableViewController.h"
 #import "SubCategoryTableViewController.h"
+#import "UIMonthYearPicker.h" 
 
 @interface IncomeTableViewController ()
 
@@ -29,15 +30,13 @@
     
     [super viewDidLoad];
     self.pSelectedCategory = @"Income";
-    self.nYear  =  2014;
-    self.nMonth =  4;
     self.currency = @"S$";
     [self setTitle:@"Income"];
     // Get the db manager from the DBManager
     _pDbManager = [DBManager getSharedInstance];
     NSArray * pMainCat = [_pDbManager getChildCatetory:@"Income"];
     _pCategory = [NSMutableArray arrayWithArray:pMainCat];
-    
+     [self initTableHeader];
     return;
 
     // Uncomment the following line to preserve selection between presentations.
@@ -74,12 +73,34 @@
     NSString * pCatName = [_pCategory objectAtIndex:indexPath.row];
     
     cell.textLabel.text = pCatName;
+    
+    double fSummary = [self.pDbManager getSummaryLeafCategory:pCatName year:self.nYear month:self.nMonth];
+    cell.detailTextLabel.text =  [NSString stringWithFormat:@"%@%.2f", self.currency, fSummary];
+    cell.textLabel.text = pCatName;
     UIImage * pImage = [_pDbManager loadImage:@"cfgimg" imgName: @"money.png"];
     cell.imageView.image = pImage;
     return cell;
 
 }
 
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    if(textField == self.pHeaderField)
+    {
+        self.pMonthYearPicker.hidden = NO;
+        NSDate *pToday =  [NSDate date];
+        NSCalendar *calendar = [NSCalendar currentCalendar];
+        NSDateComponents *dateComponents = [calendar components:
+                                            (NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit |
+                                             NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit)
+                                                       fromDate:pToday ];
+        [dateComponents setDay:1];
+        [dateComponents setMonth:self.nMonth ];
+        [dateComponents setYear:self.nYear];
+        self.pMonthYearPicker.date = [calendar dateFromComponents:dateComponents];
+        
+    }
+}
 
 /*
 // Override to support conditional editing of the table view.
@@ -128,6 +149,7 @@
     //NSIndexPath *ip = [self.tableView indexPathForSelectedRow];
     //self.pSelectedCategory = [_pCategory objectAtIndex:ip.row];
     
+    self.pSelectedCategory = @"Income";
     if([segue.identifier isEqualToString:@"id_income"])
     {
         SubCategoryTableViewController* dest = (SubCategoryTableViewController*)segue.destinationViewController;
@@ -145,4 +167,56 @@
 }
 
 
+- (void) initTableHeader
+{
+    UIView* headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 60)];
+    headerView.backgroundColor = [UIColor clearColor];
+    self.pHeaderField = [[UITextField alloc] initWithFrame:CGRectMake( 15, 10, self.tableView.frame.size.width - 30, 40)];
+    self.pHeaderField.backgroundColor = [UIColor clearColor];
+    self.pHeaderField.clearButtonMode = UITextFieldViewModeNever;
+    self.pHeaderField.borderStyle = UITextBorderStyleRoundedRect;
+    self.pHeaderField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+    self.pHeaderField.delegate = self;
+    [self.pHeaderField setFont:[UIFont boldSystemFontOfSize:12]];
+    
+    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc]
+                                   initWithTitle:@"Done" style:UIBarButtonItemStyleDone
+                                   target:self action:@selector(donePickMonth:)];
+    UIToolbar *toolBar = [[UIToolbar alloc]initWithFrame:
+                          CGRectMake(0, self.view.frame.size.height-
+                                     self.pHeaderField.frame.size.height-50, 320, 50)];
+    [toolBar setBarStyle:UIBarStyleBlackOpaque];
+    NSArray *toolbarItems = [NSArray arrayWithObjects:
+                             doneButton, nil];
+    [toolBar setItems:toolbarItems];
+    self.pHeaderField.text =  [self formatMonthString:[NSDate date]];
+    self.pHeaderField.enabled = YES;
+    self.pHeaderField.inputView = self.pMonthYearPicker;
+    self.pHeaderField.inputAccessoryView = toolBar;
+    self.pMonthYearPicker.hidden = YES;
+    [headerView addSubview:self.pHeaderField];
+    self.tableView.tableHeaderView = headerView;
+    self.pMonthYearPicker._delegate = self;
+    
+}
+
+-(void)donePickMonth:(id)sender
+{
+    self.pHeaderField.text = [self formatMonthString:self.pMonthYearPicker.date];
+    [self.pHeaderField resignFirstResponder];
+    self.pMonthYearPicker.hidden = YES;
+    [self.tableView reloadData];
+}
+
+-(NSString *) formatMonthString:(NSDate *) date
+{
+    NSCalendar* calendar = [NSCalendar currentCalendar];
+    NSDateComponents* components = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:date];
+    self.nMonth = [components month];
+    self.nYear = [components year];
+    NSDateFormatter *df = [[NSDateFormatter alloc] init];
+    NSArray * monthnames =[df monthSymbols];
+    NSString *monthName = [monthnames objectAtIndex:(self.nMonth-1)];
+    return [NSString stringWithFormat:@"%@ %ld", monthName, (long)self.nYear];
+}
 @end

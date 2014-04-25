@@ -56,6 +56,8 @@
 
 -(double) getSummaryCategory:(NSString*)category year:(NSInteger)year month:(NSInteger)month;
 
+-(double) getSummaryLeafCategory:(NSString *)parentcategory year:(NSInteger)year month:(NSInteger)month;
+
 -(BOOL) updateEntryData:(EntryItem *) entry;
 
 @end
