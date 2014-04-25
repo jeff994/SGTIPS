@@ -32,9 +32,14 @@
                description:(NSString *)description
                   date:(NSDate*)date imgpath:(NSString *)imgpath bRepeat:(BOOL)bRepeat;
 
+
+- (BOOL) updateEntryData:(NSInteger)entry_id category:(NSString*)category value:(float)value
+             description:(NSString *)description
+                    date:(NSDate*)date imgpath:(NSString *)imgpath bRepeat:(BOOL)bRepeat;
+
 -(NSArray *) findByRegisterNumber:(NSString *) registerNumber;
 
--(void)saveImage:(UIImage*)image directory:(NSString*)directory imgName:(NSString*)imgName;
+-(void)saveImage:(UIImage*)image directory:(NSString*)directory imgName:(NSString*)imgName overwrite:(BOOL)overwrite;
 
 -(UIImage*)loadImage:(NSString*)directory imgName:(NSString*)imgName;
 
@@ -47,6 +52,11 @@
 -(void) initEntryDataForTesting;
 
 // Find all data of a particular catergory (leaf category) 
--(NSMutableArray*) getAllEntry:(NSString*)catergory;
+-(NSMutableArray*) getAllEntry:(NSString*)catergory year:(NSInteger)year month:(NSInteger)month;
+
+-(double) getSummaryCategory:(NSString*)category year:(NSInteger)year month:(NSInteger)month;
+
+-(BOOL) updateEntryData:(EntryItem *) entry;
+
 @end
 

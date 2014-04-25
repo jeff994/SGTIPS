@@ -31,4 +31,27 @@
     return self;
 }
 
+- (BOOL)image:(UIImage *)image1 isEqualTo:(UIImage *)image2
+{
+    NSData *data1 = UIImagePNGRepresentation(image1);
+    NSData *data2 = UIImagePNGRepresentation(image2);
+    
+    return [data1 isEqual:data2];
+}
+
+- (BOOL) isEqual:(id)object
+{
+    if (![object isKindOfClass:self.class]) {
+        return NO;
+    }
+    EntryItem * other = object;
+    BOOL bRet = YES;
+    if(self.description != other.description) return NO;
+    if(self.categoryName != other.categoryName) return NO;
+    if(self.fAmountSpent != other.fAmountSpent) return NO;
+    if(self.bRepat != other.bRepat) return NO;
+    if(![self image:self.receipt isEqualTo:other.receipt]) return NO;
+    if (![self.entryDate isEqual:other.entryDate]) return NO;
+    return bRet;
+}
 @end

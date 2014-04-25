@@ -7,6 +7,7 @@
 //
 
 #import "IncomeTableViewController.h"
+#import "SubCategoryTableViewController.h"
 
 @interface IncomeTableViewController ()
 
@@ -27,12 +28,16 @@
 {
     
     [super viewDidLoad];
-    self.pSelectedCategory = nil;
-     [self setTitle:@"Income"];
+    self.pSelectedCategory = @"Income";
+    self.nYear  =  2014;
+    self.nMonth =  4;
+    self.currency = @"S$";
+    [self setTitle:@"Income"];
     // Get the db manager from the DBManager
     _pDbManager = [DBManager getSharedInstance];
     NSArray * pMainCat = [_pDbManager getChildCatetory:@"Income"];
     _pCategory = [NSMutableArray arrayWithArray:pMainCat];
+    
     return;
 
     // Uncomment the following line to preserve selection between presentations.
@@ -114,15 +119,30 @@
 }
 */
 
-/*
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    //NSIndexPath *ip = [self.tableView indexPathForSelectedRow];
+    //self.pSelectedCategory = [_pCategory objectAtIndex:ip.row];
+    
+    if([segue.identifier isEqualToString:@"id_income"])
+    {
+        SubCategoryTableViewController* dest = (SubCategoryTableViewController*)segue.destinationViewController;
+        dest.pMainCat = self.pSelectedCategory;
+        dest.nMonth = self.nMonth;
+        dest.nYear = self.nYear;
+        dest.pCurrency = self.currency;
+        self.pSelectedCategory = nil;
+    }
 }
-*/
+
+- (IBAction)backFromSub:(UIStoryboardSegue *)segue
+{
+    [self.tableView reloadData];
+}
+
 
 @end

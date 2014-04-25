@@ -25,10 +25,12 @@
 @property (strong, nonatomic) IBOutlet UITextField  *pDescriptionField;
 @property (strong, nonatomic) IBOutlet UITextField  *pAmountField;
 @property                               EntryItem   *pEntry;
+@property                               EntryItem   *pOldEntry;
 @property                               NSInteger   categoryRow;
 @property                               NSString    *currency;
 @property                               NSInteger   nMonth;
 @property                               NSInteger   nYear;
+
 -(void) initCategoryPicker;
 -(void) initDatePicker;
 -(void) initAmountField;

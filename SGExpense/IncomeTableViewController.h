@@ -14,5 +14,9 @@
 @property DBManager * pDbManager; // Used to get the database manager
 @property NSMutableArray * pCategory;
 @property NSString * pSelectedCategory;
+@property NSString * currency;
+@property NSInteger nMonth;
+@property NSInteger  nYear;
+- (IBAction)backFromSub:(UIStoryboardSegue *)segue;
 
 @end

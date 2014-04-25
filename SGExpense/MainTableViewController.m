@@ -23,41 +23,81 @@
     return self;
 }
 
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    if(textField == self.pHeaderField)
+    {
+        self.pMonthYearPicker.hidden = NO;
+        NSDate *pToday =  [NSDate date];
+        NSCalendar *calendar = [NSCalendar currentCalendar];
+        NSDateComponents *dateComponents = [calendar components:
+                                            (NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit |
+                                             NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit)
+                                                       fromDate:pToday ];
+        [dateComponents setDay:1];
+        [dateComponents setMonth:self.nMonth ];
+        [dateComponents setYear:self.nYear];
+        self.pMonthYearPicker.date = [calendar dateFromComponents:dateComponents];
+        
+    }
+}
+
 - (void) initTableHeader
 {
     UIView* headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 60)];
     headerView.backgroundColor = [UIColor clearColor];
-    NSString *CellIdentifier = @"HeaderCell";
-    UITextField * pHeaderField = [[UITextField alloc] initWithFrame:CGRectMake( 15, 10, self.tableView.frame.size.width - 30, 40)];
-    pHeaderField.backgroundColor = [UIColor clearColor];
-     pHeaderField.clearButtonMode = UITextFieldViewModeWhileEditing;
-    double fSummary = 0.0;
-    pHeaderField.borderStyle = UITextBorderStyleRoundedRect;
-    pHeaderField.contentVerticalAlignment =
-    UIControlContentVerticalAlignmentCenter;
-    [pHeaderField setFont:[UIFont boldSystemFontOfSize:12]];
-    /*for (NSString* key in self.allEntryData) {
-        NSMutableArray *array  = [self.allEntryData objectForKey:key];
-        for (EntryItem * pItem in array) {
-            fSummary += pItem.fAmountSpent;
-        }
-        // do stuff
-    }
-     */
+    self.pHeaderField = [[UITextField alloc] initWithFrame:CGRectMake( 15, 10, self.tableView.frame.size.width - 30, 40)];
+    self.pHeaderField.backgroundColor = [UIColor clearColor];
+    self.pHeaderField.clearButtonMode = UITextFieldViewModeNever;
+    self.pHeaderField.borderStyle = UITextBorderStyleRoundedRect;
+    self.pHeaderField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+    self.pHeaderField.delegate = self;
+    [self.pHeaderField setFont:[UIFont boldSystemFontOfSize:12]];
     
+    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc]
+                                   initWithTitle:@"Done" style:UIBarButtonItemStyleDone
+                                   target:self action:@selector(donePickMonth:)];
+    UIToolbar *toolBar = [[UIToolbar alloc]initWithFrame:
+                          CGRectMake(0, self.view.frame.size.height-
+                                     self.pHeaderField.frame.size.height-50, 320, 50)];
+    [toolBar setBarStyle:UIBarStyleBlackOpaque];
+    NSArray *toolbarItems = [NSArray arrayWithObjects:
+                             doneButton, nil];
+    [toolBar setItems:toolbarItems];
+        self.pHeaderField.text =  [self formatMonthString:[NSDate date]];
+    self.pHeaderField.enabled = YES;
+    self.pHeaderField.inputView = self.pMonthYearPicker;
+    self.pHeaderField.inputAccessoryView = toolBar;
+    self.pMonthYearPicker.hidden = YES;
+    [headerView addSubview:self.pHeaderField];
+    self.tableView.tableHeaderView = headerView;
+    self.pMonthYearPicker._delegate = self;
+    
+}
+
+-(void) InitGlobalData
+{
+    self.currency = @"S$" ;
+}
+
+-(NSString *) formatMonthString:(NSDate *) date
+{
+    NSCalendar* calendar = [NSCalendar currentCalendar];
+    NSDateComponents* components = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:date];
+    self.nMonth = [components month];
+    self.nYear = [components year];
     NSDateFormatter *df = [[NSDateFormatter alloc] init];
     NSArray * monthnames =[df monthSymbols];
-    //NSString *monthName = [monthnames objectAtIndex:(self.nMonth-1)];
-    
-    //pHeaderCell.textLabel.text = [NSString stringWithFormat:@"%@ %ld", monthName, (long)self.nYear];
-    //NSString *summary = [NSString stringWithFormat:@"Total: %@ %.2f", self.currency, fSummary];
-    //pHeaderCell.detailTextLabel.text = summary;
-    //pHeaderCell.imageView.image = self.pCategoryImage;
-    pHeaderField.text = @"Test";
-    pHeaderField.enabled = YES;
-    pHeaderField.inputView = self.pMonthYearPicker;
-    [headerView addSubview:pHeaderField];
-    self.tableView.tableHeaderView = headerView;
+    NSString *monthName = [monthnames objectAtIndex:(self.nMonth-1)];
+    return [NSString stringWithFormat:@"%@ %ld", monthName, (long)self.nYear];
+}
+
+-(void)donePickMonth:(id)sender
+{
+    self.pHeaderField.text = [self formatMonthString:self.pMonthYearPicker.date];
+    [self.pHeaderField resignFirstResponder];
+    self.pMonthYearPicker.hidden = YES;
+    [self.tableView reloadData];
 }
 
 - (void)viewDidLoad
@@ -66,6 +106,7 @@
     self.pSelectedCategory = nil;
     // Get the db manager from the DBManager
     [self initTableHeader];
+    [self InitGlobalData];
 
     _pDbManager = [DBManager getSharedInstance];
     NSArray * pMainCat = [_pDbManager getChildCatetory:@"Expense"];
@@ -107,6 +148,9 @@
     NSString * pCatName = [_pCategory objectAtIndex:indexPath.row];
     
     cell.textLabel.text = pCatName;
+    
+    double fSummary = [self.pDbManager getSummaryCategory:pCatName year:self.nYear month:self.nMonth];
+    cell.detailTextLabel.text =  [NSString stringWithFormat:@"%@%.2f", self.currency, fSummary];
     UIImage * pImage = [_pDbManager loadImage:@"cfgimg" imgName: @"money.png"];;
     cell.imageView.image = pImage;
     return cell;
@@ -173,6 +217,9 @@
     {
         SubCategoryTableViewController* dest = (SubCategoryTableViewController*)segue.destinationViewController;
         dest.pMainCat = self.pSelectedCategory;
+        dest.nMonth = self.nMonth;
+        dest.nYear = self.nYear;
+        dest.pCurrency = self.currency;
         self.pSelectedCategory = nil;
     }
     
@@ -180,5 +227,13 @@
     // Pass the selected object to the new view controller.
 }
 
+- (void) pickerView:(UIPickerView *)pickerView didChangeDate:(NSDate *)newDate{
+    return;
+    //dateLabel.text = [dateFormatter stringFromDate:newDate];
+}
 
+- (IBAction)backFromSub:(UIStoryboardSegue *)segue
+{
+    [self.tableView reloadData];
+}
 @end

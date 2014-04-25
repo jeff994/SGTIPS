@@ -22,4 +22,6 @@
     @property BOOL      bModified;
 -(BOOL) validEntry;
 -(id) init:(NSString *)category date:(NSDate *)date description:(NSString *)description amount:(double)amount receipt:(UIImage*)receipt;
+-(BOOL)isEqual:(id)object;
+- (BOOL)image:(UIImage *)image1 isEqualTo:(UIImage *)image2;
 @end

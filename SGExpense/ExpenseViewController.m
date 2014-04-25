@@ -154,14 +154,34 @@
     self.pImageButton.contentMode = UIViewContentModeScaleAspectFit;
 }
 
+- (IBAction)categoryChanged:(id)sender {
+    self.pEntry.categoryName = self.pCategory.text;
+}
+
+- (IBAction)dateChanged:(id)sender {
+    if([self.pEntryDate.text length] <= 0)
+    {
+        self.pEntry.entryDate = nil ;
+    }
+
+}
+
 -(void) initEntryData
 {
     if(self.pEntry == nil)
     {
         self.pEntry = [[EntryItem alloc] init];
         self.pEntry.entry_id = -1;
-        
     }
+    else
+    {
+        self.pOldEntry = [[EntryItem alloc] init:self.pEntry.categoryName date:self.pEntry.entryDate description:self.pEntry.description amount:self.pEntry.fAmountSpent receipt:self.pEntry.receipt];
+        self.pOldEntry.bRepat = self.pEntry.bRepat;
+    }
+    if ([self.pEntry validEntry])
+        self.navigationItem.rightBarButtonItem.enabled = YES;
+    else
+        self.navigationItem.rightBarButtonItem.enabled = NO;
 }
 
 // Init initinal value of the input field
@@ -249,6 +269,14 @@
         
         // the value cannot be null
         // The description
+        if(self.pOldEntry != nil) // Second time
+        {
+            if(![self.pOldEntry isEqual:self.pEntry])
+            {
+                self.pEntry.bModified = true;
+            }
+            
+        }
         return;
     }
     
@@ -261,6 +289,19 @@
 
 - (IBAction)descriptionChanged:(id)sender {
      self.pEntry.description = self.pDescriptionField.text;
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    //Replace the string manually in the textbox
+    textField.text = [textField.text stringByReplacingCharactersInRange:range withString:string];
+    //perform any logic here now that you are sure the textbox text has changed
+    if(textField ==self.pDescriptionField)
+        [self descriptionChanged:self.pDescriptionField];
+    if ([self.pEntry validEntry])
+        self.navigationItem.rightBarButtonItem.enabled = YES;
+    else
+        self.navigationItem.rightBarButtonItem.enabled = NO;
+    return NO; //this make iOS not to perform any action
 }
 
 

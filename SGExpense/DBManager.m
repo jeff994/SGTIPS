@@ -16,10 +16,10 @@ static sqlite3_stmt  * statement = nil;
 +(DBManager*)getSharedInstance{
     if (!sharedInstance) {
         sharedInstance = [[super allocWithZone:NULL]init];
-        [sharedInstance cleanSettings];
+        //[sharedInstance cleanSettings];
         [sharedInstance initDatabase];
         [sharedInstance createCategoryImage];
-        [sharedInstance initEntryDataForTesting];
+        //[sharedInstance initEntryDataForTesting];
     }
     return sharedInstance;
 }
@@ -105,7 +105,7 @@ static sqlite3_stmt  * statement = nil;
     // Save all the images to the image table once for all
     // Each category should have an idenpendent images icon
     UIImage * pImage = [UIImage imageNamed:@"money.png"];
-    [self saveImage:pImage directory:@"cfgimg" imgName:@"money.png"];
+    [self saveImage:pImage directory:@"cfgimg" imgName:@"money.png" overwrite:NO];
     return true;
 }
 
@@ -136,7 +136,7 @@ static sqlite3_stmt  * statement = nil;
     return isSuccess;
 }
 
-- (void)saveImage:(UIImage*)image directory:(NSString*)directory imgName:(NSString*)imgName;
+- (void)saveImage:(UIImage*)image directory:(NSString*)directory imgName:(NSString*)imgName overwrite:(BOOL)overwrite;
 {
     if (image != nil)
     {
@@ -156,6 +156,11 @@ static sqlite3_stmt  * statement = nil;
         NSString* path = [dataPath stringByAppendingPathComponent:imgName];
        
         if ([filemgr fileExistsAtPath:path ] == NO)
+        {
+            NSData* data = UIImagePNGRepresentation(image);
+            [data writeToFile:path atomically:YES];
+        }
+        if(overwrite)
         {
             NSData* data = UIImagePNGRepresentation(image);
             [data writeToFile:path atomically:YES];
@@ -235,7 +240,7 @@ static sqlite3_stmt  * statement = nil;
     const char *dbpath = [databasePath UTF8String];
     if (sqlite3_open(dbpath, &database) == SQLITE_OK)
     {
-        NSString *insertSQL = [NSString stringWithFormat:@"insert into entry (entry_id, category_name,value, description, entry_date, photo_path, repeating) values (%ld, \"%@\", %f, \"%@\", \"%@\", \"%@\", %d)", entry_id, category, value, description, imgpath, formattedDateString, bRepeat];
+        NSString *insertSQL = [NSString stringWithFormat:@"insert into entry (entry_id, category_name,value, description, entry_date, photo_path, repeating) values (%ld, \"%@\", %f, \"%@\", \"%@\", \"%@\", %d)", entry_id, category, value, description, formattedDateString, imgpath,  bRepeat];
         const char *insert_stmt = [insertSQL UTF8String];
         sqlite3_prepare_v2(database, insert_stmt,-1, &statement, NULL);
         if (sqlite3_step(statement) == SQLITE_DONE)
@@ -249,6 +254,36 @@ static sqlite3_stmt  * statement = nil;
     }
     return NO;
 }
+
+- (BOOL) updateEntryData:(NSInteger)entry_id category:(NSString*)category value:(float)value
+           description:(NSString *)description
+                  date:(NSDate*)date imgpath:(NSString *)imgpath bRepeat:(BOOL)bRepeat;
+
+{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    
+    NSString *formattedDateString = [dateFormatter stringFromDate:date];
+    
+    const char *dbpath = [databasePath UTF8String];
+    if (sqlite3_open(dbpath, &database) == SQLITE_OK)
+    {
+        NSString *insertSQL = [NSString stringWithFormat:@"update entry set category_name = \"%@\",value = %f, description = \"%@\", entry_date = \"%@\", photo_path = \"%@\", repeating = %d where entry_id = %ld", category, value, description, formattedDateString, imgpath,  bRepeat, entry_id];
+        const char *insert_stmt = [insertSQL UTF8String];
+        sqlite3_prepare_v2(database, insert_stmt,-1, &statement, NULL);
+        if (sqlite3_step(statement) == SQLITE_DONE)
+        {
+            return YES;
+        }
+        else {
+            return NO;
+        }
+        sqlite3_reset(statement);
+    }
+    return NO;
+}
+
+
 
 
 - (NSArray*) findByRegisterNumber:(NSString*)registerNumber
@@ -285,13 +320,40 @@ static sqlite3_stmt  * statement = nil;
     return nil;
 }
 
--(NSMutableArray*)getAllEntry:(NSString *)catergory
+-(double) getSummaryCategory:(NSString *)parentcategory year:(NSInteger)year month:(NSInteger)month
+{
+    NSString *smonth = [NSString stringWithFormat:@"%02ld", month];
+    
+    //SELECT * FROM entry WHERE strftime("%m", `entry_date`) = "04" and category_name = "Home"
+    
+    double fSummary = 0;
+    const char *dbpath = [databasePath UTF8String];
+    if (sqlite3_open(dbpath, &database) == SQLITE_OK)
+    {
+         //NSString *querySQL = [NSString stringWithFormat:@"select SUM(value) from entry"];
+       NSString *querySQL = [NSString stringWithFormat:@"select SUM(value) from entry where strftime('%@', `entry_date`) = \"%@\" AND strftime('%@', `entry_date`)  = \"%ld\" and category_name in (select name from category where parent = (select category_id from category where name = \'%@\')) ", @"%m", smonth,  @"%Y", year, parentcategory];
+        const char *query_stmt = [querySQL UTF8String];
+        if (sqlite3_prepare_v2(database,
+                               query_stmt, -1, &statement, NULL) == SQLITE_OK)
+        {
+            if (sqlite3_step(statement) == SQLITE_ROW)
+            {
+                fSummary = sqlite3_column_double(statement, 0);
+            }
+            sqlite3_reset(statement);
+        }
+    }
+    return  fSummary;
+}
+
+
+-(NSMutableArray*)getAllEntry:(NSString *)catergory year:(NSInteger)year month:(NSInteger)month
 {
     const char *dbpath = [databasePath UTF8String];
     NSMutableArray *resultArray = [[NSMutableArray alloc]init];
     if (sqlite3_open(dbpath, &database) == SQLITE_OK)
     {
-        NSString *querySQL = [NSString stringWithFormat:@"select entry_id, category_name,value, description, entry_date, photo_path, repeating from entry where category_name=\"%@\"", catergory];
+        NSString *querySQL = [NSString stringWithFormat:@"select entry_id, category_name,value, description, entry_date, photo_path, repeating from entry where category_name=\"%@\" and strftime('%@', `entry_date`) = \"%02ld\" AND strftime('%@', `entry_date`)  = \"%ld\" ", catergory, @"%m", month, @"%Y", year];
         const char *query_stmt = [querySQL UTF8String];
                if (sqlite3_prepare_v2(database,
                                query_stmt, -1, &statement, NULL) == SQLITE_OK)
@@ -337,27 +399,27 @@ static sqlite3_stmt  * statement = nil;
     if (sqlite3_open(dbpath, &database) == SQLITE_OK)
     {
         char *errMsg;
-        const char *sql_insert = "insert into entry (entry_id, category_name,value, description, entry_date, photo_path, repeating) values (0, \"Mortage\", 123.889999, \"expense 1\", \"\", \"2014-04-01\", 0);";
+        const char *sql_insert = "insert into entry (entry_id, category_name,value, description, photo_path, entry_date, repeating) values (0, \"Mortage\", 123.889999, \"expense 1\", \"\", \"2014-04-01\", 0);";
     
         if (sqlite3_exec(database, sql_insert, NULL, NULL, &errMsg) != SQLITE_OK)
         {
             NSLog(@"Failed to put the data inside the table");
         }
-        const char *sql_insert1 = "insert into entry (entry_id, category_name,value, description, entry_date, photo_path, repeating) values (1, \"Rent\", 123.889999, \"expense 1\", \"\", \"2014-04-01\", 0);";
+        const char *sql_insert1 = "insert into entry (entry_id, category_name,value, description, photo_path, entry_date,  repeating) values (1, \"Rent\", 123.889999, \"expense 1\", \"\", \"2014-04-01\", 0);";
         
         if (sqlite3_exec(database, sql_insert1, NULL, NULL, &errMsg) != SQLITE_OK)
         {
             NSLog(@"Failed to put the data inside the table");
         }
         
-        const char *sql_insert2 = "insert into entry (entry_id, category_name,value, description, entry_date, photo_path, repeating) values (2, \"Home Improvements\", 123.889999, \"expense 1\", \"\", \"2014-04-01\", 0);";
+        const char *sql_insert2 = "insert into entry (entry_id, category_name,value, description, photo_path, entry_date, repeating) values (2, \"Home Improvements\", 123.889999, \"expense 1\", \"\", \"2014-04-01\", 0);";
         
         if (sqlite3_exec(database, sql_insert2, NULL, NULL, &errMsg) != SQLITE_OK)
         {
             NSLog(@"Failed to put the data inside the table");
         }
         
-        const char *sql_insert3 = "insert into entry (entry_id, category_name,value, description, entry_date, photo_path, repeating) values (3, \"Home Repairs\", 123.889999, \"expense 1\", \"\", \"2014-04-01\", 0);";
+        const char *sql_insert3 = "insert into entry (entry_id, category_name,value, description, photo_path, entry_date, repeating) values (3, \"Home Repairs\", 123.889999, \"expense 1\", \"\", \"2014-04-01\", 0);";
         
         if (sqlite3_exec(database, sql_insert3, NULL, NULL, &errMsg) != SQLITE_OK)
         {
@@ -379,10 +441,25 @@ static sqlite3_stmt  * statement = nil;
     if(entry.receipt != nil)
     {
         entry.receiptPath = [NSString stringWithFormat:@"receipt-%ld.png", entry.entry_id];
-        [[DBManager getSharedInstance] saveImage:entry.receipt directory:@"receipts" imgName:entry.receiptPath];
+        [[DBManager getSharedInstance] saveImage:entry.receipt directory:@"receipts" imgName:entry.receiptPath overwrite:NO];
     }
     // Step 3: enter record in the databse 
     [[DBManager getSharedInstance] saveEntryData:entry.entry_id category:entry.categoryName value:entry.fAmountSpent description:entry.description date:entry.entryDate imgpath:entry.receiptPath bRepeat:entry.bRepat];
     return TRUE;
 }
+
+-(BOOL) updateEntryData:(EntryItem *) entry
+{
+    if(entry.receipt != nil)
+    {
+        entry.receiptPath = [NSString stringWithFormat:@"receipt-%ld.png", entry.entry_id];
+        [[DBManager getSharedInstance] saveImage:entry.receipt directory:@"receipts" imgName:entry.receiptPath overwrite:YES];
+    }
+    
+    [[DBManager getSharedInstance] updateEntryData:entry.entry_id category:entry.categoryName value:entry.fAmountSpent description:entry.description date:entry.entryDate imgpath:entry.receiptPath bRepeat:entry.bRepat];
+    
+    return YES;
+}
+
+
 @end
