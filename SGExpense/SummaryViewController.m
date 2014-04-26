@@ -291,11 +291,14 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    //[self prepareSummaryData];
     [super viewWillAppear:animated];
+    
 }
 
 -(void) prepareSummaryData
 {
+    if(self.pPickerMonthAndYear == nil) return;
     if(self.nSummaryType == 0 )
     {
         self.fTotalExepnse = [[DBManager getSharedInstance] getRecursiveSummaryCategory:@"Expense" year:self.nYear month:self.nMonth];
@@ -309,7 +312,10 @@
     
     self.pIncomeTotalField.text = [NSString stringWithFormat:@"%@%.2f", self.currency, self.fTotalIncome];
     self.pExpenseTotalField.text = [NSString stringWithFormat:@"%@%.2f", self.currency, self.fTotalExepnse];
-    self.pRemainingField.text = [NSString stringWithFormat:@"%@%.2f", self.currency, fTotalRemaining];
+    if(fTotalRemaining > 0)
+        self.pRemainingField.text = [NSString stringWithFormat:@"%@%.2f", self.currency, fTotalRemaining];
+    else
+        self.pRemainingField.text = [NSString stringWithFormat:@"-%@%.2f", self.currency, -fTotalRemaining];
 
 }
 

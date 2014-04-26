@@ -476,6 +476,7 @@ static sqlite3_stmt  * statement = nil;
                 pNewEntry.entry_id = entry_id;
                 pNewEntry.bRepat = repeating > 0;
                 pNewEntry.receiptPath = photo_path;
+                pNewEntry.receipt = [self loadImage:@"receipts" imgName:photo_path];
                 [resultArray addObject:pNewEntry];
             }
             sqlite3_reset(statement);

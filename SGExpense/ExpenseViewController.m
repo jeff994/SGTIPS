@@ -151,7 +151,16 @@
     self.pImageButton.frame = buttonFrame;
     [[self.pImageButton layer] setCornerRadius:70.0f];
     [[self.pImageButton layer] setBorderWidth:1.0f];
+    [self.pImageButton layer].masksToBounds = YES;
     self.pImageButton.contentMode = UIViewContentModeScaleAspectFit;
+    if(self.pEntry)
+    {
+        if(self.pEntry.receipt)
+        {
+            [self.pImageButton setTitle:nil forState:UIControlStateNormal];
+            [ self.pImageButton setBackgroundImage:self.pEntry.receipt forState:UIControlStateNormal];
+        }
+    }
 }
 
 - (IBAction)categoryChanged:(id)sender {
@@ -297,6 +306,8 @@
     //perform any logic here now that you are sure the textbox text has changed
     if(textField ==self.pDescriptionField)
         [self descriptionChanged:self.pDescriptionField];
+    if(textField == self.pAmountField)
+        [self amountSpecified:self.pDescriptionField];
     if ([self.pEntry validEntry])
         self.navigationItem.rightBarButtonItem.enabled = YES;
     else
@@ -345,9 +356,7 @@
 }
 
 - (IBAction)amountSpecified:(id)sender {
-    [self.pAmountField resignFirstResponder];
     self.pEntry.fAmountSpent = [self.pAmountField.text doubleValue];
-    [self.view endEditing:YES];
     if ([self.pEntry validEntry])
         self.navigationItem.rightBarButtonItem.enabled = YES;
     else
@@ -395,6 +404,13 @@
     
     NSString *formattedDateString = [dateFormatter stringFromDate:self.pDatePicker.date];
     self.pEntryDate.text = formattedDateString;
+    self.pEntry.entryDate = self.pDatePicker.date;
+    [self.view endEditing:YES];
+    if ([self.pEntry validEntry])
+        self.navigationItem.rightBarButtonItem.enabled = YES;
+    else
+        self.navigationItem.rightBarButtonItem.enabled = NO;
+
  
   
 }

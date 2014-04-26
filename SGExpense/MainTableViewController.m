@@ -276,4 +276,5 @@
     [self.tableView reloadData];
     [self initTableFooter];
 }
+
 @end
