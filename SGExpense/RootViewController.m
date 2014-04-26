@@ -1,19 +1,18 @@
 //
-//  DealViewController.m
+//  RootViewController.m
 //  SGExpense
 //
-//  Created by Hu Jianbo on 20/4/14.
+//  Created by Hu Jianbo on 26/4/14.
 //  Copyright (c) 2014 SD. All rights reserved.
 //
 
-#import "DealViewController.h"
+#import "RootViewController.h"
 
-@interface DealViewController ()
-//@property (strong, nonatomic) IBOutlet UIWebView *pUIWebView;
+@interface RootViewController ()
 
 @end
 
-@implementation DealViewController
+@implementation RootViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -27,18 +26,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self setTitle:@"Deals"];
-    NSString *httpSource = @"http://www.sgtips.com/deal";
-    NSURL *fullUrl = [NSURL URLWithString:httpSource];
-    NSURLRequest *httpRequest = [NSURLRequest requestWithURL:fullUrl];
-    [self.DealView loadRequest:httpRequest];
     // Do any additional setup after loading the view.
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    // Return YES for supported orientations
-    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
 }
 
 - (void)didReceiveMemoryWarning
@@ -47,6 +35,15 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    // Return YES for supported orientations
+    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
+}
+
+- (BOOL) shouldAutorotate {
+    return NO;
+}
 
 /*
 #pragma mark - Navigation

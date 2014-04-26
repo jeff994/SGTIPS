@@ -75,6 +75,7 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -196,6 +197,11 @@
     [self initTableFooter];
 }
 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    // Return YES for supported orientations
+    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
+}
 
 - (void) initTableHeader
 {
@@ -208,6 +214,7 @@
     self.pHeaderField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     self.pHeaderField.textAlignment = NSTextAlignmentCenter;
     self.pHeaderField.delegate = self;
+    self.pHeaderField.backgroundColor = [UIColor lightGrayColor];
     [self.pHeaderField setFont:[UIFont boldSystemFontOfSize:15]];
     
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc]

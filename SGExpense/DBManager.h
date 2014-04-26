@@ -19,7 +19,7 @@
 // Used to create category of accounts
 -(BOOL) createCategory;
 // Given the parent name, get all it's child name from the category table
--(NSArray *) getChildCatetory:(NSString*)parent;
+-(NSMutableArray *) getChildCatetory:(NSString*)parent;
 
 -(BOOL)createEntryTable;
 
@@ -58,7 +58,14 @@
 
 -(double) getSummaryLeafCategory:(NSString *)parentcategory year:(NSInteger)year month:(NSInteger)month;
 
+-(double) getSummaryLeafCategory:(NSString *)parentcategory year:(NSInteger)year;
+
 -(BOOL) updateEntryData:(EntryItem *) entry;
+
+-(void) getLeafCategory:(NSString *)category leafCategory:(NSMutableArray **)leafCategory;
+-(double) getRecursiveSummaryCategory:(NSString *)category year:(NSInteger)year month:(NSInteger)month;
+
+-(double) getRecursiveSummaryCategory:(NSString *)category year:(NSInteger)year;
 
 @end
 

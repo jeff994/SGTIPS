@@ -132,6 +132,11 @@
     return nil;
 }
 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    // Return YES for supported orientations
+    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
+}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -142,7 +147,7 @@
     
     EntryItem * pEntry = [array objectAtIndex:indexPath.row];
     if([pEntry.description length] == 0)
-        pEntry.description = [NSString stringWithFormat:@"%@ %ld", pCatName, indexPath.row + 1];
+        pEntry.description = [NSString stringWithFormat:@"%@ %d", pCatName, indexPath.row + 1];
     cell.textLabel.text = pEntry.description;
     NSString * pDetailed = [NSString stringWithFormat:@" %@%.2f",self.pCurrency, pEntry.fAmountSpent];
     cell.detailTextLabel.text = pDetailed;

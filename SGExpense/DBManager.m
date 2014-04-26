@@ -178,7 +178,7 @@ static sqlite3_stmt  * statement = nil;
     return image;
 }
 
-- (NSArray*)getChildCatetory:(NSString *)parent
+- (NSMutableArray*)getChildCatetory:(NSString *)parent
 {
     const char *dbpath = [databasePath UTF8String];
     if (sqlite3_open(dbpath, &database) == SQLITE_OK)
@@ -240,7 +240,7 @@ static sqlite3_stmt  * statement = nil;
     const char *dbpath = [databasePath UTF8String];
     if (sqlite3_open(dbpath, &database) == SQLITE_OK)
     {
-        NSString *insertSQL = [NSString stringWithFormat:@"insert into entry (entry_id, category_name,value, description, entry_date, photo_path, repeating) values (%ld, \"%@\", %f, \"%@\", \"%@\", \"%@\", %d)", entry_id, category, value, description, formattedDateString, imgpath,  bRepeat];
+        NSString *insertSQL = [NSString stringWithFormat:@"insert into entry (entry_id, category_name,value, description, entry_date, photo_path, repeating) values (%d, \"%@\", %f, \"%@\", \"%@\", \"%@\", %d)", entry_id, category, value, description, formattedDateString, imgpath,  bRepeat];
         const char *insert_stmt = [insertSQL UTF8String];
         sqlite3_prepare_v2(database, insert_stmt,-1, &statement, NULL);
         if (sqlite3_step(statement) == SQLITE_DONE)
@@ -268,7 +268,7 @@ static sqlite3_stmt  * statement = nil;
     const char *dbpath = [databasePath UTF8String];
     if (sqlite3_open(dbpath, &database) == SQLITE_OK)
     {
-        NSString *insertSQL = [NSString stringWithFormat:@"update entry set category_name = \"%@\",value = %f, description = \"%@\", entry_date = \"%@\", photo_path = \"%@\", repeating = %d where entry_id = %ld", category, value, description, formattedDateString, imgpath,  bRepeat, entry_id];
+        NSString *insertSQL = [NSString stringWithFormat:@"update entry set category_name = \"%@\",value = %f, description = \"%@\", entry_date = \"%@\", photo_path = \"%@\", repeating = %d where entry_id = %d", category, value, description, formattedDateString, imgpath,  bRepeat, entry_id];
         const char *insert_stmt = [insertSQL UTF8String];
         sqlite3_prepare_v2(database, insert_stmt,-1, &statement, NULL);
         if (sqlite3_step(statement) == SQLITE_DONE)
@@ -282,7 +282,6 @@ static sqlite3_stmt  * statement = nil;
     }
     return NO;
 }
-
 
 
 
@@ -322,7 +321,7 @@ static sqlite3_stmt  * statement = nil;
 
 -(double) getSummaryCategory:(NSString *)parentcategory year:(NSInteger)year month:(NSInteger)month
 {
-    NSString *smonth = [NSString stringWithFormat:@"%02ld", month];
+    NSString *smonth = [NSString stringWithFormat:@"%02d", month];
     
     //SELECT * FROM entry WHERE strftime("%m", `entry_date`) = "04" and category_name = "Home"
     
@@ -331,7 +330,7 @@ static sqlite3_stmt  * statement = nil;
     if (sqlite3_open(dbpath, &database) == SQLITE_OK)
     {
         //NSString *querySQL = [NSString stringWithFormat:@"select SUM(value) from entry"];
-        NSString *querySQL = [NSString stringWithFormat:@"select SUM(value) from entry where strftime('%@', `entry_date`) = \"%@\" AND strftime('%@', `entry_date`)  = \"%ld\" and category_name in (select name from category where parent = (select category_id from category where name = \'%@\')) ", @"%m", smonth,  @"%Y", year, parentcategory];
+        NSString *querySQL = [NSString stringWithFormat:@"select SUM(value) from entry where strftime('%@', `entry_date`) = \"%@\" AND strftime('%@', `entry_date`)  = \"%d\" and category_name in (select name from category where parent = (select category_id from category where name = \'%@\')) ", @"%m", smonth,  @"%Y", year, parentcategory];
         const char *query_stmt = [querySQL UTF8String];
         if (sqlite3_prepare_v2(database,
                                query_stmt, -1, &statement, NULL) == SQLITE_OK)
@@ -346,10 +345,33 @@ static sqlite3_stmt  * statement = nil;
     return  fSummary;
 }
 
+-(double) getSummaryLeafCategory:(NSString *)parentcategory year:(NSInteger)year{
+    
+    //SELECT * FROM entry WHERE strftime("%m", `entry_date`) = "04" and category_name = "Home"
+    
+    double fSummary = 0;
+    const char *dbpath = [databasePath UTF8String];
+    if (sqlite3_open(dbpath, &database) == SQLITE_OK)
+    {
+        //NSString *querySQL = [NSString stringWithFormat:@"select SUM(value) from entry"];
+        NSString *querySQL = [NSString stringWithFormat:@"select SUM(value) from entry where  strftime('%@', `entry_date`)  = \"%d\" AND category_name = \"%@\"",  @"%Y", year, parentcategory];
+        const char *query_stmt = [querySQL UTF8String];
+        if (sqlite3_prepare_v2(database,
+                               query_stmt, -1, &statement, NULL) == SQLITE_OK)
+        {
+            if (sqlite3_step(statement) == SQLITE_ROW)
+            {
+                fSummary = sqlite3_column_double(statement, 0);
+            }
+            sqlite3_reset(statement);
+        }
+    }
+    return  fSummary;
+}
 
 -(double) getSummaryLeafCategory:(NSString *)parentcategory year:(NSInteger)year month:(NSInteger)month
 {
-    NSString *smonth = [NSString stringWithFormat:@"%02ld", month];
+    NSString *smonth = [NSString stringWithFormat:@"%02d", month];
     
     //SELECT * FROM entry WHERE strftime("%m", `entry_date`) = "04" and category_name = "Home"
     
@@ -358,7 +380,7 @@ static sqlite3_stmt  * statement = nil;
     if (sqlite3_open(dbpath, &database) == SQLITE_OK)
     {
          //NSString *querySQL = [NSString stringWithFormat:@"select SUM(value) from entry"];
-       NSString *querySQL = [NSString stringWithFormat:@"select SUM(value) from entry where strftime('%@', `entry_date`) = \"%@\" AND strftime('%@', `entry_date`)  = \"%ld\" AND category_name = \"%@\"", @"%m", smonth,  @"%Y", year, parentcategory];
+       NSString *querySQL = [NSString stringWithFormat:@"select SUM(value) from entry where strftime('%@', `entry_date`) = \"%@\" AND strftime('%@', `entry_date`)  = \"%d\" AND category_name = \"%@\"", @"%m", smonth,  @"%Y", year, parentcategory];
         const char *query_stmt = [querySQL UTF8String];
         if (sqlite3_prepare_v2(database,
                                query_stmt, -1, &statement, NULL) == SQLITE_OK)
@@ -373,6 +395,50 @@ static sqlite3_stmt  * statement = nil;
     return  fSummary;
 }
 
+-(void) getLeafCategory:(NSString *)category leafCategory:(NSMutableArray **)leafCategory
+{
+    if(*leafCategory == nil)
+        *leafCategory = [[NSMutableArray alloc]init];
+    NSMutableArray*  pChildArray =[self getChildCatetory:category];
+    if([pChildArray count] <=0)
+    {
+        [*leafCategory addObject:category];
+        pChildArray = nil;
+    }
+    else
+    {
+        for(NSString * key in pChildArray)
+        {
+            [self getLeafCategory:key leafCategory:leafCategory];
+        }
+    }
+}
+
+-(double) getRecursiveSummaryCategory:(NSString *)category year:(NSInteger)year
+{
+    NSMutableArray * pAllLeafs;
+    [self getLeafCategory:category leafCategory:&pAllLeafs];
+    double fSummary = 0.0;
+    for(NSString * leaf in pAllLeafs)
+    {
+        fSummary += [self getSummaryLeafCategory:leaf year:year];
+    }
+    pAllLeafs = nil;
+    return fSummary;
+}
+
+-(double) getRecursiveSummaryCategory:(NSString *)category year:(NSInteger)year month:(NSInteger)month
+{
+    NSMutableArray * pAllLeafs;
+    [self getLeafCategory:category leafCategory:&pAllLeafs];
+    double fSummary = 0.0;
+    for(NSString * leaf in pAllLeafs)
+    {
+        fSummary += [self getSummaryLeafCategory:leaf year:year month:month];
+    }
+    pAllLeafs = nil;
+    return fSummary;
+}
 
 -(NSMutableArray*)getAllEntry:(NSString *)catergory year:(NSInteger)year month:(NSInteger)month
 {
@@ -380,7 +446,7 @@ static sqlite3_stmt  * statement = nil;
     NSMutableArray *resultArray = [[NSMutableArray alloc]init];
     if (sqlite3_open(dbpath, &database) == SQLITE_OK)
     {
-        NSString *querySQL = [NSString stringWithFormat:@"select entry_id, category_name,value, description, entry_date, photo_path, repeating from entry where category_name=\"%@\" and strftime('%@', `entry_date`) = \"%02ld\" AND strftime('%@', `entry_date`)  = \"%ld\" ", catergory, @"%m", month, @"%Y", year];
+        NSString *querySQL = [NSString stringWithFormat:@"select entry_id, category_name,value, description, entry_date, photo_path, repeating from entry where category_name=\"%@\" and strftime('%@', `entry_date`) = \"%02ld\" AND strftime('%@', `entry_date`)  = \"%d\" ", catergory, @"%m", (long)month, @"%Y", year];
         const char *query_stmt = [querySQL UTF8String];
                if (sqlite3_prepare_v2(database,
                                query_stmt, -1, &statement, NULL) == SQLITE_OK)

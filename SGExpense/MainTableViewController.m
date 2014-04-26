@@ -42,6 +42,12 @@
     }
 }
 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    // Return YES for supported orientations
+    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
+}
+
 - (void) initTableHeader
 {
     UIView* headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 60)];
@@ -57,7 +63,7 @@
     self.pHeaderField.textAlignment = NSTextAlignmentCenter;
     self.pHeaderField.delegate = self;
     [self.pHeaderField setFont:[UIFont boldSystemFontOfSize:15]];
-    
+    self.pHeaderField.backgroundColor = [UIColor lightGrayColor];
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc]
                                    initWithTitle:@"Done" style:UIBarButtonItemStyleDone
                                    target:self action:@selector(donePickMonth:)];
@@ -68,7 +74,7 @@
     NSArray *toolbarItems = [NSArray arrayWithObjects:
                              doneButton, nil];
     [toolBar setItems:toolbarItems];
-        self.pHeaderField.text =  [self formatMonthString:[NSDate date]];
+    self.pHeaderField.text =  [self formatMonthString:[NSDate date]];
     self.pHeaderField.enabled = YES;
     self.pHeaderField.inputView = self.pMonthYearPicker;
     self.pHeaderField.inputAccessoryView = toolBar;

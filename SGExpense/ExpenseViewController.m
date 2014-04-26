@@ -319,6 +319,7 @@
     
 }
 
+
 -(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row   forComponent:(NSInteger)component
 {
     return [self.pCategoryArray objectAtIndex:row];
@@ -377,6 +378,9 @@
     [self.pAmountField resignFirstResponder];
     self.pEntry.fAmountSpent = [self.pAmountField.text doubleValue];
     self.pEntry.bRepat = [self.repeatSwitch isOn];
+    if([self.pCategory.text length] > 0)
+        self.pEntry.categoryName = self.pCategory.text;
+    
     [self.view endEditing:YES];
     if ([self.pEntry validEntry])
         self.navigationItem.rightBarButtonItem.enabled = YES;
