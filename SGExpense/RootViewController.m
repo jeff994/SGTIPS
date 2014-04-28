@@ -26,6 +26,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    //self.delegate = self;
     // Do any additional setup after loading the view.
 }
 
@@ -40,6 +41,7 @@
     // Return YES for supported orientations
     return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
 }
+
 
 - (BOOL) shouldAutorotate {
     return NO;

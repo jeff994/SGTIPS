@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "UIMonthYearPicker.h"
 
-@interface SummaryViewController : UIViewController <UIPickerViewDataSource,UIPickerViewDelegate>
+@interface SummaryViewController : UIViewController <UIPickerViewDataSource,UIPickerViewDelegate, UITabBarControllerDelegate>
 @property (strong, nonatomic) IBOutlet UIView *pViewSummary;
 @property (strong, nonatomic) IBOutlet UIView *pSeperate1View;
 @property (strong, nonatomic) IBOutlet UIView *pSeperate2View;

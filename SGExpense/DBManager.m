@@ -42,6 +42,7 @@ static sqlite3_stmt  * statement = nil;
         [self createCategory];
         [self createEntryTable];
     }
+    
     return isSuccess;
 }
 
@@ -197,8 +198,9 @@ static sqlite3_stmt  * statement = nil;
                 [resultArray addObject:name];
             }
             sqlite3_reset(statement);
-            return resultArray;
         }
+        sqlite3_close(database);
+        return resultArray;
     }
     return nil;
 }
@@ -209,19 +211,21 @@ static sqlite3_stmt  * statement = nil;
     const char *dbpath = [databasePath UTF8String];
     if (sqlite3_open(dbpath, &database) == SQLITE_OK)
     {
+        NSInteger nRet = -1;
         NSString *querySQL = [NSString stringWithFormat:@"select max(entry_id) from entry"];
         const char *query_stmt = [querySQL UTF8String];
         if (sqlite3_prepare_v2(database,
                                query_stmt, -1, &statement, NULL) == SQLITE_OK)
         {
-            NSInteger nRet = -1;
             while (sqlite3_step(statement) == SQLITE_ROW)
             {
                 nRet = sqlite3_column_int(statement, 0);
             }
             
-            return nRet;
+           
         }
+        sqlite3_close(database);
+        return nRet;
     }
     return -1;
 }
@@ -251,6 +255,7 @@ static sqlite3_stmt  * statement = nil;
             return NO;
         }
         sqlite3_reset(statement);
+        sqlite3_close(database);
     }
     return NO;
 }
@@ -279,45 +284,11 @@ static sqlite3_stmt  * statement = nil;
             return NO;
         }
         sqlite3_reset(statement);
+        sqlite3_close(database);
     }
     return NO;
 }
 
-
-
-- (NSArray*) findByRegisterNumber:(NSString*)registerNumber
-{
-    const char *dbpath = [databasePath UTF8String];
-    if (sqlite3_open(dbpath, &database) == SQLITE_OK)
-    {
-        NSString *querySQL = [NSString stringWithFormat:@"select name, department, year from studentsDetail where regno=\"%@\"", registerNumber];
-        const char *query_stmt = [querySQL UTF8String];
-        NSMutableArray *resultArray = [[NSMutableArray alloc]init];
-        if (sqlite3_prepare_v2(database,
-                               query_stmt, -1, &statement, NULL) == SQLITE_OK)
-        {
-            if (sqlite3_step(statement) == SQLITE_ROW)
-            {
-                NSString *name = [[NSString alloc] initWithUTF8String:
-                                  (const char *) sqlite3_column_text(statement, 0)];
-                [resultArray addObject:name];
-                NSString *department = [[NSString alloc] initWithUTF8String:
-                                        (const char *) sqlite3_column_text(statement, 1)];
-                [resultArray addObject:department];
-                NSString *year = [[NSString alloc]initWithUTF8String:
-                                  (const char *) sqlite3_column_text(statement, 2)];
-                [resultArray addObject:year];
-                return resultArray;
-            }
-            else{
-                NSLog(@"Not found");
-                return nil;
-            }
-            sqlite3_reset(statement);
-        }
-    }
-    return nil;
-}
 
 -(double) getSummaryCategory:(NSString *)parentcategory year:(NSInteger)year month:(NSInteger)month
 {
@@ -341,6 +312,7 @@ static sqlite3_stmt  * statement = nil;
             }
             sqlite3_reset(statement);
         }
+        sqlite3_close(database);
     }
     return  fSummary;
 }
@@ -365,6 +337,7 @@ static sqlite3_stmt  * statement = nil;
             }
             sqlite3_reset(statement);
         }
+        sqlite3_close(database);
     }
     return  fSummary;
 }
@@ -391,6 +364,7 @@ static sqlite3_stmt  * statement = nil;
             }
             sqlite3_reset(statement);
         }
+        sqlite3_close(database);
     }
     return  fSummary;
 }
@@ -429,14 +403,32 @@ static sqlite3_stmt  * statement = nil;
 
 -(double) getRecursiveSummaryCategory:(NSString *)category year:(NSInteger)year month:(NSInteger)month
 {
-    NSMutableArray * pAllLeafs;
-    [self getLeafCategory:category leafCategory:&pAllLeafs];
+     NSMutableArray * pAllLeafs;
+    if([category isEqual:@"Income"])
+    {
+        if(pAllLeafIncome == nil)
+        {
+            [self getLeafCategory:category leafCategory:&pAllLeafs ];
+            pAllLeafIncome = pAllLeafs;
+        }else
+            pAllLeafs = pAllLeafIncome;
+    }else if([category isEqual:@"Expense"])
+    {
+        if(pAllLeafExpense == nil)
+        {
+            [self getLeafCategory:category leafCategory:&pAllLeafs];
+            pAllLeafExpense = pAllLeafs;
+        }else
+            pAllLeafs = pAllLeafExpense ;
+    }else
+        [self getLeafCategory:category leafCategory:&pAllLeafs];
+   
+    
     double fSummary = 0.0;
     for(NSString * leaf in pAllLeafs)
     {
         fSummary += [self getSummaryLeafCategory:leaf year:year month:month];
     }
-    pAllLeafs = nil;
     return fSummary;
 }
 
@@ -480,8 +472,9 @@ static sqlite3_stmt  * statement = nil;
                 [resultArray addObject:pNewEntry];
             }
             sqlite3_reset(statement);
-            return  resultArray;
+            
         }
+        sqlite3_close(database);
     }
     return resultArray;
 
@@ -537,7 +530,11 @@ static sqlite3_stmt  * statement = nil;
         entry.receiptPath = [NSString stringWithFormat:@"receipt-%ld.png", entry.entry_id];
         [[DBManager getSharedInstance] saveImage:entry.receipt directory:@"receipts" imgName:entry.receiptPath overwrite:NO];
     }
-    // Step 3: enter record in the databse 
+    if(entry.description == nil || [entry.description length] == 0)
+    {
+        entry.description = @"";
+    }
+    // Step 3: enter record in the databse
     [[DBManager getSharedInstance] saveEntryData:entry.entry_id category:entry.categoryName value:entry.fAmountSpent description:entry.description date:entry.entryDate imgpath:entry.receiptPath bRepeat:entry.bRepat];
     return TRUE;
 }
@@ -548,6 +545,10 @@ static sqlite3_stmt  * statement = nil;
     {
         entry.receiptPath = [NSString stringWithFormat:@"receipt-%ld.png", entry.entry_id];
         [[DBManager getSharedInstance] saveImage:entry.receipt directory:@"receipts" imgName:entry.receiptPath overwrite:YES];
+    }
+    if(entry.description == nil || [entry.description length] == 0)
+    {
+        entry.description = @"";
     }
     
     [[DBManager getSharedInstance] updateEntryData:entry.entry_id category:entry.categoryName value:entry.fAmountSpent description:entry.description date:entry.entryDate imgpath:entry.receiptPath bRepeat:entry.bRepat];

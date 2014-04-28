@@ -146,9 +146,11 @@
     NSMutableArray *array = [self.allEntryData objectForKey:pCatName];
     
     EntryItem * pEntry = [array objectAtIndex:indexPath.row];
-    if([pEntry.description length] == 0)
-        pEntry.description = [NSString stringWithFormat:@"%@ %d", pCatName, indexPath.row + 1];
-    cell.textLabel.text = pEntry.description;
+    if([pEntry.description length] <= 0)
+    {
+         cell.textLabel.text = [NSString stringWithFormat:@"***%@ %d***", pCatName,indexPath.row + 1];
+    }else
+        cell.textLabel.text = pEntry.description;
     NSString * pDetailed = [NSString stringWithFormat:@" %@%.2f",self.pCurrency, pEntry.fAmountSpent];
     cell.detailTextLabel.text = pDetailed;
     if(pEntry.receipt == nil)

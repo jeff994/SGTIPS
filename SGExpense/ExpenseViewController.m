@@ -200,7 +200,8 @@
     self.currencyLabel.text = self.currency;
     [self.repeatSwitch setOn:self.pEntry.bRepat];
     
-    self.pDescriptionField.text = self.pEntry.description;
+    if([self.pEntry.description length] > 0)
+        self.pDescriptionField.text = self.pEntry.description;
     self.pCategory.text = self.pEntry.categoryName;
     if(self.pEntry.fAmountSpent > 0) self.pAmountField.text = [NSString stringWithFormat:@"%.2f", self.pEntry.fAmountSpent];
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -294,6 +295,13 @@
     
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+}
+
+-(BOOL)textFieldShouldClear:(UITextField *)textField
+{
+    if(textField == self.pDescriptionField)
+        self.pEntry.description = nil;
+    return YES;
 }
 
 - (IBAction)descriptionChanged:(id)sender {

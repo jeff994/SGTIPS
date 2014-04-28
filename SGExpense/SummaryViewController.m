@@ -74,6 +74,9 @@
     self.pPickerMonthAndYear.hidden = YES;
     [self initGlobalData];
     [self configYearPicker];
+    UITabBarController *tabBarController = (UITabBarController*)[UIApplication sharedApplication].keyWindow.rootViewController ;
+    
+    [tabBarController setDelegate:self];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -291,14 +294,21 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    //[self prepareSummaryData];
     [super viewWillAppear:animated];
+}
+
+-(void) tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UINavigationController *)viewController
+{
+    if(viewController.topViewController == self)
+    {
+       [self prepareSummaryData];
+    }
+    return;
     
 }
 
 -(void) prepareSummaryData
 {
-    if(self.pPickerMonthAndYear == nil) return;
     if(self.nSummaryType == 0 )
     {
         self.fTotalExepnse = [[DBManager getSharedInstance] getRecursiveSummaryCategory:@"Expense" year:self.nYear month:self.nMonth];
