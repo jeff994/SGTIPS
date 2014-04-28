@@ -404,24 +404,7 @@ static sqlite3_stmt  * statement = nil;
 -(double) getRecursiveSummaryCategory:(NSString *)category year:(NSInteger)year month:(NSInteger)month
 {
      NSMutableArray * pAllLeafs;
-    if([category isEqual:@"Income"])
-    {
-        if(pAllLeafIncome == nil)
-        {
-            [self getLeafCategory:category leafCategory:&pAllLeafs ];
-            pAllLeafIncome = pAllLeafs;
-        }else
-            pAllLeafs = pAllLeafIncome;
-    }else if([category isEqual:@"Expense"])
-    {
-        if(pAllLeafExpense == nil)
-        {
-            [self getLeafCategory:category leafCategory:&pAllLeafs];
-            pAllLeafExpense = pAllLeafs;
-        }else
-            pAllLeafs = pAllLeafExpense ;
-    }else
-        [self getLeafCategory:category leafCategory:&pAllLeafs];
+    [self getLeafCategory:category leafCategory:&pAllLeafs];
    
     
     double fSummary = 0.0;
@@ -429,6 +412,7 @@ static sqlite3_stmt  * statement = nil;
     {
         fSummary += [self getSummaryLeafCategory:leaf year:year month:month];
     }
+    pAllLeafs = nil; 
     return fSummary;
 }
 

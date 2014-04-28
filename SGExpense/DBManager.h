@@ -13,8 +13,6 @@
 @interface DBManager : NSObject
 {
     NSString * databasePath;
-    NSMutableArray * pAllLeafIncome;
-    NSMutableArray * pAllLeafExpense;
 }
 +(DBManager *)getSharedInstance;
 /// ----- Category table handing
