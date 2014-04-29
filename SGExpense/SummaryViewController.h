@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "UIMonthYearPicker.h"
 
-@interface SummaryViewController : UIViewController <UIPickerViewDataSource,UIPickerViewDelegate, UITabBarControllerDelegate>
+@interface SummaryViewController : UIViewController <UIPickerViewDataSource,UIPickerViewDelegate, UITabBarControllerDelegate, UIGestureRecognizerDelegate>
 @property (strong, nonatomic) IBOutlet UIView *pViewSummary;
 @property (strong, nonatomic) IBOutlet UIView *pSeperate1View;
 @property (strong, nonatomic) IBOutlet UIView *pSeperate2View;
@@ -24,6 +24,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *pIncomeTotalField;
 @property (strong, nonatomic) IBOutlet UILabel *pExpenseTotalField;
 @property (strong, nonatomic) IBOutlet UILabel *pRemainingField;
+@property  UISwipeGestureRecognizer *swipeRight;
 // Currently supports summary by year or by month
 @property NSInteger nSummaryType;
 @property NSInteger nYear;

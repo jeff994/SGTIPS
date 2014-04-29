@@ -50,11 +50,11 @@
 
 - (void) initTableHeader
 {
-    UIView* headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 60)];
+    UIView* headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 50)];
     headerView.backgroundColor = [UIColor clearColor];
     headerView.layer.cornerRadius = 5;
     headerView.layer.masksToBounds = YES;
-    self.pHeaderField = [[UITextField alloc] initWithFrame:CGRectMake(5, 5, self.tableView.frame.size.width - 10, 50)];
+    self.pHeaderField = [[UITextField alloc] initWithFrame:CGRectMake(5, 5, self.tableView.frame.size.width - 10, 40)];
     self.pHeaderField.backgroundColor = [UIColor clearColor];
     self.pHeaderField.clearButtonMode = UITextFieldViewModeNever;
     self.pHeaderField.borderStyle = UITextBorderStyleRoundedRect;
@@ -63,7 +63,7 @@
     self.pHeaderField.textAlignment = NSTextAlignmentCenter;
     self.pHeaderField.delegate = self;
     [self.pHeaderField setFont:[UIFont boldSystemFontOfSize:15]];
-    self.pHeaderField.backgroundColor = [UIColor lightGrayColor];
+    self.pHeaderField.backgroundColor = [UIColor clearColor];
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc]
                                    initWithTitle:@"Done" style:UIBarButtonItemStyleDone
                                    target:self action:@selector(donePickMonth:)];

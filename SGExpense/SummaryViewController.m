@@ -75,8 +75,33 @@
     [self initGlobalData];
     [self configYearPicker];
     UITabBarController *tabBarController = (UITabBarController*)[UIApplication sharedApplication].keyWindow.rootViewController ;
-    
+    self.swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeRight:)];
+    self.swipeRight.direction = UISwipeGestureRecognizerDirectionRight;
+    self.swipeRight.delegate = self;
+    [self.view addGestureRecognizer:self.swipeRight];
+
     [tabBarController setDelegate:self];
+}
+
+-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+{
+    return YES;
+}
+
+
+-(void)handleSwipeRight: (UIGestureRecognizer *)recognizer
+{
+    if(self.nSummaryType == 0)
+    {
+        self.nMonth = self.nMonth -1;
+        NSCalendar* calendar = [NSCalendar currentCalendar];
+        NSDateComponents* components = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:self.pSelectedDate];
+        [components setMonth:self.nMonth];
+        [components setYear:self.nYear];
+        self.pMonthYearField.text  = [self formatMonthString:[calendar dateFromComponents:components]];
+        
+    }
+    return;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -322,7 +347,7 @@
     
     self.pIncomeTotalField.text = [NSString stringWithFormat:@"%@%.2f", self.currency, self.fTotalIncome];
     self.pExpenseTotalField.text = [NSString stringWithFormat:@"%@%.2f", self.currency, self.fTotalExepnse];
-    if(fTotalRemaining > 0)
+    if(fTotalRemaining >= 0)
         self.pRemainingField.text = [NSString stringWithFormat:@"%@%.2f", self.currency, fTotalRemaining];
     else
         self.pRemainingField.text = [NSString stringWithFormat:@"-%@%.2f", self.currency, -fTotalRemaining];
