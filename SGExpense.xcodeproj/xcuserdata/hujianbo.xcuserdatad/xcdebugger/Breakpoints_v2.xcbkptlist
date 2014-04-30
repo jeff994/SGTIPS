@@ -10,28 +10,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SGExpense/SummaryViewController.m"
-            timestampString = "420477836.813326"
+            timestampString = "420564339.933526"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "99"
-            endingLineNumber = "99"
-            landmarkName = "-handleSwipeRight:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "SGExpense/SummaryViewController.m"
-            timestampString = "420477894.474155"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "96"
-            endingLineNumber = "96"
-            landmarkName = "-handleSwipeRight:"
+            startingLineNumber = "118"
+            endingLineNumber = "118"
+            landmarkName = "-handleSwipeLeft:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

@@ -25,6 +25,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *pExpenseTotalField;
 @property (strong, nonatomic) IBOutlet UILabel *pRemainingField;
 @property  UISwipeGestureRecognizer *swipeRight;
+@property  UISwipeGestureRecognizer *swipeLeft;
 // Currently supports summary by year or by month
 @property NSInteger nSummaryType;
 @property NSInteger nYear;
@@ -40,5 +41,6 @@
 -(NSString *) formatYearString:(NSDate *) date;
 -(void) doneSelectYear:(id)sender;
 -(void) prepareSummaryData;
+-(void) initSwiper;
 
 @end

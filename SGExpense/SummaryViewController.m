@@ -51,6 +51,20 @@
     
 }
 
+-(void) initSwiper
+{
+    self.swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeRight:)];
+    self.swipeRight.direction = UISwipeGestureRecognizerDirectionRight;
+    self.swipeRight.delegate = self;
+    [self.view addGestureRecognizer:self.swipeRight];
+    
+    self.swipeLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeLeft:)];
+    self.swipeLeft.direction = UISwipeGestureRecognizerDirectionLeft;
+    self.swipeLeft.delegate = self;
+    [self.view addGestureRecognizer:self.swipeLeft];
+
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -75,10 +89,8 @@
     [self initGlobalData];
     [self configYearPicker];
     UITabBarController *tabBarController = (UITabBarController*)[UIApplication sharedApplication].keyWindow.rootViewController ;
-    self.swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeRight:)];
-    self.swipeRight.direction = UISwipeGestureRecognizerDirectionRight;
-    self.swipeRight.delegate = self;
-    [self.view addGestureRecognizer:self.swipeRight];
+    [self initSwiper];
+    
 
     [tabBarController setDelegate:self];
 }
@@ -88,18 +100,57 @@
     return YES;
 }
 
-
--(void)handleSwipeRight: (UIGestureRecognizer *)recognizer
+-(void)handleSwipeLeft: (UIGestureRecognizer *)recognizer
 {
+    
     if(self.nSummaryType == 0)
     {
-        self.nMonth = self.nMonth -1;
         NSCalendar* calendar = [NSCalendar currentCalendar];
         NSDateComponents* components = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:self.pSelectedDate];
+        //[self formatMonthString:[calendar dateFromComponents:components]];
+        self.nMonth = self.nMonth + 1;
         [components setMonth:self.nMonth];
         [components setYear:self.nYear];
         self.pMonthYearField.text  = [self formatMonthString:[calendar dateFromComponents:components]];
+        [self prepareSummaryData];
+    }else if(self.nSummaryType == 1)
+    {
+        self.nYear = self.nYear + 1;
+        NSCalendar* calendar = [NSCalendar currentCalendar];
         
+        NSDateComponents* components = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:self.pSelectedDate];
+        //[self formatMonthString:[calendar dateFromComponents:components]];
+        [components setMonth:self.nMonth];
+        [components setYear:self.nYear];
+        self.pMonthYearField.text  = [self formatYearString:[calendar dateFromComponents:components]];
+        [self prepareSummaryData];
+    }
+    return;
+}
+
+
+
+-(void)handleSwipeRight: (UIGestureRecognizer *)recognizer
+{
+    
+    if(self.nSummaryType == 0)
+    {
+        NSCalendar* calendar = [NSCalendar currentCalendar];
+        NSDateComponents* components = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:self.pSelectedDate];
+        self.nMonth = self.nMonth -1;
+        [components setMonth:self.nMonth];
+        [components setYear:self.nYear];
+        self.pMonthYearField.text  = [self formatMonthString:[calendar dateFromComponents:components]];
+        [self prepareSummaryData];
+    }else if(self.nSummaryType == 1)
+    {
+        NSCalendar* calendar = [NSCalendar currentCalendar];
+        NSDateComponents* components = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:self.pSelectedDate];
+        self.nYear = self.nYear -1;
+        [components setMonth:self.nMonth];
+        [components setYear:self.nYear];
+        self.pMonthYearField.text  = [self formatYearString:[calendar dateFromComponents:components]];
+        [self prepareSummaryData];
     }
     return;
 }
@@ -241,15 +292,24 @@
         self.pMonthYearField.inputAccessoryView = self.toolBarYear;
         self.pMonthYearField.inputView = self.pPickerYear;
     }
+    [self prepareSummaryData];
        // self.categoryName = [self.pCategoryArray objectAtIndex:self.categoryRow];
 }
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row   inComponent:(NSInteger)component{
     if(pickerView == self.pPickerSelectYearMonth)
+    {
         self.pMonthYearSelect.text = [self.pCategoryArray objectAtIndex:row];
+    }
     else if(pickerView == self.pPickerYear)
     {
         self.pMonthYearField.text = [self.pYearData objectAtIndex:row];
+        self.nYear =  [[self.pYearData objectAtIndex:row] intValue];
+        NSCalendar *calendar = [NSCalendar currentCalendar];
+
+        NSDateComponents* components = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:self.pSelectedDate];
+         [components setYear:self.nYear];
+        [self formatYearString:[calendar dateFromComponents:components]];
     }else if(pickerView == self.pPickerMonthAndYear)
     {
         self.pMonthYearField.text = [self formatMonthString:self.pPickerMonthAndYear.date];
@@ -299,6 +359,7 @@
 
 -(NSString *) formatYearString:(NSDate *) date
 {
+    self.pSelectedDate = date;
     NSCalendar* calendar = [NSCalendar currentCalendar];
     NSDateComponents* components = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:date];
     self.nYear = [components year];
@@ -307,6 +368,7 @@
 
 -(NSString *) formatMonthString:(NSDate *) date
 {
+    self.pSelectedDate = date;
     NSCalendar* calendar = [NSCalendar currentCalendar];
     NSDateComponents* components = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:date];
     self.nMonth = [components month];
@@ -315,6 +377,7 @@
     NSArray * monthnames =[df monthSymbols];
     NSString *monthName = [monthnames objectAtIndex:(self.nMonth-1)];
     return [NSString stringWithFormat:@"%@ %ld", monthName, (long)self.nYear];
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated
