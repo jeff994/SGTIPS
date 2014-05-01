@@ -43,6 +43,8 @@
 
 -(void)saveImage:(UIImage*)image directory:(NSString*)directory imgName:(NSString*)imgName overwrite:(BOOL)overwrite;
 
+-(UIImage * ) loadCfgImage:(NSString*)img;
+
 -(UIImage*)loadImage:(NSString*)directory imgName:(NSString*)imgName;
 
 -(BOOL) cleanSettings;

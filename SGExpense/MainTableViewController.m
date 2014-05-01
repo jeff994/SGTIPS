@@ -64,13 +64,16 @@
     self.pHeaderField.delegate = self;
     [self.pHeaderField setFont:[UIFont boldSystemFontOfSize:15]];
     self.pHeaderField.backgroundColor = [UIColor clearColor];
+    
+    
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc]
-                                   initWithTitle:@"Done" style:UIBarButtonItemStyleDone
+                                   initWithTitle:@"Done" style:UIBarButtonItemStyleBordered
                                    target:self action:@selector(donePickMonth:)];
     UIToolbar *toolBar = [[UIToolbar alloc]initWithFrame:
                           CGRectMake(0, self.view.frame.size.height-
-                                     self.pHeaderField.frame.size.height-50, 320, 50)];
-    [toolBar setBarStyle:UIBarStyleBlackOpaque];
+                                     self.pHeaderField.frame.size.height- 45, 320, 45)];
+    
+    [toolBar setBarStyle:UIBarStyleBlack];
     NSArray *toolbarItems = [NSArray arrayWithObjects:
                              doneButton, nil];
     [toolBar setItems:toolbarItems];
@@ -186,12 +189,17 @@
     // Configure the cell...
     NSString * pCatName = [_pCategory objectAtIndex:indexPath.row];
     
+    cell.imageView.image = nil;
     cell.textLabel.text = pCatName;
     
     double fSummary = [self.pDbManager getSummaryCategory:pCatName year:self.nYear month:self.nMonth];
     cell.detailTextLabel.text =  [NSString stringWithFormat:@"%@%.2f", self.currency, fSummary];
-    UIImage * pImage = [_pDbManager loadImage:@"cfgimg" imgName: @"money.png"];;
+    NSString * cfgImgName = [NSString stringWithFormat:@"%@.png", pCatName];
+    UIImage * pImage = [_pDbManager loadCfgImage:cfgImgName];
     cell.imageView.image = pImage;
+    pImage = nil; 
+    cfgImgName = nil;
+    pCatName = nil;
     return cell;
 }
 

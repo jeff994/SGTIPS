@@ -256,7 +256,6 @@
 
 - (IBAction)unwindToList:(UIStoryboardSegue *)segue
 {
-    
 }
 
 
@@ -281,6 +280,7 @@
 
 -(void) initEntryData
 {
+    self.allEntryData = nil; 
     self.allEntryData = [[NSMutableDictionary alloc] init];
     
     for (NSString* key in self.pCategory)

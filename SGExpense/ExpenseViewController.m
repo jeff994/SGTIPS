@@ -45,12 +45,12 @@
     self.pCategoryPicker.delegate = self;
     self.pCategoryPicker.showsSelectionIndicator = YES;
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc]
-                                   initWithTitle:@"Done" style:UIBarButtonItemStyleDone
+                                   initWithTitle:@"Done" style:UIBarButtonItemStyleBordered
                                    target:self action:@selector(donePickCategory:)];
     UIToolbar *toolBar = [[UIToolbar alloc]initWithFrame:
                           CGRectMake(0, self.view.frame.size.height-
-                                     self.pCategory.frame.size.height-50, 320, 50)];
-    [toolBar setBarStyle:UIBarStyleBlackOpaque];
+                                     self.pCategory.frame.size.height- 45, 320, 45)];
+    [toolBar setBarStyle:UIBarStyleBlack];
     NSArray *toolbarItems = [NSArray arrayWithObjects:
                              doneButton, nil];
     [toolBar setItems:toolbarItems];
@@ -118,11 +118,11 @@
 {
     self.pDatePicker.hidden = YES;
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc]
-                                   initWithTitle:@"Done" style:UIBarButtonItemStyleDone
+                                   initWithTitle:@"Done" style:UIBarButtonItemStyleBordered
                                    target:self action:@selector(donePickDate:)];
     UIToolbar *toolBar = [[UIToolbar alloc]initWithFrame:
                           CGRectMake(0, self.view.frame.size.height-
-                                     self.pCategory.frame.size.height-50, 320, 50)];
+                                     self.pCategory.frame.size.height- 45, 320, 45)];
     [toolBar setBarStyle:UIBarStyleBlackOpaque];
     NSArray *toolbarItems = [NSArray arrayWithObjects:
                              doneButton, nil];

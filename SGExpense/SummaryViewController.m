@@ -35,12 +35,12 @@
     self.pMonthYearField.text = [self formatMonthString:self.pSelectedDate];
     self.nSummaryType = 0;
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc]
-                                   initWithTitle:@"Done" style:UIBarButtonItemStyleDone
+                                   initWithTitle:@"Done" style:UIBarButtonItemStyleBordered
                                    target:self action:@selector(doneSelectMothAndYear:)];
     UIToolbar *toolBar = [[UIToolbar alloc]initWithFrame:
                           CGRectMake(0, self.view.frame.size.height-
-                                     self.pMonthYearField.frame.size.height-50, 320, 50)];
-    [toolBar setBarStyle:UIBarStyleBlackOpaque];
+                                     self.pMonthYearField.frame.size.height- 45, 320, 45)];
+    [toolBar setBarStyle:UIBarStyleBlack];
     NSArray *toolbarItems = [NSArray arrayWithObjects:
                              doneButton, nil];
     [toolBar setItems:toolbarItems];
@@ -207,12 +207,12 @@
     self.pPickerSelectYearMonth.delegate = self;
     self.pPickerSelectYearMonth.showsSelectionIndicator = YES;
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc]
-                                   initWithTitle:@"Done" style:UIBarButtonItemStyleDone
+                                   initWithTitle:@"Done" style:UIBarButtonItemStyleBordered
                                    target:self action:@selector(doneSelectMothOrYear:)];
     UIToolbar *toolBar = [[UIToolbar alloc]initWithFrame:
                           CGRectMake(0, self.view.frame.size.height-
                                      self.pMonthYearSelect.frame.size.height-50, 320, 50)];
-    [toolBar setBarStyle:UIBarStyleBlackOpaque];
+    [toolBar setBarStyle:UIBarStyleBlack];
     NSArray *toolbarItems = [NSArray arrayWithObjects:
                              doneButton, nil];
     [toolBar setItems:toolbarItems];
@@ -271,12 +271,12 @@
         self.pMonthYearField.text = [self formatMonthString:self.pSelectedDate];
         self.nSummaryType = 0;
         UIBarButtonItem *doneButton = [[UIBarButtonItem alloc]
-                                       initWithTitle:@"Done" style:UIBarButtonItemStyleDone
+                                       initWithTitle:@"Done" style:UIBarButtonItemStyleBordered
                                        target:self action:@selector(doneSelectMothAndYear:)];
         UIToolbar *toolBar = [[UIToolbar alloc]initWithFrame:
                               CGRectMake(0, self.view.frame.size.height-
-                                         self.pMonthYearField.frame.size.height-50, 320, 50)];
-        [toolBar setBarStyle:UIBarStyleBlackOpaque];
+                                         self.pMonthYearField.frame.size.height- 45, 320, 45)];
+        [toolBar setBarStyle:UIBarStyleBlack];
         NSArray *toolbarItems = [NSArray arrayWithObjects:
                                  doneButton, nil];
         [toolBar setItems:toolbarItems];
