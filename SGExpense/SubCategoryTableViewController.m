@@ -63,7 +63,12 @@
     [self setTitle:_pMainCat];
     self.pDbManager = [DBManager getSharedInstance];
     self.pCategory = [_pDbManager getChildCatetory:_pMainCat];
-    self.pCatergoryImage = [_pDbManager loadImage:@"cfgimg" imgName:@"money.png"];
+    if([self.pCategory count] == 0)
+    {
+        [self.pCategory addObject:_pMainCat];
+    }
+    
+    self.pCatergoryImage = [_pDbManager loadCfgImage:self.pMainCat];
     
 }
 

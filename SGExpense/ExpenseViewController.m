@@ -54,11 +54,21 @@
     NSArray *toolbarItems = [NSArray arrayWithObjects:
                              doneButton, nil];
     [toolBar setItems:toolbarItems];
-    self.pCategory.inputView = self.pCategoryPicker;
-    self.pCategory.inputAccessoryView = toolBar;
-    self.categoryRow = 0;
+    if([self.pCategoryArray count] == 1)
+    {
+        self.pCategory.text = [self.pCategoryArray objectAtIndex:0];
+        [self.pCategory setUserInteractionEnabled:NO];
+        self.pEntry.categoryName = [self.pCategoryArray objectAtIndex:0];
+    }
+    else
+    {
+        self.pCategory.inputView = self.pCategoryPicker;
+        self.pCategory.inputAccessoryView = toolBar;
+        self.categoryRow = 0;
+    }
     
 }
+
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {

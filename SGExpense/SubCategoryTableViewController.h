@@ -12,7 +12,7 @@
 @interface SubCategoryTableViewController : UITableViewController
 @property NSString *pMainCat;
 @property DBManager * pDbManager; // Used to get the database manager
-@property NSArray * pCategory;
+@property NSMutableArray * pCategory;
 @property NSString * pSelectedCategory;
 
 // Global value from parent 

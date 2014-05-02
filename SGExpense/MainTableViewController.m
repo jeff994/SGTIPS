@@ -194,11 +194,9 @@
     
     double fSummary = [self.pDbManager getSummaryCategory:pCatName year:self.nYear month:self.nMonth];
     cell.detailTextLabel.text =  [NSString stringWithFormat:@"%@%.2f", self.currency, fSummary];
-    NSString * cfgImgName = [NSString stringWithFormat:@"%@.png", pCatName];
-    UIImage * pImage = [_pDbManager loadCfgImage:cfgImgName];
+    UIImage * pImage = [_pDbManager loadCfgImage:pCatName];
     cell.imageView.image = pImage;
     pImage = nil; 
-    cfgImgName = nil;
     pCatName = nil;
     return cell;
 }

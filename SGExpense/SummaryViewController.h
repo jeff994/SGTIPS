@@ -17,6 +17,7 @@
 @property (strong, nonatomic) IBOutlet UIView *pHeaderView;
 @property (strong, nonatomic) IBOutlet UITextField *pMonthYearSelect;
 @property (strong, nonatomic) IBOutlet UIPickerView *pPickerSelectYearMonth;
+@property (strong, nonatomic) IBOutlet UIButton *pSummry;
 @property (strong, nonatomic)          NSArray      *pCategoryArray;
 @property (strong, nonatomic) IBOutlet UIMonthYearPicker *pPickerMonthAndYear;
 @property (strong, nonatomic) IBOutlet UIPickerView *pPickerYear;

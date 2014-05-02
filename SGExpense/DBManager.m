@@ -115,8 +115,21 @@ static sqlite3_stmt  * statement = nil;
 {
     // Save all the images to the image table once for all
     // Each category should have an idenpendent images icon
-    UIImage * pImage = [UIImage imageNamed:@"money.png"];
-    [self saveImage:pImage directory:@"cfgimg" imgName:@"money.png" overwrite:NO];
+    UIImage * pImage = [UIImage imageNamed:@"Expense.png"];
+    [self saveImage:pImage directory:@"cfgimg" imgName:@"Expense.png" overwrite:YES];
+    pImage = nil;
+    pImage = [UIImage imageNamed:@"Income.png"];
+    [self saveImage:pImage directory:@"cfgimg" imgName:@"Income.png" overwrite:YES];
+    pImage = nil;
+    pImage = [UIImage imageNamed:@"Summary.png"];
+    [self saveImage:pImage directory:@"cfgimg" imgName:@"Summary.png" overwrite:YES];
+    pImage = nil;
+    pImage = [UIImage imageNamed:@"Config.png"];
+    [self saveImage:pImage directory:@"cfgimg" imgName:@"Config.png" overwrite:YES];
+    pImage = nil;
+    pImage = [UIImage imageNamed:@"Deal.png"];
+    [self saveImage:pImage directory:@"cfgimg" imgName:@"Deal.png" overwrite:YES];
+    pImage = nil;
     return true;
 }
 
@@ -179,12 +192,20 @@ static sqlite3_stmt  * statement = nil;
 
 -(UIImage * ) loadCfgImage:(NSString*)img
 {
-    UIImage * pImage = [self  loadImage:@"cfgimg" imgName:img];
-    if(pImage == nil) pImage = [self  loadImage:@"cfgimg" imgName:@"money.png"];
+    NSString * cfgImgName = [NSString stringWithFormat:@"%@.png", img];
+    UIImage * pImage = [self  loadImage:@"cfgimg" imgName:cfgImgName];
+    if(pImage == nil)
+    {
+        if([self isChildOf:@"Expense" child:img])
+            pImage = [self loadImage:@"cfgimg" imgName:@"Expense.png"];
+        else if([self isChildOf:@"Income" child:img])
+            pImage = [self loadImage:@"cfgimg" imgName:@"Income.png"];
+    }
+    if (pImage == nil) pImage = [self  loadImage:@"cfgimg" imgName:@"money.png"];
     return pImage;
 }
 
-- (UIImage*)loadImage:(NSString*)directory imgName:(NSString*)imgName
+- (UIImage*)loadImage:(NSString*)directory  imgName:(NSString*)imgName
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
                                                          NSUserDomainMask, YES);
@@ -195,6 +216,41 @@ static sqlite3_stmt  * statement = nil;
     documentsDirectory = nil;
     paths = nil;
     return image;
+}
+
+- (BOOL) isChildOf:(NSString *)parent child:(NSString *)child
+{
+    BOOL bRet = NO;
+    NSString *name  = nil;
+    while (![name isEqual:@"All"])
+    {
+        NSString *querySQL = [NSString stringWithFormat:@"select name from category where category_id = (select parent from category where name = \'%@\');", child];
+        const char *query_stmt = [querySQL UTF8String];
+
+        if (sqlite3_prepare_v2(database,
+                               query_stmt, -1, &statement, NULL) == SQLITE_OK)
+        {
+            if(sqlite3_step(statement) == SQLITE_ROW)
+            {
+                name = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 0)];
+               if([name isEqual:parent])
+               {
+                   bRet = true;
+                   name = nil;
+                   break;
+               }
+                name = nil;
+                name = child;
+                child = nil;
+            }
+            else
+                break;
+        }
+    }
+    name = nil;
+    
+    return bRet;
+
 }
 
 - (NSMutableArray*)getChildCatetory:(NSString *)parent

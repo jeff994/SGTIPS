@@ -338,7 +338,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
         <scene sceneID="8vG-1R-oou">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="RqH-Mv-9B3" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Expense" image="expense.png" id="4Y0-v7-Iaj"/>
+                    <tabBarItem key="tabBarItem" title="Expense" image="Expense.png" id="4Y0-v7-Iaj"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Xow-tc-7Ep">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -383,7 +383,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
         <!--View Controller - Configuration-->
         <scene sceneID="pTI-68-JiU">
             <objects>
-                <viewController title="Configuration" id="tdf-XU-7uy" sceneMemberID="viewController">
+                <viewController title="Configuration" id="tdf-XU-7uy" customClass="ViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="S8A-ku-4Yb"/>
                         <viewControllerLayoutGuide type="bottom" id="9Dg-WS-hQQ"/>
@@ -411,21 +411,27 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                 <state key="normal" title="Link with dropbox" backgroundImage="back.png">
                                     <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="linkDropBox:" destination="tdf-XU-7uy" eventType="touchUpInside" id="PMD-iq-JrD"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Configuration" id="C3w-Kp-QQ9"/>
+                    <connections>
+                        <outlet property="pButtonLinkDropbox" destination="YNh-h2-fnt" id="6ta-3s-7uW"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pwQ-KE-lxm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2210" y="1175"/>
+            <point key="canvasLocation" x="2226" y="1151"/>
         </scene>
         <!--Navigation Controller - Config-->
         <scene sceneID="Xo9-zp-rrW">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="4Qi-bH-Ird" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Config" image="config.png" id="0ik-s3-MdD"/>
+                    <tabBarItem key="tabBarItem" title="Config" image="Config.png" id="0ik-s3-MdD"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="gMi-1d-SsK">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -471,7 +477,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                     </view>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Apr 2014" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ouf-cf-LYI">
-                                        <rect key="frame" x="82" y="12" width="140" height="30"/>
+                                        <rect key="frame" x="79" y="12" width="146" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                         <textInputTraits key="textInputTraits"/>
@@ -522,12 +528,6 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                 <rect key="frame" x="8" y="66" width="305" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Summary of" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Hw-p1-OIZ">
-                                        <rect key="frame" x="20" y="11" width="97" height="21"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="MONTH" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="8Hr-1t-Yal">
                                         <rect key="frame" x="205" y="7" width="80" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -537,6 +537,13 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                             <action selector="beginSelectMonthOrYear:" destination="Gvg-Mz-Med" eventType="editingDidBegin" id="FPz-rf-2bZ"/>
                                         </connections>
                                     </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Aq-V3-2fM">
+                                        <rect key="frame" x="20" y="7" width="30" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
@@ -564,6 +571,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                         <outlet property="pRemainingField" destination="QwZ-d2-VAc" id="63I-qb-QlE"/>
                         <outlet property="pSeperate1View" destination="T6p-mb-H36" id="pP2-QH-Rna"/>
                         <outlet property="pSeperate2View" destination="93p-y0-sBu" id="mtG-MM-rSj"/>
+                        <outlet property="pSummry" destination="9Aq-V3-2fM" id="M6I-pR-kKd"/>
                         <outlet property="pViewSummary" destination="cQ8-bk-89E" id="Fd9-kT-vG0"/>
                     </connections>
                 </viewController>
@@ -630,7 +638,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
         <scene sceneID="Ztd-xh-fFA">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="7bg-R2-Bca" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Income" image="income.png" id="Y3a-Sa-CSz"/>
+                    <tabBarItem key="tabBarItem" title="Income" image="Income.png" id="Y3a-Sa-CSz"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="vGt-yN-v18">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -643,13 +651,13 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="S3m-TY-tWi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1672" y="-948"/>
+            <point key="canvasLocation" x="1677" y="-948"/>
         </scene>
         <!--Navigation Controller - Deals-->
         <scene sceneID="Bdh-yj-Odq">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="3gn-MD-lfV" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Deals" image="test.png" id="qGB-Oj-wRm"/>
+                    <tabBarItem key="tabBarItem" title="Deals" image="Deal.png" id="qGB-Oj-wRm"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="bQy-Lw-Umr">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -668,7 +676,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
         <scene sceneID="DGq-jA-Ky2">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="5Y7-8G-Bid" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Summary" image="summary.png" id="ade-uC-y5H"/>
+                    <tabBarItem key="tabBarItem" title="Summary" image="Summary.png" id="ade-uC-y5H"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="GZT-pF-ZoB">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -685,12 +693,12 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
         </scene>
     </scenes>
     <resources>
+        <image name="Config.png" width="30" height="30"/>
+        <image name="Deal.png" width="30" height="30"/>
+        <image name="Expense.png" width="30" height="30"/>
+        <image name="Income.png" width="30" height="30"/>
+        <image name="Summary.png" width="30" height="30"/>
         <image name="back.png" width="640" height="1136"/>
-        <image name="config.png" width="30" height="30"/>
-        <image name="expense.png" width="30" height="30"/>
-        <image name="income.png" width="30" height="30"/>
-        <image name="summary.png" width="30" height="30"/>
-        <image name="test.png" width="30" height="30"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

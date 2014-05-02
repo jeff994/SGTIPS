@@ -23,6 +23,8 @@
 // Given the parent name, get all it's child name from the category table
 -(NSMutableArray *) getChildCatetory:(NSString*)parent;
 
+- (BOOL) isChildOf:(NSString *)parent child:(NSString *)child;
+
 -(BOOL)createEntryTable;
 
 -(BOOL) createCategoryImage;

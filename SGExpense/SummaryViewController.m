@@ -27,6 +27,8 @@
 - (void) initGlobalData
 {
     [self setTitle:@"Summary"];
+    UIImage * pImage = [[DBManager getSharedInstance] loadCfgImage:@"Summary"];
+    [self.pSummry setBackgroundImage:pImage forState:UIControlStateNormal];
     self.currency = @"S$";
     self.nSummaryType = 1;
     self.pSelectedDate =[NSDate date];
@@ -90,8 +92,6 @@
     [self configYearPicker];
     UITabBarController *tabBarController = (UITabBarController*)[UIApplication sharedApplication].keyWindow.rootViewController ;
     [self initSwiper];
-    
-
     [tabBarController setDelegate:self];
 }
 
@@ -180,7 +180,7 @@
                                        target:self action:@selector(doneSelectYear:)];
         self.toolBarYear = [[UIToolbar alloc]initWithFrame:
                               CGRectMake(0, self.view.frame.size.height-
-                                         self.pMonthYearSelect.frame.size.height-50, 320, 50)];
+                                         self.pMonthYearSelect.frame.size.height-45, 320, 45)];
         [self.toolBarYear setBarStyle:UIBarStyleBlackOpaque];
         NSArray *toolbarItems = [NSArray arrayWithObjects:
                                  doneButton, nil];
@@ -211,7 +211,7 @@
                                    target:self action:@selector(doneSelectMothOrYear:)];
     UIToolbar *toolBar = [[UIToolbar alloc]initWithFrame:
                           CGRectMake(0, self.view.frame.size.height-
-                                     self.pMonthYearSelect.frame.size.height-50, 320, 50)];
+                                     self.pMonthYearSelect.frame.size.height-45, 320, 45)];
     [toolBar setBarStyle:UIBarStyleBlack];
     NSArray *toolbarItems = [NSArray arrayWithObjects:
                              doneButton, nil];

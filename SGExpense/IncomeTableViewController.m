@@ -107,12 +107,10 @@
     double fSummary = [self.pDbManager getSummaryLeafCategory:pCatName year:self.nYear month:self.nMonth];
     cell.detailTextLabel.text =  [NSString stringWithFormat:@"%@%.2f", self.currency, fSummary];
     cell.textLabel.text = pCatName;
-    NSString * cfgImgName = [NSString stringWithFormat:@"%@.png", pCatName];
-    UIImage * pImage = [_pDbManager loadCfgImage:cfgImgName];
+    UIImage * pImage = [_pDbManager loadCfgImage:pCatName];
     cell.imageView.image = pImage;
     pCatName = nil;
     pImage = nil;
-    cfgImgName = nil; 
     return cell;
 
 }
@@ -180,10 +178,10 @@
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    //NSIndexPath *ip = [self.tableView indexPathForSelectedRow];
-    //self.pSelectedCategory = [_pCategory objectAtIndex:ip.row];
+    NSIndexPath *ip = [self.tableView indexPathForSelectedRow];
+    self.pSelectedCategory = [_pCategory objectAtIndex:ip.row];
     
-    self.pSelectedCategory = @"Income";
+    //self.pSelectedCategory = @"Income";
     if([segue.identifier isEqualToString:@"id_income"])
     {
         SubCategoryTableViewController* dest = (SubCategoryTableViewController*)segue.destinationViewController;

@@ -7,6 +7,8 @@
 //
 
 #import "ViewController.h"
+#import <DropboxSDK/DropboxSDK.h>
+
 
 @interface ViewController ()
 
@@ -14,11 +16,24 @@
 
 @implementation ViewController
 
+- (IBAction)linkDropBox:(id)sender {
+    if (![[DBSession sharedSession] isLinked]) {
+        [[DBSession sharedSession] linkFromController:self];
+    }else
+    {
+        [self.pButtonLinkDropbox setTitle:@"Sync" forState:UIControlStateNormal];
+    }
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     self.pScrollView.layer.borderWidth = 2;
     self.pScrollView.layer.borderColor = [UIColor blackColor].CGColor;
+    if ([[DBSession sharedSession] isLinked])
+    {
+        [self.pButtonLinkDropbox setTitle:@"Sync" forState:UIControlStateNormal];
+    }
     //[self.pScrollView setContentOffset:CGPointMake(0, 100) animated:YES];
 	// Do any additional setup after loading the view, typically from a nib.
 }

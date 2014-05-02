@@ -10,5 +10,6 @@
 
 @interface ViewController : UIViewController
 @property (strong, nonatomic) IBOutlet UIScrollView *pScrollView;
+@property (strong, nonatomic) IBOutlet UIButton *pButtonLinkDropbox;
 
 @end
