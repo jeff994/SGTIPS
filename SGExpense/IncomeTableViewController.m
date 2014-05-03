@@ -53,13 +53,22 @@
     self.tableView.tableFooterView = headerView;
 }
 
+-(void) initCurrency
+{
+    NSLocale *theLocale = [NSLocale currentLocale];
+    NSString * Getdollarsymbol = [theLocale objectForKey:NSLocaleCurrencySymbol];
+    self.currency = Getdollarsymbol;
+    theLocale = nil;
+    Getdollarsymbol = nil;
+}
+
 - (void)viewDidLoad
 {
     
     [super viewDidLoad];
     self.pSelectedCategory = @"Income";
-    self.currency = @"S$";
     [self setTitle:@"Income"];
+    [self initCurrency];
     // Get the db manager from the DBManager
     _pDbManager = [DBManager getSharedInstance];
     NSArray * pMainCat = [_pDbManager getChildCatetory:@"Income"];

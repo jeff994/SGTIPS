@@ -11,8 +11,13 @@
 
 @interface ViewController : UIViewController <DBRestClientDelegate>
 
+@property (strong, nonatomic) IBOutlet UITextField *pCurrency;
+@property (strong, nonatomic) IBOutlet UIPickerView *pPickerCurrency;
+@property (strong, nonatomic) IBOutlet UIButton *pCurrencyField;
 @property (strong, nonatomic) IBOutlet UIScrollView *pScrollView;
 @property (strong, nonatomic) IBOutlet UIButton *pButtonLinkDropbox;
 @property (nonatomic, strong) DBRestClient *restClient;
+@property NSMutableArray* pCategoryArray;
 
+-(void) initCurrency;
 @end

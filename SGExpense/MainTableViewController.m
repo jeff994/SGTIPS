@@ -117,7 +117,11 @@
 
 -(void) InitGlobalData
 {
-    self.currency = @"S$" ;
+    NSLocale *theLocale = [NSLocale currentLocale];
+    NSString * Getdollarsymbol = [theLocale objectForKey:NSLocaleCurrencySymbol];
+    self.currency = Getdollarsymbol;
+    theLocale = nil;
+    Getdollarsymbol = nil;
 }
 
 -(NSString *) formatMonthString:(NSDate *) date

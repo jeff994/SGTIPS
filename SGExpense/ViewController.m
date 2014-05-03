@@ -26,6 +26,25 @@
     }
 }
 
+-(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row   forComponent:(NSInteger)component
+{
+    return [self.pCategoryArray objectAtIndex:row];
+}
+
+-(void) initCurrency
+{
+    self.pCategoryArray = [[NSMutableArray alloc]init];
+   // NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier: @"en_US"];
+    NSLocale *theLocale = [NSLocale currentLocale];
+    NSString *Code = [theLocale objectForKey:NSLocaleCurrencyCode];
+    self.pCurrency.text = Code;
+    theLocale = nil;
+    [self.pCurrency setUserInteractionEnabled:NO];
+}
+
+- (IBAction)beginSetCurrency:(id)sender {
+    self.pPickerCurrency.hidden = NO;
+}
 
 - (void)viewDidLoad
 {
@@ -38,8 +57,7 @@
     }
     self.restClient = [[DBRestClient alloc] initWithSession:[DBSession sharedSession]];
     self.restClient.delegate = self;
-    //[self.pScrollView setContentOffset:CGPointMake(0, 100) animated:YES];
-	// Do any additional setup after loading the view, typically from a nib.
+    [self initCurrency];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -59,5 +77,7 @@
     [super viewWillAppear:animated];
     
 }
+
+
 
 @end

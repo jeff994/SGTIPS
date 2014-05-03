@@ -24,12 +24,21 @@
     return self;
 }
 
+-(void) initCurrency
+{
+    NSLocale *theLocale = [NSLocale currentLocale];
+    NSString * Getdollarsymbol = [theLocale objectForKey:NSLocaleCurrencySymbol];
+    self.currency = Getdollarsymbol;
+    theLocale = nil;
+    Getdollarsymbol = nil;
+}
+
 - (void) initGlobalData
 {
     [self setTitle:@"Summary"];
     UIImage * pImage = [[DBManager getSharedInstance] loadCfgImage:@"Summary"];
     [self.pSummry setBackgroundImage:pImage forState:UIControlStateNormal];
-    self.currency = @"S$";
+    [self initCurrency];
     self.nSummaryType = 1;
     self.pSelectedDate =[NSDate date];
     self.pCategoryArray = [[NSArray alloc] initWithObjects:@"MONTH", @"YEAR", nil];
