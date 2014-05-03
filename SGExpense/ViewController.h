@@ -7,9 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <DropboxSDK/DropboxSDK.h>
 
-@interface ViewController : UIViewController
+@interface ViewController : UIViewController <DBRestClientDelegate>
+
 @property (strong, nonatomic) IBOutlet UIScrollView *pScrollView;
 @property (strong, nonatomic) IBOutlet UIButton *pButtonLinkDropbox;
+@property (nonatomic, strong) DBRestClient *restClient;
 
 @end

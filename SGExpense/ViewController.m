@@ -7,7 +7,7 @@
 //
 
 #import "ViewController.h"
-#import <DropboxSDK/DropboxSDK.h>
+
 
 
 @interface ViewController ()
@@ -22,8 +22,10 @@
     }else
     {
         [self.pButtonLinkDropbox setTitle:@"Sync" forState:UIControlStateNormal];
+        //[self.restClient uploadFile:filename toPath:destDir withParentRev:nil fromPath:localPath];
     }
 }
+
 
 - (void)viewDidLoad
 {
@@ -34,6 +36,8 @@
     {
         [self.pButtonLinkDropbox setTitle:@"Sync" forState:UIControlStateNormal];
     }
+    self.restClient = [[DBRestClient alloc] initWithSession:[DBSession sharedSession]];
+    self.restClient.delegate = self;
     //[self.pScrollView setContentOffset:CGPointMake(0, 100) animated:YES];
 	// Do any additional setup after loading the view, typically from a nib.
 }
