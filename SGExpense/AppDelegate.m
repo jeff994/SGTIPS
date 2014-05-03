@@ -7,24 +7,18 @@
 //
 
 #import "AppDelegate.h"
-#import <Dropbox/Dropbox.h>
+#import <DropboxSDK/DropboxSDK.h>
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
-    /*
     DBSession *dbSession = [[DBSession alloc]
                             initWithAppKey:@"8y9uwba4xjow89n"
                             appSecret:@"ny8ajc9cxmjgcfe"
                             root:kDBRootAppFolder]; // either kDBRootAppFolder or kDBRootDropbox
     [DBSession setSharedSession:dbSession];
-     */
-    
-    DBAccountManager *accountManager =
-    [[DBAccountManager alloc] initWithAppKey:@"8y9uwba4xjow89n" secret:@"ny8ajc9cxmjgcfe"];
-    [DBAccountManager setSharedManager:accountManager];
     return YES;
 }
 							
@@ -52,12 +46,12 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    // Called when the application is about to terminat
+    //e. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url
   sourceApplication:(NSString *)source annotation:(id)annotation {
-    /*
     if ([[DBSession sharedSession] handleOpenURL:url]) {
         if ([[DBSession sharedSession] isLinked]) {
             NSLog(@"App linked successfully!");
@@ -66,12 +60,6 @@
         return YES;
     }
     // Add whatever other url handling code your app requires here
-    return NO;*/
-    DBAccount *account = [[DBAccountManager sharedManager] handleOpenURL:url];
-    if (account) {
-        NSLog(@"App linked successfully!");
-        return YES;
-    }
     return NO;
 }
 

@@ -7,7 +7,6 @@
 //
 
 #import "DBManager.h"
-#import <Dropbox/Dropbox.h>
 
 static DBManager * sharedInstance = nil;
 static sqlite3 * database = nil;
@@ -25,6 +24,57 @@ static sqlite3_stmt  * statement = nil;
         //[sharedInstance initEntryDataForTesting];
     }
     return sharedInstance;
+}
+
+- (NSString *) getDatabasePath
+{
+    return databasePath;
+}
+
+
+
+- (NSMutableArray *) getCfgFilePath
+{
+    NSMutableArray *resultArray = [[NSMutableArray alloc]init];
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *cfgDirectory = [documentsDirectory stringByAppendingPathComponent:@"cfgimg"];
+    NSFileManager *manager = [NSFileManager defaultManager];
+    NSArray *cfgFileList = [manager contentsOfDirectoryAtPath:cfgDirectory error:nil];
+    for(NSString * img in cfgFileList)
+    {
+        NSString * pImgPath = [cfgDirectory stringByAppendingPathComponent:img];
+        [resultArray addObject:pImgPath];
+    }
+    cfgFileList = nil;
+    cfgDirectory = nil;
+    manager = nil;
+     paths = nil;
+    documentsDirectory = nil;
+    return resultArray;
+}
+
+- (NSMutableArray *) getReceiptFilePath
+{
+    NSMutableArray *resultArray = [[NSMutableArray alloc]init];
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSFileManager *manager = [NSFileManager defaultManager];
+    NSString *receiptDirectory = [documentsDirectory stringByAppendingPathComponent:@"receipts"];
+    NSArray *receiptFileList = [manager contentsOfDirectoryAtPath:receiptDirectory error:nil];
+    for(NSString * img in receiptFileList)
+    {
+        NSString * pImgPath = [receiptDirectory stringByAppendingPathComponent:img];
+        [resultArray addObject:pImgPath];
+    }
+
+    manager = nil;
+    receiptFileList = nil;
+    paths = nil;
+    documentsDirectory = nil;
+    receiptDirectory = nil ;
+    
+    return resultArray;
 }
 
 -(BOOL) openDatabase
@@ -110,28 +160,25 @@ static sqlite3_stmt  * statement = nil;
         sqlite3_close(database);
     }
     return  isSuccess;
+}
 
+-(void) SaveConfigFile:(NSString *)config
+{
+    UIImage * pImage = [UIImage imageNamed:config];
+    NSString * path = [self saveImage:pImage directory:@"cfgimg" imgName:config overwrite:YES];
+    [pAllConfigFile addObject:path];
+    pImage = nil;
 }
 
 -(BOOL)createCategoryImage // Used to create initial set of category images
 {
     // Save all the images to the image table once for all
     // Each category should have an idenpendent images icon
-    UIImage * pImage = [UIImage imageNamed:@"Expense.png"];
-    [self saveImage:pImage directory:@"cfgimg" imgName:@"Expense.png" overwrite:YES];
-    pImage = nil;
-    pImage = [UIImage imageNamed:@"Income.png"];
-    [self saveImage:pImage directory:@"cfgimg" imgName:@"Income.png" overwrite:YES];
-    pImage = nil;
-    pImage = [UIImage imageNamed:@"Summary.png"];
-    [self saveImage:pImage directory:@"cfgimg" imgName:@"Summary.png" overwrite:YES];
-    pImage = nil;
-    pImage = [UIImage imageNamed:@"Config.png"];
-    [self saveImage:pImage directory:@"cfgimg" imgName:@"Config.png" overwrite:YES];
-    pImage = nil;
-    pImage = [UIImage imageNamed:@"Deal.png"];
-    [self saveImage:pImage directory:@"cfgimg" imgName:@"Deal.png" overwrite:YES];
-    pImage = nil;
+    [self SaveConfigFile:@"Expense.png"];
+    [self SaveConfigFile:@"Income.png"];
+    [self SaveConfigFile:@"Summary.png"];
+    [self SaveConfigFile:@"Config.png"];
+    [self SaveConfigFile:@"Deal.png"];
     return true;
 }
 
@@ -160,7 +207,7 @@ static sqlite3_stmt  * statement = nil;
     return isSuccess;
 }
 
-- (void)saveImage:(UIImage*)image directory:(NSString*)directory imgName:(NSString*)imgName overwrite:(BOOL)overwrite;
+- (NSString *)saveImage:(UIImage*)image directory:(NSString*)directory imgName:(NSString*)imgName overwrite:(BOOL)overwrite;
 {
     if (image != nil)
     {
@@ -183,13 +230,16 @@ static sqlite3_stmt  * statement = nil;
         {
             NSData* data = UIImagePNGRepresentation(image);
             [data writeToFile:path atomically:YES];
+            return path;
         }
         if(overwrite)
         {
             NSData* data = UIImagePNGRepresentation(image);
             [data writeToFile:path atomically:YES];
+            return path;
         }
     }
+    return nil;
 }
 
 -(UIImage * ) loadCfgImage:(NSString*)img

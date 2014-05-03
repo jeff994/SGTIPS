@@ -22,8 +22,8 @@
 		8F7493E0190A57B300320B8F /* Summary.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F7493DF190A57B300320B8F /* Summary.png */; };
 		8F7493E2190A585500320B8F /* Income.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F7493E1190A585500320B8F /* Income.png */; };
 		8F7493E4190A598600320B8F /* Expense.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F7493E3190A598600320B8F /* Expense.png */; };
+		8F7CC10D1915231F00A323F5 /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F7CC10C1915231F00A323F5 /* DropboxSDK.framework */; };
 		8F80699E190660E900A2691D /* EntryItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F80699D190660E900A2691D /* EntryItem.m */; };
-		8F8854561914E3AD00E82A26 /* Dropbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F8854551914E3AD00E82A26 /* Dropbox.framework */; };
 		8F88545B1914EDFB00E82A26 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F88545A1914EDFB00E82A26 /* SystemConfiguration.framework */; };
 		8F88545D1914EE0100E82A26 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F88545C1914EE0100E82A26 /* Security.framework */; };
 		8F88545F1914EE5400E82A26 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F88545E1914EE5400E82A26 /* libc++.dylib */; };
@@ -81,9 +81,9 @@
 		8F7493DF190A57B300320B8F /* Summary.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Summary.png; sourceTree = "<group>"; };
 		8F7493E1190A585500320B8F /* Income.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Income.png; sourceTree = "<group>"; };
 		8F7493E3190A598600320B8F /* Expense.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Expense.png; sourceTree = "<group>"; };
+		8F7CC10C1915231F00A323F5 /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DropboxSDK.framework; sourceTree = "<group>"; };
 		8F80699C190660E900A2691D /* EntryItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EntryItem.h; sourceTree = "<group>"; };
 		8F80699D190660E900A2691D /* EntryItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EntryItem.m; sourceTree = "<group>"; };
-		8F8854551914E3AD00E82A26 /* Dropbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Dropbox.framework; sourceTree = "<group>"; };
 		8F88545A1914EDFB00E82A26 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		8F88545C1914EE0100E82A26 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		8F88545E1914EE5400E82A26 /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
@@ -124,13 +124,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8F7CC10D1915231F00A323F5 /* DropboxSDK.framework in Frameworks */,
 				8F88545F1914EE5400E82A26 /* libc++.dylib in Frameworks */,
 				8F88545D1914EE0100E82A26 /* Security.framework in Frameworks */,
 				8F88545B1914EDFB00E82A26 /* SystemConfiguration.framework in Frameworks */,
 				8FE8A7951901220C009A8417 /* libsqlite3.0.dylib in Frameworks */,
 				8FE8A75A1901208D009A8417 /* CoreGraphics.framework in Frameworks */,
 				8FE8A75C1901208D009A8417 /* UIKit.framework in Frameworks */,
-				8F8854561914E3AD00E82A26 /* Dropbox.framework in Frameworks */,
 				8FE8A7581901208D009A8417 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -198,6 +198,7 @@
 		8FE8A7561901208D009A8417 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8F7CC10C1915231F00A323F5 /* DropboxSDK.framework */,
 				8F88545E1914EE5400E82A26 /* libc++.dylib */,
 				8F88545C1914EE0100E82A26 /* Security.framework */,
 				8F88545A1914EDFB00E82A26 /* SystemConfiguration.framework */,
@@ -213,7 +214,6 @@
 		8FE8A75D1901208D009A8417 /* SGExpense */ = {
 			isa = PBXGroup;
 			children = (
-				8F8854551914E3AD00E82A26 /* Dropbox.framework */,
 				8F0BE145190B59DF00DC6907 /* Third Party */,
 				8FE8A79019012173009A8417 /* ViewContollers */,
 				8FE8A78C19012149009A8417 /* DbManager */,

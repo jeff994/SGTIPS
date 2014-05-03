@@ -15,7 +15,9 @@
     NSString * databasePath;
     NSMutableArray * pAllLeafIncome;
     NSMutableArray * pAllLeafExpense;
+    NSMutableArray * pAllConfigFile;
 }
+
 +(DBManager *)getSharedInstance;
 /// ----- Category table handing
 // Used to create category of accounts
@@ -27,8 +29,15 @@
 
 -(BOOL)createEntryTable;
 
+-(void) SaveConfigFile:(NSString *)config;
+
 -(BOOL) createCategoryImage;
 
+-(NSString *) getDatabasePath;
+
+-(NSMutableArray *)getCfgFilePath;
+
+-(NSMutableArray *)getReceiptFilePath;
 
 -(BOOL) saveNewEntryData:(EntryItem *)entry;
 
@@ -41,9 +50,8 @@
              description:(NSString *)description
                     date:(NSDate*)date imgpath:(NSString *)imgpath bRepeat:(BOOL)bRepeat;
 
--(NSArray *) findByRegisterNumber:(NSString *) registerNumber;
 
--(void)saveImage:(UIImage*)image directory:(NSString*)directory imgName:(NSString*)imgName overwrite:(BOOL)overwrite;
+-(NSString *)saveImage:(UIImage*)image directory:(NSString*)directory imgName:(NSString*)imgName overwrite:(BOOL)overwrite;
 
 -(UIImage * ) loadCfgImage:(NSString*)img;
 
