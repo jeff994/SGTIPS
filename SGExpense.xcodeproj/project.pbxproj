@@ -23,6 +23,7 @@
 		8F7493E2190A585500320B8F /* Income.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F7493E1190A585500320B8F /* Income.png */; };
 		8F7493E4190A598600320B8F /* Expense.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F7493E3190A598600320B8F /* Expense.png */; };
 		8F80699E190660E900A2691D /* EntryItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F80699D190660E900A2691D /* EntryItem.m */; };
+		8F88543C1914BE3900E82A26 /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F88543B1914BE3900E82A26 /* DropboxSDK.framework */; };
 		8FDC33C8190263A80085806C /* SubCategoryTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FDC33C7190263A80085806C /* SubCategoryTableViewController.m */; };
 		8FDC33CE19027C490085806C /* IncomeTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FDC33CD19027C490085806C /* IncomeTableViewController.m */; };
 		8FE8A7581901208D009A8417 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FE8A7571901208D009A8417 /* Foundation.framework */; };
@@ -42,7 +43,6 @@
 		8FE8A78F1901216F009A8417 /* DBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FE8A78E1901216F009A8417 /* DBManager.m */; };
 		8FE8A7931901218F009A8417 /* MainTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FE8A7921901218F009A8417 /* MainTableViewController.m */; };
 		8FE8A7951901220C009A8417 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FE8A7941901220C009A8417 /* libsqlite3.0.dylib */; };
-		8FF7E8961913E5B100DD27B5 /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FF7E8951913E5B100DD27B5 /* DropboxSDK.framework */; };
 		8FF7E89A1914082400DD27B5 /* Deal1.png in Resources */ = {isa = PBXBuildFile; fileRef = 8FF7E8991914082400DD27B5 /* Deal1.png */; };
 		8FF7E89E19140A6C00DD27B5 /* Deal.png in Resources */ = {isa = PBXBuildFile; fileRef = 8FF7E89D19140A6C00DD27B5 /* Deal.png */; };
 /* End PBXBuildFile section */
@@ -80,6 +80,7 @@
 		8F7493E3190A598600320B8F /* Expense.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Expense.png; sourceTree = "<group>"; };
 		8F80699C190660E900A2691D /* EntryItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EntryItem.h; sourceTree = "<group>"; };
 		8F80699D190660E900A2691D /* EntryItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EntryItem.m; sourceTree = "<group>"; };
+		8F88543B1914BE3900E82A26 /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DropboxSDK.framework; sourceTree = "<group>"; };
 		8FDC33C6190263A80085806C /* SubCategoryTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubCategoryTableViewController.h; sourceTree = "<group>"; };
 		8FDC33C7190263A80085806C /* SubCategoryTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubCategoryTableViewController.m; sourceTree = "<group>"; };
 		8FDC33CC19027C490085806C /* IncomeTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IncomeTableViewController.h; sourceTree = "<group>"; };
@@ -108,8 +109,6 @@
 		8FE8A7911901218F009A8417 /* MainTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainTableViewController.h; sourceTree = "<group>"; };
 		8FE8A7921901218F009A8417 /* MainTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainTableViewController.m; sourceTree = "<group>"; };
 		8FE8A7941901220C009A8417 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
-		8FF7E8951913E5B100DD27B5 /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DropboxSDK.framework; path = "../Downloads/dropbox-ios-sdk-1.3.11/DropboxSDK.framework"; sourceTree = "<group>"; };
-		8FF7E8971913E5D800DD27B5 /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DropboxSDK.framework; sourceTree = "<group>"; };
 		8FF7E8991914082400DD27B5 /* Deal1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Deal1.png; sourceTree = "<group>"; };
 		8FF7E89D19140A6C00DD27B5 /* Deal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Deal.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -119,10 +118,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8FF7E8961913E5B100DD27B5 /* DropboxSDK.framework in Frameworks */,
 				8FE8A7951901220C009A8417 /* libsqlite3.0.dylib in Frameworks */,
 				8FE8A75A1901208D009A8417 /* CoreGraphics.framework in Frameworks */,
 				8FE8A75C1901208D009A8417 /* UIKit.framework in Frameworks */,
+				8F88543C1914BE3900E82A26 /* DropboxSDK.framework in Frameworks */,
 				8FE8A7581901208D009A8417 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -190,8 +189,7 @@
 		8FE8A7561901208D009A8417 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				8FF7E8971913E5D800DD27B5 /* DropboxSDK.framework */,
-				8FF7E8951913E5B100DD27B5 /* DropboxSDK.framework */,
+				8F88543B1914BE3900E82A26 /* DropboxSDK.framework */,
 				8FE8A7941901220C009A8417 /* libsqlite3.0.dylib */,
 				8FE8A7571901208D009A8417 /* Foundation.framework */,
 				8FE8A7591901208D009A8417 /* CoreGraphics.framework */,
@@ -531,6 +529,7 @@
 					"$(inherited)",
 					"/Users/hujianbo/Downloads/dropbox-ios-sdk-1.3.11",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/SGExpense",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SGExpense/SGExpense-Prefix.pch";
@@ -549,6 +548,7 @@
 					"$(inherited)",
 					"/Users/hujianbo/Downloads/dropbox-ios-sdk-1.3.11",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/SGExpense",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SGExpense/SGExpense-Prefix.pch";
