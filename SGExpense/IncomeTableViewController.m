@@ -64,6 +64,7 @@
     _pDbManager = [DBManager getSharedInstance];
     NSArray * pMainCat = [_pDbManager getChildCatetory:@"Income"];
     _pCategory = [NSMutableArray arrayWithArray:pMainCat];
+    [self addRepeatingEntry];
     [self initTableHeader];
     [self initTableFooter];
     return;
@@ -114,33 +115,27 @@
     return cell;
 }
 
--(void) initSwiper
+- (void) addRepeatingEntry
 {
-    self.swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeRight:)];
-    self.swipeRight.direction = UISwipeGestureRecognizerDirectionRight;
-    self.swipeRight.delegate = self;
-    [self.view addGestureRecognizer:self.swipeRight];
-    
-    self.swipeLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeLeft:)];
-    self.swipeLeft.direction = UISwipeGestureRecognizerDirectionLeft;
-    self.swipeLeft.delegate = self;
-    [self.view addGestureRecognizer:self.swipeLeft];
+    NSMutableArray * pAllEntryCurrentMonth = [self.pDbManager getAllEntry:@"Income" year:self.nYear month:self.nMonth];
+    if([pAllEntryCurrentMonth count] > 0)
+    {
+        pAllEntryCurrentMonth = nil;
+        return;
+    }
+    NSMutableArray * pAllEntryRepeatingLastMonth = [self.pDbManager getAllRepeatingEntry:@"Income" year:self.nYear month:self.nMonth - 1];
+    if([pAllEntryRepeatingLastMonth count] <= 0) return;
+    for(EntryItem * pItem in pAllEntryRepeatingLastMonth)
+    {
+        pItem.entry_id = -1;
+        pItem.receipt = nil;
+        pItem.receiptPath = nil;
+        pItem.entryDate = self.pSelectedDate;
+        [self.pDbManager saveNewEntryData:pItem];
+    }
+    pAllEntryCurrentMonth = nil;
+    pAllEntryRepeatingLastMonth = nil;
 }
-
--(void)handleSwipeLeft: (UIGestureRecognizer *)recognizer
-{
-    
-    
-    return;
-}
-
--(void)handleSwipeRight: (UIGestureRecognizer *)recognizer
-{
-    
-    
-    return;
-}
-
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
@@ -271,12 +266,15 @@
 {
     self.pHeaderField.text = [self formatMonthString:self.pMonthYearPicker.date];
     [self.pHeaderField resignFirstResponder];
+    [self addRepeatingEntry];
     self.pMonthYearPicker.hidden = YES;
     [self.tableView reloadData];
+    [self initTableFooter];
 }
 
 -(NSString *) formatMonthString:(NSDate *) date
 {
+    self.pSelectedDate = date;
     NSCalendar* calendar = [NSCalendar currentCalendar];
     NSDateComponents* components = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:date];
     self.nMonth = [components month];

@@ -60,6 +60,8 @@
 // Find all data of a particular catergory (leaf category) 
 -(NSMutableArray*) getAllEntry:(NSString*)catergory year:(NSInteger)year month:(NSInteger)month;
 
+-(NSMutableArray*)getAllRepeatingEntry:(NSString *)catergory year:(NSInteger)year month:(NSInteger)month;
+
 -(double) getSummaryCategory:(NSString*)category year:(NSInteger)year month:(NSInteger)month;
 
 -(double) getSummaryLeafCategory:(NSString *)parentcategory year:(NSInteger)year month:(NSInteger)month;
@@ -72,6 +74,8 @@
 -(double) getRecursiveSummaryCategory:(NSString *)category year:(NSInteger)year month:(NSInteger)month;
 
 -(double) getRecursiveSummaryCategory:(NSString *)category year:(NSInteger)year;
+
+-( NSMutableArray *) getAllLeaf:(NSString *) category;
 
 @end
 

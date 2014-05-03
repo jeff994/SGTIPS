@@ -18,11 +18,10 @@
 @property NSString * currency;
 @property NSInteger nMonth;
 @property NSInteger  nYear;
-@property  UISwipeGestureRecognizer *swipeRight;
-@property  UISwipeGestureRecognizer *swipeLeft;
 - (IBAction)backFromSub:(UIStoryboardSegue *)segue;
 @property (strong, nonatomic) IBOutlet UIMonthYearPicker *pMonthYearPicker;
 @property UITextField * pHeaderField;
 -(NSString *) formatMonthString:(NSDate *) date;
+@property NSDate    *pSelectedDate;
 -(void)donePickMonth:(id)sender;
 @end

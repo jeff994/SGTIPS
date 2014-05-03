@@ -218,6 +218,7 @@ static sqlite3_stmt  * statement = nil;
     return image;
 }
 
+
 - (BOOL) isChildOf:(NSString *)parent child:(NSString *)child
 {
     BOOL bRet = NO;
@@ -245,8 +246,10 @@ static sqlite3_stmt  * statement = nil;
             }
             else
                 break;
+            
         }
     }
+    sqlite3_reset(statement);
     name = nil;
     
     return bRet;
@@ -421,7 +424,7 @@ static sqlite3_stmt  * statement = nil;
     }
 }
 
--(double) getRecursiveSummaryCategory:(NSString *)category year:(NSInteger)year
+-( NSMutableArray *) getAllLeaf:(NSString *) category
 {
     NSMutableArray * pAllLeafs;
     if([category isEqual:@"Income"])
@@ -442,6 +445,14 @@ static sqlite3_stmt  * statement = nil;
             pAllLeafs = pAllLeafExpense ;
     }else
         [self getLeafCategory:category leafCategory:&pAllLeafs];
+    
+    return pAllLeafs;
+}
+
+-(double) getRecursiveSummaryCategory:(NSString *)category year:(NSInteger)year
+{
+    NSMutableArray * pAllLeafs = [self getAllLeaf:category];
+   
     double fSummary = 0.0;
     for(NSString * leaf in pAllLeafs)
     {
@@ -469,8 +480,10 @@ static sqlite3_stmt  * statement = nil;
 -(NSMutableArray*)getAllEntry:(NSString *)catergory year:(NSInteger)year month:(NSInteger)month
 {
     NSMutableArray *resultArray = [[NSMutableArray alloc]init];
+    NSMutableArray * pLeaf = [self getAllLeaf:catergory];
+    for(NSString * leaf in pLeaf)
     {
-        NSString *querySQL = [NSString stringWithFormat:@"select entry_id, category_name,value, description, entry_date, photo_path, repeating from entry where category_name=\"%@\" and strftime('%@', `entry_date`) = \"%02ld\" AND strftime('%@', `entry_date`)  = \"%d\" ", catergory, @"%m", (long)month, @"%Y", year];
+        NSString *querySQL = [NSString stringWithFormat:@"select entry_id, category_name,value, description, entry_date, photo_path, repeating from entry where category_name=\"%@\" and strftime('%@', `entry_date`) = \"%02ld\" AND strftime('%@', `entry_date`)  = \"%d\" ", leaf, @"%m", (long)month, @"%Y", year];
         const char *query_stmt = [querySQL UTF8String];
                if (sqlite3_prepare_v2(database,
                                query_stmt, -1, &statement, NULL) == SQLITE_OK)
@@ -548,6 +561,59 @@ static sqlite3_stmt  * statement = nil;
         }
         sqlite3_reset(statement);
     }
+    
+}
+
+-(NSMutableArray*)getAllRepeatingEntry:(NSString *)catergory year:(NSInteger)year month:(NSInteger)month
+{
+    
+    NSMutableArray *resultArray = [[NSMutableArray alloc]init];
+    NSMutableArray * pLeaf = [self getAllLeaf:catergory];
+    for(NSString * leaf in pLeaf)
+    {
+        NSString *querySQL = [NSString stringWithFormat:@"select entry_id, category_name,value, description, entry_date, photo_path, repeating from entry where category_name=\"%@\" and strftime('%@', `entry_date`) = \"%02ld\" AND strftime('%@', `entry_date`)  = \"%d\" and repeating = 1", leaf, @"%m", (long)month, @"%Y", year];
+        const char *query_stmt = [querySQL UTF8String];
+        if (sqlite3_prepare_v2(database,
+                               query_stmt, -1, &statement, NULL) == SQLITE_OK)
+        {
+            while (sqlite3_step(statement) == SQLITE_ROW)
+            {
+                NSInteger entry_id = sqlite3_column_int(statement, 0);
+                NSString *cat_name = [[NSString alloc] initWithUTF8String:
+                                      (const char *) sqlite3_column_text(statement, 1)];
+                double fAmount = sqlite3_column_double(statement, 2);
+                NSString *description = [[NSString alloc] initWithUTF8String:
+                                         (const char *) sqlite3_column_text(statement, 3)];
+                NSString *entry_date = [[NSString alloc] initWithUTF8String:
+                                        (const char *) sqlite3_column_text(statement, 4)];
+                
+                NSString *photo_path = [[NSString alloc] initWithUTF8String:
+                                        (const char *) sqlite3_column_text(statement, 5)];
+                NSInteger repeating = sqlite3_column_int(statement, 6);
+                
+                NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+                [dateFormat setDateFormat:@"yyyy-MM-dd"];
+                NSDate *pDate = [dateFormat dateFromString:entry_date];
+                
+                //UIImage * pImage = nil ;
+                //if([photo_path length] > 0) pImage =[self loadImage:@"receipt" imgName:photo_path];
+                EntryItem * pNewEntry = [[EntryItem alloc] init:cat_name date:pDate description:description amount:fAmount receipt:nil];
+                pNewEntry.entry_id = entry_id;
+                pNewEntry.bRepat = repeating > 0;
+                pNewEntry.receiptPath = photo_path;
+                pNewEntry.receipt = [self loadImage:@"receipts" imgName:photo_path];
+                [resultArray addObject:pNewEntry];
+                cat_name = nil;
+                description = nil;
+                entry_date = nil;
+                photo_path = nil;
+                dateFormat = nil;
+            }
+        }
+        sqlite3_reset(statement);
+        querySQL = nil;
+    }
+    return resultArray;
     
 }
 

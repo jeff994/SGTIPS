@@ -133,12 +133,36 @@
     return [NSString stringWithFormat:@"%@ %ld", monthName, (long)self.nYear];
 }
 
+- (void) addRepeatingEntry
+{
+    NSMutableArray * pAllEntryCurrentMonth = [self.pDbManager getAllEntry:@"Expense" year:self.nYear month:self.nMonth];
+    if([pAllEntryCurrentMonth count] > 0)
+    {
+        pAllEntryCurrentMonth = nil;
+        return;
+    }
+    NSMutableArray * pAllEntryRepeatingLastMonth = [self.pDbManager getAllRepeatingEntry:@"Expense" year:self.nYear month:self.nMonth - 1];
+    if([pAllEntryRepeatingLastMonth count] <= 0) return;
+    for(EntryItem * pItem in pAllEntryRepeatingLastMonth)
+    {
+        pItem.entry_id = -1;
+        pItem.receipt = nil;
+        pItem.receiptPath = nil;
+        pItem.entryDate = self.pSelectedDate;
+        [self.pDbManager saveNewEntryData:pItem];
+    }
+    pAllEntryCurrentMonth = nil;
+    pAllEntryRepeatingLastMonth = nil;
+}
+
 -(void)donePickMonth:(id)sender
 {
     self.pHeaderField.text = [self formatMonthString:self.pMonthYearPicker.date];
     [self.pHeaderField resignFirstResponder];
+    [self addRepeatingEntry];
     self.pMonthYearPicker.hidden = YES;
     [self.tableView reloadData];
+    [self initTableFooter];
 }
 
 - (void)viewDidLoad
@@ -152,6 +176,7 @@
     _pDbManager = [DBManager getSharedInstance];
     NSArray * pMainCat = [_pDbManager getChildCatetory:@"Expense"];
     [self setTitle:@"Expense"];
+    [self addRepeatingEntry];
     _pCategory = [NSMutableArray arrayWithArray:pMainCat];
     [self initTableFooter];
     return;
@@ -202,43 +227,6 @@
     return cell;
 }
 
--(void) initSwiper
-{
-    self.swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeRight:)];
-    self.swipeRight.direction = UISwipeGestureRecognizerDirectionRight;
-    self.swipeRight.delegate = self;
-    [self.view addGestureRecognizer:self.swipeRight];
-    
-    self.swipeLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeLeft:)];
-    self.swipeLeft.direction = UISwipeGestureRecognizerDirectionLeft;
-    self.swipeLeft.delegate = self;
-    [self.view addGestureRecognizer:self.swipeLeft];
-}
-
--(void)handleSwipeLeft: (UIGestureRecognizer *)recognizer
-{
-    // Month + 1;
-    self.pHeaderField.text =  [self formatMonthString:[NSDate date]];
-
-    NSCalendar* calendar = [NSCalendar currentCalendar];
-    NSDateComponents* components = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:self.pSelectedDate];
-    //[self formatMonthString:[calendar dateFromComponents:components]];
-    self.nMonth = self.nMonth + 1;
-    [components setMonth:self.nMonth];
-    [components setYear:self.nYear];
-    self.pHeaderField.text  = [self formatMonthString:[calendar dateFromComponents:components]];
-
-    [self.tableView reloadData];
-    [self initTableFooter];
-    return;
-}
-
-
--(void)handleSwipeRight: (UIGestureRecognizer *)recognizer
-{
-    // Month - 1;
-    return;
-}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
