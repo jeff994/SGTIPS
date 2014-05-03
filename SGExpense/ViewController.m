@@ -17,6 +17,10 @@
 @implementation ViewController
 
 - (IBAction)linkDropBox:(id)sender {
+    UIWindow *window = [UIApplication sharedApplication].keyWindow;
+    UIViewController *rootViewController = window.rootViewController;
+    [[DBAccountManager sharedManager] linkFromController:rootViewController];
+    /*
     if (![[DBSession sharedSession] isLinked]) {
         [[DBSession sharedSession] linkFromController:self];
     }else
@@ -24,6 +28,7 @@
         [self.pButtonLinkDropbox setTitle:@"Sync" forState:UIControlStateNormal];
         //[self.restClient uploadFile:filename toPath:destDir withParentRev:nil fromPath:localPath];
     }
+     */
 }
 
 -(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row   forComponent:(NSInteger)component
@@ -51,12 +56,14 @@
     [super viewDidLoad];
     self.pScrollView.layer.borderWidth = 2;
     self.pScrollView.layer.borderColor = [UIColor blackColor].CGColor;
+    /*
     if ([[DBSession sharedSession] isLinked])
     {
         [self.pButtonLinkDropbox setTitle:@"Sync" forState:UIControlStateNormal];
     }
     self.restClient = [[DBRestClient alloc] initWithSession:[DBSession sharedSession]];
     self.restClient.delegate = self;
+     */
     [self initCurrency];
 }
 

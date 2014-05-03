@@ -18,5 +18,8 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+    <array>
+		<string>armv7</string>
+	</array>
 </dict>
 </plist>
