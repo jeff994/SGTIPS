@@ -122,6 +122,7 @@
 
 -(NSString *) formatMonthString:(NSDate *) date
 {
+    self.pSelectedDate = date;
     NSCalendar* calendar = [NSCalendar currentCalendar];
     NSDateComponents* components = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:date];
     self.nMonth = [components month];
@@ -201,6 +202,43 @@
     return cell;
 }
 
+-(void) initSwiper
+{
+    self.swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeRight:)];
+    self.swipeRight.direction = UISwipeGestureRecognizerDirectionRight;
+    self.swipeRight.delegate = self;
+    [self.view addGestureRecognizer:self.swipeRight];
+    
+    self.swipeLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeLeft:)];
+    self.swipeLeft.direction = UISwipeGestureRecognizerDirectionLeft;
+    self.swipeLeft.delegate = self;
+    [self.view addGestureRecognizer:self.swipeLeft];
+}
+
+-(void)handleSwipeLeft: (UIGestureRecognizer *)recognizer
+{
+    // Month + 1;
+    self.pHeaderField.text =  [self formatMonthString:[NSDate date]];
+
+    NSCalendar* calendar = [NSCalendar currentCalendar];
+    NSDateComponents* components = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:self.pSelectedDate];
+    //[self formatMonthString:[calendar dateFromComponents:components]];
+    self.nMonth = self.nMonth + 1;
+    [components setMonth:self.nMonth];
+    [components setYear:self.nYear];
+    self.pHeaderField.text  = [self formatMonthString:[calendar dateFromComponents:components]];
+
+    [self.tableView reloadData];
+    [self initTableFooter];
+    return;
+}
+
+
+-(void)handleSwipeRight: (UIGestureRecognizer *)recognizer
+{
+    // Month - 1;
+    return;
+}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {

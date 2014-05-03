@@ -129,7 +129,6 @@
 }
 
 
-
 -(void)handleSwipeRight: (UIGestureRecognizer *)recognizer
 {
     

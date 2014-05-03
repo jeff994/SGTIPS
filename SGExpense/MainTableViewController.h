@@ -10,7 +10,7 @@
 #import "DBManager.h"
 #import "UIMonthYearPicker.h"
 
-@interface MainTableViewController : UITableViewController <UITextFieldDelegate>
+@interface MainTableViewController : UITableViewController <UITextFieldDelegate, UIGestureRecognizerDelegate>
 
 @property DBManager * pDbManager; // Used to get the database manager
 @property NSMutableArray * pCategory;
@@ -20,6 +20,9 @@
 @property NSString * currency;
 @property UIImage * pCategoryImage;
 @property UITextField * pHeaderField;
+@property  UISwipeGestureRecognizer *swipeRight;
+@property  UISwipeGestureRecognizer *swipeLeft;
+@property NSDate    *pSelectedDate;
 - (IBAction)backFromSub:(UIStoryboardSegue *)segue;
 @property (strong, nonatomic) IBOutlet UIMonthYearPicker *pMonthYearPicker;
 -(NSString *) formatMonthString:(NSDate *) date;
