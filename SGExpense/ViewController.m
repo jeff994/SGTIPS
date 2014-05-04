@@ -31,6 +31,8 @@
 {
     NSString * pDBPath = [[DBManager getSharedInstance] getDatabasePath];
     NSString *destDir = @"/";
+    [self.restClient loadMetadata:@"account.db"];
+    
     [self.restClient uploadFile:@"account.db" toPath:destDir fromPath:pDBPath];
 }
 
@@ -44,6 +46,11 @@
         NSString *filename = [cfgImg lastPathComponent];
        [self.restClient uploadFile:filename toPath:destDir fromPath:cfgImg];
     }
+}
+
+- (void)restClient:(DBRestClient*)client loadedMetadata:(DBMetadata*)metadata
+{
+    //if(metadata.revision ! )
 }
 
 // Folder is the metadata for the newly created folder
@@ -68,6 +75,20 @@
     }
 }
 
+-(void) loadDBFile
+{
+    
+}
+
+-(void) LoadCFGFile
+{
+    
+}
+
+-(void) loadReceiptFile
+{
+    
+}
 - (void)restClient:(DBRestClient *)client uploadedFile:(NSString *)destPath
               from:(NSString *)srcPath metadata:(DBMetadata *)metadata {
     NSLog(@"File uploaded successfully to path: %@", metadata.path);

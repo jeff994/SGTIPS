@@ -22,4 +22,7 @@
 -(void) saveDBFile;
 -(void) saveCfgFile;
 -(void) saveReceiptFile;
-@end
+-(void) loadDBFile;
+-(void) LoadCFGFile;
+-(void) loadReceiptFile; 
+ @end
