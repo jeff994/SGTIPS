@@ -35,6 +35,8 @@
 
 -(NSString *) getDatabasePath;
 
+-(NSString *) getDocumentDirectory;
+
 -(NSMutableArray *)getCfgFilePath;
 
 -(NSMutableArray *)getReceiptFilePath;

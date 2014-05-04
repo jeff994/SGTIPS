@@ -555,7 +555,7 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/SGExpense",
 				);
-				GCC_INPUT_FILETYPE = automatic;
+				GCC_INPUT_FILETYPE = sourcecode.c.objc;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SGExpense/SGExpense-Prefix.pch";
 				INFOPLIST_FILE = "SGExpense/SGExpense-Info.plist";
@@ -586,7 +586,7 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/SGExpense",
 				);
-				GCC_INPUT_FILETYPE = automatic;
+				GCC_INPUT_FILETYPE = sourcecode.c.objc;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SGExpense/SGExpense-Prefix.pch";
 				INFOPLIST_FILE = "SGExpense/SGExpense-Info.plist";

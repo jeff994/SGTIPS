@@ -17,6 +17,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *pButtonLinkDropbox;
 @property (nonatomic, strong) DBRestClient *restClient;
 @property NSMutableArray* pCategoryArray;
+@property NSMutableDictionary *pMetadataDictionary;
 
 -(void) initCurrency;
 -(void) saveDBFile;

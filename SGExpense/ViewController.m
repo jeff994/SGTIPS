@@ -29,27 +29,51 @@
 
 - (void) saveDBFile
 {
-    NSString * pDBPath = [[DBManager getSharedInstance] getDatabasePath];
-    NSString *destDir = @"/";
-    [self.restClient loadMetadata:@"account.db"];
-    
-    [self.restClient uploadFile:@"account.db" toPath:destDir fromPath:pDBPath];
+    [self.restClient loadMetadata:@"/account.db"];
+
 }
 
 - (void) saveCfgFile
 {
     NSMutableArray * pCFGFile = [[DBManager getSharedInstance] getCfgFilePath];
-    NSString *destDir = @"/cfgimg/";
+    //NSString *destDir = @"/cfgimg/";
     [[self restClient] createFolder:@"/cfgimg"];
     for(NSString * cfgImg in pCFGFile)
     {
         NSString *filename = [cfgImg lastPathComponent];
-       [self.restClient uploadFile:filename toPath:destDir fromPath:cfgImg];
+        NSString *key = [NSString stringWithFormat:@"/cfgimg/%@", filename];
+        [self.restClient loadMetadata:key];
+        //NSString *filename = [cfgImg lastPathComponent];
+        //[self.restClient uploadFile:filename toPath:destDir fromPath:cfgImg];
     }
+}
+
+- (void)restClient:(DBRestClient*)client metadataUnchangedAtPath:(NSString*)path
+{
+    return;
+}
+
+- (void)restClient:(DBRestClient*)client loadMetadataFailedWithError:(NSError*)error
+{
+    return;
 }
 
 - (void)restClient:(DBRestClient*)client loadedMetadata:(DBMetadata*)metadata
 {
+    //DBMetadata * pData = [self.pMetadataDictionary objectForKey:metadata.path];
+    
+    //if ([pData.rev isEqual:metadata.rev] || pData == nil)
+    // The file in server was not changed
+    {
+        NSString * pRoot = [[DBManager getSharedInstance] getDocumentDirectory];
+        NSString * pFromPath = [pRoot stringByAppendingPathComponent:metadata.path];
+        //NSString *destDir = [NSString stringWithFormat:@"/%@", metadata.path];
+        NSString *destDir = [metadata.path stringByDeletingLastPathComponent];
+        NSString *filename = [metadata.path lastPathComponent];
+        [self.restClient uploadFile:filename toPath:destDir  withParentRev:metadata.rev fromPath:pFromPath];
+    }
+        
+    return;
     //if(metadata.revision ! )
 }
 
@@ -71,7 +95,10 @@
     for(NSString * receiptImg in pReceiptFile)
     {
         NSString *filename = [receiptImg lastPathComponent];
-        [self.restClient uploadFile:filename toPath:destDir fromPath:receiptImg];
+        NSString *key = [NSString stringWithFormat:@"/receipts/%@", filename];
+        [self.restClient loadMetadata:key];
+        //NSString *filename = [receiptImg lastPathComponent];
+        //[self.restClient uploadFile:filename toPath:destDir fromPath:receiptImg];
     }
 }
 
@@ -89,12 +116,17 @@
 {
     
 }
+
 - (void)restClient:(DBRestClient *)client uploadedFile:(NSString *)destPath
-              from:(NSString *)srcPath metadata:(DBMetadata *)metadata {
+              from:(NSString *)srcPath metadata:(DBMetadata *)metadata
+{
+    [self.pMetadataDictionary setValue:metadata forKey:metadata.path];
+    DBMetadata * pData = [self.pMetadataDictionary objectForKey:metadata.path];
     NSLog(@"File uploaded successfully to path: %@", metadata.path);
 }
 
-- (void)restClient:(DBRestClient *)client uploadFileFailedWithError:(NSError *)error {
+- (void)restClient:(DBRestClient *)client uploadFileFailedWithError:(NSError *)error
+{
     NSLog(@"File upload failed with error: %@", error);
 }
 
@@ -130,6 +162,8 @@
     self.restClient = [[DBRestClient alloc] initWithSession:[DBSession sharedSession]];
     self.restClient.delegate = self;
     [self initCurrency];
+    // Init the dictionary for metadata
+    self.pMetadataDictionary = [[NSMutableDictionary alloc]init];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

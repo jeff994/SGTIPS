@@ -31,7 +31,14 @@ static sqlite3_stmt  * statement = nil;
     return databasePath;
 }
 
+-(NSString * ) getDocumentDirectory
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    paths = nil; 
+    return documentsDirectory;
 
+}
 
 - (NSMutableArray *) getCfgFilePath
 {
