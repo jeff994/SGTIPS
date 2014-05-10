@@ -20,10 +20,10 @@
         [[DBSession sharedSession] linkFromController:self];
     }else
     {
+        //[[DBSession sharedSession] unlinkAll];
         [self.pButtonLinkDropbox setTitle:@"Sync" forState:UIControlStateNormal];
-        [self saveDBFile];
-        [self saveReceiptFile];
-        [self saveCfgFile];
+        // Load meta data of root table
+        [self.restClient loadMetadata:@"/"];
     }
 }
 
@@ -60,19 +60,68 @@
 
 - (void)restClient:(DBRestClient*)client loadedMetadata:(DBMetadata*)metadata
 {
-    //DBMetadata * pData = [self.pMetadataDictionary objectForKey:metadata.path];
-    
-    //if ([pData.rev isEqual:metadata.rev] || pData == nil)
-    // The file in server was not changed
+    // 1. First time when there's no data in dropbox
+    NSString * pRoot = [[DBManager getSharedInstance] getDocumentDirectory];
+    NSString * dbFile = [[[DBManager getSharedInstance] getDatabasePath] lastPathComponent];
+    NSString* root = @"/";
+    NSString* cfg = @"cfgimg";
+    NSString* receipts = @"receipts";
+    // First time when user connects drop box
+    if([metadata.contents count] == 0 && [metadata.path isEqualToString:root])
     {
-        NSString * pRoot = [[DBManager getSharedInstance] getDocumentDirectory];
-        NSString * pFromPath = [pRoot stringByAppendingPathComponent:metadata.path];
-        //NSString *destDir = [NSString stringWithFormat:@"/%@", metadata.path];
-        NSString *destDir = [metadata.path stringByDeletingLastPathComponent];
-        NSString *filename = [metadata.path lastPathComponent];
-        [self.restClient uploadFile:filename toPath:destDir  withParentRev:metadata.rev fromPath:pFromPath];
+        [self.restClient uploadFile:dbFile toPath:root
+                      withParentRev:nil fromPath:[pRoot stringByAppendingPathComponent:dbFile]];
+        NSString * pServerCfgPath =[root stringByAppendingPathComponent:cfg];
+        NSString * pServerReceiptPath = [root stringByAppendingString:receipts];
+        [[self restClient] createFolder:pServerCfgPath];
+        [[self restClient] createFolder:pServerReceiptPath];
+        return;
     }
+    else if ([metadata.contents count] < 3)
+    {
+        NSString * pServerCfgPath =[root stringByAppendingPathComponent:cfg];
+        NSString * pServerReceiptPath = [root stringByAppendingString:receipts];
+        [[self restClient] createFolder:pServerCfgPath];
+        [[self restClient] createFolder:pServerReceiptPath];
+        return;
+    }
+    for(DBMetadata* pChildMeta in metadata.contents)
+    {
+        NSString * pName = pChildMeta.filename;
+        if(pChildMeta.isDirectory)
+        {
+            [self.restClient loadMetadata:pChildMeta.path];
+        }
+        else
+        {
+            [self.pMetadataDictionary setValue:pChildMeta forKey:pChildMeta.path];
+            NSString * pLocalPath = [pRoot stringByAppendingPathComponent:pChildMeta.path];
+            NSString * destDir = [pChildMeta.path stringByDeletingLastPathComponent];
+            if(pChildMeta.rev != nil) [self.restClient uploadFile:pName toPath:destDir withParentRev:pChildMeta.rev fromPath:pLocalPath];
+        }
+    }
+    
+    
+
+    NSString *localDirectory = [pRoot stringByAppendingPathComponent:metadata.path];
+    NSFileManager *manager = [NSFileManager defaultManager];
+    NSArray *localList = [manager contentsOfDirectoryAtPath:localDirectory error:nil];
+    for(NSString * pFileName in localList)
+    {
+        NSString *key = [metadata.path stringByAppendingPathComponent:pFileName];
+        NSString * pPathFound = [self.pMetadataDictionary objectForKey:key];
+        NSString * pLocalPath = [localDirectory stringByAppendingPathComponent:pFileName];
         
+        BOOL isDir;
+        if ([manager fileExistsAtPath:pLocalPath isDirectory:&isDir] && isDir)
+            continue;
+        
+        if(pPathFound == nil ) // File not in the server
+        {
+            // Upload file to server
+            [self.restClient uploadFile:pFileName toPath:metadata.path withParentRev:nil fromPath:pLocalPath];
+        }
+    }
     return;
     //if(metadata.revision ! )
 }
@@ -81,6 +130,22 @@
 - (void)restClient:(DBRestClient*)client createdFolder:(DBMetadata*)folder{
     NSLog(@"Created Folder Path %@",folder.path);
     NSLog(@"Created Folder name %@",folder.filename);
+    NSString * pRoot = [[DBManager getSharedInstance] getDocumentDirectory];
+    NSString * pLocalPath = [pRoot stringByAppendingPathComponent:folder.path];
+    NSFileManager *manager = [NSFileManager defaultManager];
+    NSArray *fileList = [manager contentsOfDirectoryAtPath:pLocalPath error:nil];
+    for(NSString * filename in fileList)
+    {
+        NSString * localPath = [pLocalPath stringByAppendingPathComponent:filename];
+        [self.restClient uploadFile:filename toPath:folder.path  withParentRev:nil fromPath:localPath];
+    }
+    /*
+    NSString * pLocalReceiptPath = [pRoot stringByAppendingPathComponent:receipts];
+    for(NSString * filename in pReceiptFile)
+    {
+        NSString * localPath = [pLocalReceiptPath stringByAppendingPathComponent:filename];
+        [self.restClient uploadFile:filename toPath:pServerCfgPath  withParentRev:nil fromPath:localPath];
+    }*/
 }
 // [error userInfo] contains the root and path
 - (void)restClient:(DBRestClient*)client createFolderFailedWithError:(NSError*)error{

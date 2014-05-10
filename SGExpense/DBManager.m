@@ -50,8 +50,8 @@ static sqlite3_stmt  * statement = nil;
     NSArray *cfgFileList = [manager contentsOfDirectoryAtPath:cfgDirectory error:nil];
     for(NSString * img in cfgFileList)
     {
-        NSString * pImgPath = [cfgDirectory stringByAppendingPathComponent:img];
-        [resultArray addObject:pImgPath];
+        //NSString * pImgPath = [cfgDirectory stringByAppendingPathComponent:img];
+        [resultArray addObject:img];
     }
     cfgFileList = nil;
     cfgDirectory = nil;
@@ -71,8 +71,8 @@ static sqlite3_stmt  * statement = nil;
     NSArray *receiptFileList = [manager contentsOfDirectoryAtPath:receiptDirectory error:nil];
     for(NSString * img in receiptFileList)
     {
-        NSString * pImgPath = [receiptDirectory stringByAppendingPathComponent:img];
-        [resultArray addObject:pImgPath];
+        //NSString * pImgPath = [receiptDirectory stringByAppendingPathComponent:img];
+        [resultArray addObject:img];
     }
 
     manager = nil;
