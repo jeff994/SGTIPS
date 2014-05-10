@@ -77,7 +77,7 @@
         [[self restClient] createFolder:pServerReceiptPath];
         return;
     }
-    else if ([metadata.contents count] < 3)
+    else if ([metadata.contents count] < 3  && [metadata.path isEqualToString:root])
     {
         NSString * pServerCfgPath =[root stringByAppendingPathComponent:cfg];
         NSString * pServerReceiptPath = [root stringByAppendingString:receipts];
@@ -85,6 +85,7 @@
         [[self restClient] createFolder:pServerReceiptPath];
         return;
     }
+    
     for(DBMetadata* pChildMeta in metadata.contents)
     {
         NSString * pName = pChildMeta.filename;
@@ -101,8 +102,6 @@
         }
     }
     
-    
-
     NSString *localDirectory = [pRoot stringByAppendingPathComponent:metadata.path];
     NSFileManager *manager = [NSFileManager defaultManager];
     NSArray *localList = [manager contentsOfDirectoryAtPath:localDirectory error:nil];
