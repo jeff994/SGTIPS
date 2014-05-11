@@ -28,11 +28,13 @@
 {
     [super viewDidLoad];
     [self setTitle:@"Deals"];
-    NSString *httpSource = @"http://www.sgtips.com/deal";
-    NSURL *fullUrl = [NSURL URLWithString:httpSource];
-    NSURLRequest *httpRequest = [NSURLRequest requestWithURL:fullUrl];
-    [self.DealView loadRequest:httpRequest];
-    // Do any additional setup after loading the view.
+    if(self.pUrl != nil )
+    {
+        NSURL *fullUrl = [NSURL URLWithString:self.pUrl];
+        NSURLRequest *httpRequest = [NSURLRequest requestWithURL:fullUrl];
+        [self.DealView loadRequest:httpRequest];
+    }
+     // Do any additional setup after loading the view.
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

@@ -9,7 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface DealTableViewController : UITableViewController
-
+@property   NSArray *pAllDeals;
+@property NSMutableArray * pImageArray;
 -(void) loadDeals;
+
 @end
 

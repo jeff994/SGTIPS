@@ -10,5 +10,5 @@
 
 @interface DealViewController : UIViewController
 @property (strong, nonatomic) IBOutlet UIWebView *DealView;
-
+@property NSString * pUrl;
 @end

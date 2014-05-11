@@ -8,6 +8,7 @@
 
 #import "DealTableViewController.h"
 #import "SBJson.h"
+#import "DealViewController.h"
 
 @interface DealTableViewController ()
 
@@ -43,7 +44,17 @@
     NSString * pValue = response1 ;
     NSString *test = @"{\"code\": 200, \"deals\":[{\"title\":\"Only S$19.90 (Original S$105.9) for Prada Pink Candy Clutch Bag: Fashionable Clutch Bag for Fab Ladies!\",\"displaylink\":\"http://sgtips.com/deal/s19-90-original-s105-9-prada-pink-candy-clutch-bag-fashionable-clutch-bag-fab-ladies\",\"image\":\"https://www.alldealsasia.com/sites/default/files/deals/prada-pink-candy-clutch-main.jpg\"},{\"title\":\"Only S$38 (Original S$122.00) for Silky Hair Rebonding OR Perming at Rapunzel Hair, Somerset - Includes Wash + Blow Dry (H2O or MUCOTA Option Available)\",\"displaylink\":\"http://sgtips.com/deal/s38-original-s122-00-silky-hair-rebonding-perming-rapunzel-hair-somerset-includes-wash-blow-dry-h2o-mucota-option-available\",\"image\":\"http://static.deal.com.sg/sites/default/files/watermark_main/Rapunzel-Hair.jpg\"}]}";
     SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
-    jsonValue = [jsonParser objectWithString:rawJson];
+    jsonValue = [jsonParser objectWithString:test];
+    NSArray *code = [jsonValue objectForKey:@"code"];
+    self.pAllDeals = [jsonValue objectForKey:@"deals"];
+    for(id deal in self.pAllDeals)
+    {
+        NSString * pTitle = [deal objectForKey:@"title"];
+        NSString * pDisplayLink = [deal objectForKey:@"displaylink"];
+        NSString * pImagePath = [deal objectForKey:@"image"];
+    }
+    [self.tableView setSeparatorStyle: UITableViewCellSeparatorStyleSingleLine];
+    //[self.tableView setSeparatorInset:UIEdgeInsetsZero];
     return;
 }
 
@@ -51,6 +62,7 @@
 {
     [super viewDidLoad];
     [self loadDeals];
+    self.pImageArray = [[NSMutableArray alloc] init];
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -69,28 +81,42 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
     // Return the number of sections.
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
+
     // Return the number of rows in the section.
-    return 0;
+    return [self.pAllDeals count];
 }
 
-/*
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ListDeals" forIndexPath:indexPath];
+    NSString *pDescription =  [self.pAllDeals[indexPath.row] objectForKey:@"title"];
+    cell.textLabel.numberOfLines = 0;
+    [cell.textLabel sizeToFit];
+    cell.textLabel.text = pDescription;
     
-    // Configure the cell...
+    NSString * pImageUrl = [self.pAllDeals[indexPath.row] objectForKey:@"image"];
+
+    if([self.pImageArray count] <= indexPath.row)
+    {
+        NSData* imageData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:pImageUrl]];
+        
+        UIImage* image = [[UIImage alloc] initWithData:imageData];
+        [self.pImageArray addObject:image];
+        image = nil;
+    }
+    UIImage * pImage = [self.pImageArray objectAtIndex:indexPath.row];
+    cell.imageView.image = pImage;
     
     return cell;
 }
-*/
+
 
 /*
 // Override to support conditional editing of the table view.
@@ -130,15 +156,21 @@
 }
 */
 
-/*
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    NSIndexPath *ip = [self.tableView indexPathForSelectedRow];
+    NSString * pUrl = [self.pAllDeals[ip.row] objectForKey:@"displaylink"];
+    
+    if([segue.identifier isEqualToString:@"idShowDeal"])
+    {
+        DealViewController * dest = (DealViewController*)segue.destinationViewController;
+        dest.pUrl = pUrl;
+    }
+    
 }
-*/
 
 @end
