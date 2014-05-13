@@ -120,9 +120,11 @@
         {
             // Upload file to server
             
-            if([self.pUploadingDictationary objectForKey:pPathFound] == nil)
+            if([self.pUploadingDictationary objectForKey:pFileName] == nil)
             {
-                [self.pUploadingDictationary setValue:pPathFound forKey:pPathFound];
+                if(self.pUploadingDictationary == nil)
+                     self.pUploadingDictationary = [[NSMutableDictionary alloc]init];
+                [self.pUploadingDictationary setValue:pFileName forKey:pLocalPath];
                 [self.restClient uploadFile:pFileName toPath:metadata.path withParentRev:nil fromPath:pLocalPath];
             }
         }
