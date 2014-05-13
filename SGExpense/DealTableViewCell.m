@@ -38,10 +38,9 @@
     CGFloat fValue = tmpImgFrame.size.height;
     CGFloat fImageWidth = tmpImgFrame.size.width;
     double fImageHeight = tmpImgFrame.size.height;
-    self.imageView.frame = CGRectMake( 8, 0,  fValue , fValue );
-    self.imageView.bounds = CGRectMake( 8, 0,  fValue , fValue );
-    self.imageView.contentMode = UIViewContentModeScaleAspectFit;
-    
+    self.imageView.frame = CGRectMake( 8, 0.2*fValue,  fValue, fValue *0.6);
+    self.imageView.bounds = CGRectMake( 8, 0.2*fValue,  fValue, fValue *0.6);
+    self.imageView.contentMode =   UIViewContentModeScaleToFill;
     CGRect tmpFrame = self.textLabel.frame;
     GLfloat fLabelWidth = tmpFrame.size.width;
     tmpFrame.origin.x = fValue + 16;

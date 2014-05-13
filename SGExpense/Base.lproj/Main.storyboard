@@ -80,9 +80,17 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="bX3-au-MGh"/>
+                    <navigationItem key="navigationItem" id="bX3-au-MGh">
+                        <barButtonItem key="rightBarButtonItem" title="Previous" id="Oi7-a4-T3T">
+                            <connections>
+                                <action selector="goBack" destination="LQ3-fh-TfV" id="XGH-Ah-5UR"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="DealView" destination="LQ3-fh-TfV" id="9c7-J0-oIa"/>
+                        <outlet property="pPreviousPage" destination="Oi7-a4-T3T" id="Ma8-6q-35z"/>
+                        <outlet property="pWebView" destination="LQ3-fh-TfV" id="QsQ-kS-yAO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Sc9-pT-da0" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -9,9 +9,11 @@
 #import "DealTableViewController.h"
 #import "SBJson.h"
 #import "DealViewController.h"
+#import "IconDownloader.h"
+#import "DealRecord.h"
 
 @interface DealTableViewController ()
-
+@property (nonatomic, strong) NSMutableDictionary *imageDownloadsInProgress;
 @end
 
 @implementation DealTableViewController
@@ -44,15 +46,21 @@
     NSString * pValue = response1 ;
     NSString *test = @"{\"code\": 200, \"deals\":[{\"title\":\"Only S$19.90 (Original S$105.9) for Prada Pink Candy Clutch Bag: Fashionable Clutch Bag for Fab Ladies!\",\"displaylink\":\"http://sgtips.com/deal/s19-90-original-s105-9-prada-pink-candy-clutch-bag-fashionable-clutch-bag-fab-ladies\",\"image\":\"https://www.alldealsasia.com/sites/default/files/deals/prada-pink-candy-clutch-main.jpg\"},{\"title\":\"Only S$38 (Original S$122.00) for Silky Hair Rebonding OR Perming at Rapunzel Hair, Somerset - Includes Wash + Blow Dry (H2O or MUCOTA Option Available)\",\"displaylink\":\"http://sgtips.com/deal/s38-original-s122-00-silky-hair-rebonding-perming-rapunzel-hair-somerset-includes-wash-blow-dry-h2o-mucota-option-available\",\"image\":\"http://static.deal.com.sg/sites/default/files/watermark_main/Rapunzel-Hair.jpg\"}]}";
     SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
-    jsonValue = [jsonParser objectWithString:test];
+    jsonValue = [jsonParser objectWithString:rawJson];
     NSArray *code = [jsonValue objectForKey:@"code"];
-    self.pAllDeals = [jsonValue objectForKey:@"deals"];
-    for(id deal in self.pAllDeals)
+    
+    
+    NSArray * allDeals = [jsonValue objectForKey:@"deals"];
+    self.pAllDeals = [[NSMutableArray alloc] init];
+    for(id pObject in allDeals)
     {
-        NSString * pTitle = [deal objectForKey:@"title"];
-        NSString * pDisplayLink = [deal objectForKey:@"displaylink"];
-        NSString * pImagePath = [deal objectForKey:@"image"];
+        DealRecord *newdeal = [[DealRecord alloc] init];
+        newdeal.dealURLString = (NSString *)[pObject objectForKey:@"displaylink"];
+        newdeal.imageURLString = (NSString *)[pObject objectForKey:@"image"];
+        newdeal.dealDescription = (NSString *)[pObject objectForKey:@"title"];
+        [self.pAllDeals addObject:newdeal];
     }
+    
     [self.tableView setSeparatorStyle: UITableViewCellSeparatorStyleSingleLine];
     //[self.tableView setSeparatorInset:UIEdgeInsetsZero];
     return;
@@ -62,7 +70,6 @@
 {
     [super viewDidLoad];
     [self loadDeals];
-    self.pImageArray = [[NSMutableArray alloc] init];
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -89,32 +96,74 @@
 {
 
     // Return the number of rows in the section.
-    return [self.pAllDeals count];
+    NSInteger nRows= [self.pAllDeals count];
+    return nRows;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ListDeals" forIndexPath:indexPath];
-    NSString *pDescription =  [self.pAllDeals[indexPath.row] objectForKey:@"title"];
     cell.textLabel.numberOfLines = 0;
     [cell.textLabel sizeToFit];
-    cell.textLabel.text = pDescription;
-    
-    NSString * pImageUrl = [self.pAllDeals[indexPath.row] objectForKey:@"image"];
 
-    if([self.pImageArray count] <= indexPath.row)
-    {
-        NSData* imageData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:pImageUrl]];
-        
-        UIImage* image = [[UIImage alloc] initWithData:imageData];
-        [self.pImageArray addObject:image];
-        image = nil;
+    NSUInteger nodeCount = [self.pAllDeals count];
+	
+	if (nodeCount == 0 && indexPath.row == 0)
+	{
+		cell.detailTextLabel.text = @"Loading…";
+		return cell;
     }
-    UIImage * pImage = [self.pImageArray objectAtIndex:indexPath.row];
-    cell.imageView.image = pImage;
+    
+    if (nodeCount > 0)
+	{
+        // Set up the cell...
+        DealRecord *deaRecord = [self.pAllDeals objectAtIndex:indexPath.row];
+        
+		cell.textLabel.text = deaRecord.dealDescription;
+       	
+        // Only load cached images; defer new downloads until scrolling ends
+        if (!deaRecord.dealImage)
+        {
+            if (self.tableView.dragging == NO && self.tableView.decelerating == NO)
+            {
+                [self startIconDownload:deaRecord forIndexPath:indexPath];
+            }
+            // if a download is deferred or in progress, return a placeholder image
+            cell.imageView.image = [UIImage imageNamed:@"Default.jpg"];
+        }
+        else
+        {
+            cell.imageView.image = deaRecord.dealImage;
+        }
+        
+    }
     
     return cell;
+}
+
+- (void)startIconDownload:(DealRecord *)dealRecord forIndexPath:(NSIndexPath *)indexPath
+{
+    IconDownloader *iconDownloader = [self.imageDownloadsInProgress objectForKey:indexPath];
+    if (iconDownloader == nil)
+    {
+        iconDownloader = [[IconDownloader alloc] init];
+        iconDownloader.dealRecord = dealRecord;
+        [iconDownloader setCompletionHandler:^{
+            
+            UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+            
+            // Display the newly loaded image
+            cell.imageView.image = dealRecord.dealImage;
+            
+            // Remove the IconDownloader from the in progress list.
+            // This will result in it being deallocated.
+            [self.imageDownloadsInProgress removeObjectForKey:indexPath];
+            
+        }];
+        [self.imageDownloadsInProgress setObject:iconDownloader forKey:indexPath];
+        [iconDownloader startDownload];
+    }
 }
 
 
@@ -163,7 +212,8 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     NSIndexPath *ip = [self.tableView indexPathForSelectedRow];
-    NSString * pUrl = [self.pAllDeals[ip.row] objectForKey:@"displaylink"];
+    DealRecord * pRecrod =  [self.pAllDeals objectAtIndex:ip.row];
+    NSString * pUrl = pRecrod.dealURLString;
     
     if([segue.identifier isEqualToString:@"idShowDeal"])
     {

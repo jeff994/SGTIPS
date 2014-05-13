@@ -33,7 +33,9 @@
         NSURL *fullUrl = [NSURL URLWithString:self.pUrl];
         NSURLRequest *httpRequest = [NSURLRequest requestWithURL:fullUrl];
         [self.DealView loadRequest:httpRequest];
+        
     }
+    
      // Do any additional setup after loading the view.
 }
 
