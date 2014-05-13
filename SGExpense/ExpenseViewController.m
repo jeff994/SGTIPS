@@ -7,6 +7,7 @@
 //
 
 #import "ExpenseViewController.h"
+#import "DBManager.h"
 
 @interface ExpenseViewController ()
 
@@ -159,7 +160,7 @@
     CGRect buttonFrame = self.pImageButton.frame;
     buttonFrame.size = CGSizeMake(150, 150);
     self.pImageButton.frame = buttonFrame;
-    [[self.pImageButton layer] setCornerRadius:70.0f];
+    [[self.pImageButton layer] setCornerRadius:20.0f];
     [[self.pImageButton layer] setBorderWidth:1.0f];
     [self.pImageButton layer].masksToBounds = YES;
     self.pImageButton.contentMode = UIViewContentModeScaleAspectFit;
@@ -170,7 +171,18 @@
             [self.pImageButton setTitle:nil forState:UIControlStateNormal];
             [ self.pImageButton setBackgroundImage:self.pEntry.receipt forState:UIControlStateNormal];
         }
+        else
+        {
+            if([[DBManager getSharedInstance] isChildOf:@"Expense" child:self.pMainCategoryName])
+            {
+                [self.pImageButton setTitle:@"Add a receipt" forState:UIControlStateNormal];
+            }else if ([[DBManager getSharedInstance] isChildOf:@"Income" child:self.pMainCategoryName])
+            {
+                [self.pImageButton setTitle:@"Add a payment slip" forState:UIControlStateNormal];
+            }
+        }
     }
+ 
 }
 
 - (IBAction)categoryChanged:(id)sender {

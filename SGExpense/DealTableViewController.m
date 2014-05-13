@@ -12,6 +12,8 @@
 #import "IconDownloader.h"
 #import "DealRecord.h"
 
+#define kCustomRowCount     7
+
 @interface DealTableViewController ()
 @property (nonatomic, strong) NSMutableDictionary *imageDownloadsInProgress;
 @end
@@ -43,13 +45,12 @@
     NSData *response1 = [NSURLConnection sendSynchronousRequest:request returningResponse:&urlResponse error:&requestError];
     
     NSString *rawJson = [[NSString alloc] initWithData:response1 encoding:NSUTF8StringEncoding];
-    NSString * pValue = response1 ;
-    NSString *test = @"{\"code\": 200, \"deals\":[{\"title\":\"Only S$19.90 (Original S$105.9) for Prada Pink Candy Clutch Bag: Fashionable Clutch Bag for Fab Ladies!\",\"displaylink\":\"http://sgtips.com/deal/s19-90-original-s105-9-prada-pink-candy-clutch-bag-fashionable-clutch-bag-fab-ladies\",\"image\":\"https://www.alldealsasia.com/sites/default/files/deals/prada-pink-candy-clutch-main.jpg\"},{\"title\":\"Only S$38 (Original S$122.00) for Silky Hair Rebonding OR Perming at Rapunzel Hair, Somerset - Includes Wash + Blow Dry (H2O or MUCOTA Option Available)\",\"displaylink\":\"http://sgtips.com/deal/s38-original-s122-00-silky-hair-rebonding-perming-rapunzel-hair-somerset-includes-wash-blow-dry-h2o-mucota-option-available\",\"image\":\"http://static.deal.com.sg/sites/default/files/watermark_main/Rapunzel-Hair.jpg\"}]}";
     SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
     jsonValue = [jsonParser objectWithString:rawJson];
-    NSArray *code = [jsonValue objectForKey:@"code"];
-    
-    
+    NSString *pCode = [jsonValue objectForKey:@"code"];
+    NSInteger nValue = [pCode intValue];
+    if(nValue != 200) return;
+
     NSArray * allDeals = [jsonValue objectForKey:@"deals"];
     self.pAllDeals = [[NSMutableArray alloc] init];
     for(id pObject in allDeals)
@@ -70,6 +71,7 @@
 {
     [super viewDidLoad];
     [self loadDeals];
+    [self setTitle:@"Deals"];
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -97,6 +99,10 @@
 
     // Return the number of rows in the section.
     NSInteger nRows= [self.pAllDeals count];
+    if (nRows == 0)
+	{
+        return kCustomRowCount;
+    }
     return nRows;
 }
 
@@ -166,6 +172,24 @@
     }
 }
 
+- (void)loadImagesForOnscreenRows
+{
+    if ([self.pAllDeals count] > 0)
+    {
+        NSArray *visiblePaths = [self.tableView indexPathsForVisibleRows];
+        for (NSIndexPath *indexPath in visiblePaths)
+        {
+            DealRecord *dealRecord = [self.pAllDeals objectAtIndex:indexPath.row];
+            
+            if (!dealRecord.dealImage)
+                // Avoid the app icon download if the app already has an icon
+            {
+                [self startIconDownload:dealRecord forIndexPath:indexPath];
+            }
+        }
+    }
+}
+
 
 /*
 // Override to support conditional editing of the table view.
@@ -221,6 +245,28 @@
         dest.pUrl = pUrl;
     }
     
+}
+
+#pragma mark - UIScrollViewDelegate
+
+// -------------------------------------------------------------------------------
+//	scrollViewDidEndDragging:willDecelerate:
+//  Load images for all onscreen rows when scrolling is finished.
+// -------------------------------------------------------------------------------
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    if (!decelerate)
+	{
+        [self loadImagesForOnscreenRows];
+    }
+}
+
+// -------------------------------------------------------------------------------
+//	scrollViewDidEndDecelerating:
+// -------------------------------------------------------------------------------
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    [self loadImagesForOnscreenRows];
 }
 
 @end

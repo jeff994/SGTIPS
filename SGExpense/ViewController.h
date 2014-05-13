@@ -18,7 +18,7 @@
 @property (nonatomic, strong) DBRestClient *restClient;
 @property NSMutableArray* pCategoryArray;
 @property NSMutableDictionary *pMetadataDictionary;
-
+@property NSMutableDictionary *pUploadingDictationary; 
 -(void) initCurrency;
 -(void) saveDBFile;
 -(void) saveCfgFile;

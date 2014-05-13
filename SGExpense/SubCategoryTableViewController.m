@@ -159,7 +159,7 @@
     NSString * pDetailed = [NSString stringWithFormat:@" %@%.2f",self.pCurrency, pEntry.fAmountSpent];
     cell.detailTextLabel.text = pDetailed;
     if(pEntry.receipt == nil)
-        cell.imageView.image = self.pCatergoryImage;
+        cell.imageView.image = [UIImage imageNamed:@"Default.jpg"];
     else
         cell.imageView.image = pEntry.receipt;
     return cell;

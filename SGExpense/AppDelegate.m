@@ -55,6 +55,10 @@
     if ([[DBSession sharedSession] handleOpenURL:url]) {
         if ([[DBSession sharedSession] isLinked]) {
             NSLog(@"App linked successfully!");
+            if(self.m_pViewControler)
+            {
+                [self.m_pViewControler.pButtonLinkDropbox setTitle:@"Sync" forState:UIControlStateNormal];
+            }
             // At this point you can start making API calls
         }
         return YES;

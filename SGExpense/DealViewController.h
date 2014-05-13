@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DealViewController : UIViewController
+@interface DealViewController : UIViewController<UIWebViewDelegate>
 @property (strong, nonatomic) IBOutlet UIWebView *DealView;
 @property (strong, nonatomic) IBOutlet UIWebView *pWebView;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *pPreviousPage;

@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "DBManager.h"
 #import "UIMonthYearPicker.h"
+#import <DropboxSDK/DropboxSDK.h>
 
-@interface MainTableViewController : UITableViewController <UITextFieldDelegate>
+@interface MainTableViewController : UITableViewController <UITextFieldDelegate, DBRestClientDelegate>
 
 @property DBManager * pDbManager; // Used to get the database manager
 @property NSMutableArray * pCategory;

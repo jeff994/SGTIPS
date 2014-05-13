@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "DBManager.h"
+#import "AppDelegate.h"
 
 @interface ViewController ()
 
@@ -118,7 +119,12 @@
         if(pPathFound == nil ) // File not in the server
         {
             // Upload file to server
-            [self.restClient uploadFile:pFileName toPath:metadata.path withParentRev:nil fromPath:pLocalPath];
+            
+            if([self.pUploadingDictationary objectForKey:pPathFound] == nil)
+            {
+                [self.pUploadingDictationary setValue:pPathFound forKey:pPathFound];
+                [self.restClient uploadFile:pFileName toPath:metadata.path withParentRev:nil fromPath:pLocalPath];
+            }
         }
     }
     return;
@@ -138,14 +144,8 @@
         NSString * localPath = [pLocalPath stringByAppendingPathComponent:filename];
         [self.restClient uploadFile:filename toPath:folder.path  withParentRev:nil fromPath:localPath];
     }
-    /*
-    NSString * pLocalReceiptPath = [pRoot stringByAppendingPathComponent:receipts];
-    for(NSString * filename in pReceiptFile)
-    {
-        NSString * localPath = [pLocalReceiptPath stringByAppendingPathComponent:filename];
-        [self.restClient uploadFile:filename toPath:pServerCfgPath  withParentRev:nil fromPath:localPath];
-    }*/
 }
+
 // [error userInfo] contains the root and path
 - (void)restClient:(DBRestClient*)client createFolderFailedWithError:(NSError*)error{
     NSLog(@"%@",error);
@@ -154,7 +154,6 @@
 -(void) saveReceiptFile
 {
     NSMutableArray * pReceiptFile = [[DBManager getSharedInstance] getReceiptFilePath];
-    NSString *destDir = @"/receipts/";
     [[self restClient] createFolder:@"/receipts"];
     for(NSString * receiptImg in pReceiptFile)
     {
@@ -185,8 +184,6 @@
               from:(NSString *)srcPath metadata:(DBMetadata *)metadata
 {
     [self.pMetadataDictionary setValue:metadata forKey:metadata.path];
-    DBMetadata * pData = [self.pMetadataDictionary objectForKey:metadata.path];
-    NSLog(@"File uploaded successfully to path: %@", metadata.path);
 }
 
 - (void)restClient:(DBRestClient *)client uploadFileFailedWithError:(NSError *)error
@@ -227,6 +224,8 @@
     self.restClient.delegate = self;
     [self initCurrency];
     // Init the dictionary for metadata
+    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    appDelegate.m_pViewControler = self;
     self.pMetadataDictionary = [[NSMutableDictionary alloc]init];
 }
 

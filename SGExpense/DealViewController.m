@@ -33,8 +33,8 @@
         NSURL *fullUrl = [NSURL URLWithString:self.pUrl];
         NSURLRequest *httpRequest = [NSURLRequest requestWithURL:fullUrl];
         [self.DealView loadRequest:httpRequest];
-        
     }
+    self.DealView.delegate = self;
     
      // Do any additional setup after loading the view.
 }
@@ -57,6 +57,16 @@
     
 }
 
+ -(void)webViewDidFinishLoad:(UIWebView *)webView
+{
+    if(self.DealView.canGoBack)
+    {
+        self.pPreviousPage.enabled = YES;
+    }else
+    {
+        self.pPreviousPage.enabled = NO;
+    }
+}
 
 /*
 #pragma mark - Navigation
