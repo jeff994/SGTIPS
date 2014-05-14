@@ -11,6 +11,7 @@
 
 @interface ViewController : UIViewController <DBRestClientDelegate>
 
+@property (strong, nonatomic) IBOutlet UIView *pHeaderView;
 @property (strong, nonatomic) IBOutlet UITextField *pCurrency;
 @property (strong, nonatomic) IBOutlet UIButton *pCurrencyField;
 @property (strong, nonatomic) IBOutlet UIScrollView *pScrollView;
