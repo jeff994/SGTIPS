@@ -58,6 +58,7 @@
             if(self.m_pViewControler)
             {
                 [self.m_pViewControler.pButtonLinkDropbox setTitle:@"Sync" forState:UIControlStateNormal];
+                // need to download saved data
             }
             // At this point you can start making API calls
         }
