@@ -21,6 +21,7 @@
 @property NSString * currency;
 @property UIImage * pCategoryImage;
 @property UITextField * pHeaderField;
+@property UIButton * pButtonExpense; 
 @property NSDate    *pSelectedDate;
 - (IBAction)backFromSub:(UIStoryboardSegue *)segue;
 @property (strong, nonatomic) IBOutlet UIMonthYearPicker *pMonthYearPicker;

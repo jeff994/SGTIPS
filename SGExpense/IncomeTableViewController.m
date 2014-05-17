@@ -243,7 +243,7 @@
     self.pHeaderField = [[UITextField alloc] initWithFrame:CGRectMake( 5, 5, self.tableView.frame.size.width - 10, 40)];
     self.pHeaderField.backgroundColor = [UIColor clearColor];
     self.pHeaderField.clearButtonMode = UITextFieldViewModeNever;
-    self.pHeaderField.borderStyle = UITextBorderStyleRoundedRect;
+    self.pHeaderField.borderStyle = UITextBorderStyleNone;
     self.pHeaderField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     self.pHeaderField.textAlignment = NSTextAlignmentCenter;
     self.pHeaderField.delegate = self;
@@ -266,6 +266,11 @@
     self.pHeaderField.inputAccessoryView = toolBar;
     self.pMonthYearPicker.hidden = YES;
     [headerView addSubview:self.pHeaderField];
+    CGRect sepFrame = CGRectMake(0, headerView.frame.size.height-1, 320, 1);
+    UIView *seperatorView = [[UIView alloc] initWithFrame:sepFrame];
+    seperatorView.backgroundColor = [UIColor colorWithWhite:224.0/255.0 alpha:1.0];
+    [headerView addSubview:seperatorView];
+    
     self.tableView.tableHeaderView = headerView;
     self.pMonthYearPicker._delegate = self;
     

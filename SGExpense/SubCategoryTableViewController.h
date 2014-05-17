@@ -10,18 +10,21 @@
 #import "DBManager.h"
 
 @interface SubCategoryTableViewController : UITableViewController
+
+// U
 @property NSString *pMainCat;
 @property DBManager * pDbManager; // Used to get the database manager
 @property NSMutableArray * pCategory;
 @property NSString * pSelectedCategory;
-
 // Global value from parent 
 @property NSString * pCurrency;
 @property NSInteger  nMonth;
 @property NSInteger  nYear;
 @property UIImage * pCatergoryImage;
-
-@property NSMutableDictionary *allEntryData;  // Used to hold all entry data
+@property NSMutableDictionary *pAllEntryData;  // Used to hold all entry data
+@property UIView* pHeaderView;
+@property UITableViewCell * pHeaderCell;
+@property UIView * pSeperatorView;
 
 - (IBAction)unwindToList:(UIStoryboardSegue *)segue;
 - (IBAction)addNewEntry:(UIStoryboardSegue *)segue;
