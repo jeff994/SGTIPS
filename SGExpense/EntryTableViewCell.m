@@ -49,6 +49,9 @@
     GLfloat fHeight = tmpFrame.size.height;
     CGRect newFrame = CGRectMake(fOriginX, fOriginY, fLabelWidth + fImageWidth - fImageHeight + 8,  fHeight);
     self.textLabel.frame = newFrame;
+    CGRect subtileframe = self.detailTextLabel.frame;
+     subtileframe.origin.x = fOriginX - 2;
+     self.detailTextLabel.frame = subtileframe;
 }
 
 @end

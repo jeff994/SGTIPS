@@ -26,6 +26,10 @@ static sqlite3_stmt  * statement = nil;
     return sharedInstance;
 }
 
++(void)clearSharedInstance{
+    sharedInstance = nil;
+}
+
 - (NSString *) getDatabasePath
 {
     return databasePath;

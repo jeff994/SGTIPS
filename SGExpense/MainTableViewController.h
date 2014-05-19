@@ -28,4 +28,6 @@
 -(NSString *) formatMonthString:(NSDate *) date;
 -(void) initTableHeader;
 -(void) InitGlobalData;
+-(void) DownloadData;
+@property (nonatomic, strong) DBRestClient *restClient;
 @end

@@ -19,6 +19,7 @@
 }
 
 +(DBManager *)getSharedInstance;
++(void)clearSharedInstance;
 /// ----- Category table handing
 // Used to create category of accounts
 -(BOOL) createCategory;

@@ -213,6 +213,14 @@
             break;
     }
     if(indexPath.row == 2) [cell addSubview:seperatorView];
+    /*if(indexPath.row == 2 & indexPath.section == 0)
+    {
+        CGRect sepFrame2 = CGRectMake(0, 34, 320, 1);
+        UIView *seperatorView2 = [[UIView alloc] initWithFrame:sepFrame2];
+        seperatorView2.backgroundColor = [UIColor colorWithWhite:224.0/255.0 alpha:1.0];
+        [cell addSubview:seperatorView2];
+
+    }*/
     seperatorView  = nil;
     return cell;
 }
@@ -304,9 +312,14 @@
     return 30;
 }
 
+- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
+{
+    return nil;
+}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
+    if(section == 0) return 10;
     return 1;
 }
 

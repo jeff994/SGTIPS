@@ -216,12 +216,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.pHeaderView.layer.borderWidth = 1;
-    self.pHeaderView.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    self.pHeaderView.layer.backgroundColor = [UIColor lightGrayColor].CGColor;
+    //self.pHeaderView.layer.borderWidth = 1;
     self.pHeaderView.layer.cornerRadius = 5;
     self.pScrollView.layer.borderWidth = 2;
-    self.pScrollView.layer.borderColor = [UIColor blackColor].CGColor;
+    //self.pScrollView.layer.borderColor = [UIColor blackColor].CGColor;
     self.pButtonLinkDropbox.layer.cornerRadius = 3;
     //self.pButtonLinkDropbox.layer.borderWidth = 1;
     //self.pButtonLinkDropbox.layer.borderColor = [UIColor blueColor].CGColor;

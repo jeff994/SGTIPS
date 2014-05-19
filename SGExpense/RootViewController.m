@@ -7,6 +7,7 @@
 //
 
 #import "RootViewController.h"
+#import "AppDelegate.h"
 
 @interface RootViewController ()
 
@@ -26,6 +27,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    //[[DBSession sharedSession] unlinkAll];
+    
     //self.delegate = self;
     // Do any additional setup after loading the view.
 }

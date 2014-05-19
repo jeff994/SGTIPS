@@ -403,6 +403,13 @@
     
 }
 
+- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
+{
+    if(section == 0)
+        return @"------------------------------------";
+    else return nil;
+}
+
 -(void) prepareSummaryData
 {
     if(self.nSummaryType == 0 )

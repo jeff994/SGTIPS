@@ -76,6 +76,7 @@
     [self addRepeatingEntry];
     [self initTableHeader];
     [self initTableFooter];
+    self.pMonthYearPicker.hidden = YES; 
     return;
 
     // Uncomment the following line to preserve selection between presentations.

@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import <DropboxSDK/DropboxSDK.h>
+#import "DBManager.h"
 
 @implementation AppDelegate
 
@@ -59,6 +60,11 @@
             {
                 [self.m_pViewControler.pButtonLinkDropbox setTitle:@"Sync" forState:UIControlStateNormal];
                 // need to download saved data
+            }
+            if(self.m_pMainViewControler)
+            {
+                [DBManager clearSharedInstance];
+                [self.m_pMainViewControler DownloadData];
             }
             // At this point you can start making API calls
         }

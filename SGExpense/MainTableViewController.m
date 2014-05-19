@@ -8,6 +8,7 @@
 
 #import "MainTableViewController.h"
 #import "SubCategoryTableViewController.h"
+#import "AppDelegate.h"
 
 @interface MainTableViewController ()
 @end
@@ -174,6 +175,15 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    appDelegate.m_pMainViewControler = self;
+    
+    //[[DBSession sharedSession] unlinkAll];
+    if (![[DBSession sharedSession] isLinked]) {
+        [[DBSession sharedSession] linkFromController:self];
+    }
+    else
+        [self DownloadData];
     self.pSelectedCategory = nil;
     // Get the db manager from the DBManager
     [self initTableHeader];
@@ -314,5 +324,71 @@
     [self.tableView reloadData];
     [self initTableFooter];
 }
+
+#pragma mark - Drop box downloading data for the first time
+
+-(void) DownloadData
+{
+    if ([[DBSession sharedSession] isLinked])
+    {
+        self.restClient = [[DBRestClient alloc] initWithSession:[DBSession sharedSession]];
+        self.restClient.delegate = self;
+        [self.restClient loadMetadata:@"/"];
+    }
+}
+
+- (void)restClient:(DBRestClient*)client loadMetadataFailedWithError:(NSError*)error
+{
+    return;
+}
+
+- (void)restClient:(DBRestClient*)client loadedMetadata:(DBMetadata*)metadata
+{
+    // 1. First time when there's no data in dropbox
+    NSString * pRoot = [[DBManager getSharedInstance] getDocumentDirectory];
+    NSString * dbFile = [[[DBManager getSharedInstance] getDatabasePath] lastPathComponent];
+    NSString* root = @"/";
+    NSString* cfg = @"cfgimg";
+    NSString* receipts = @"receipts";
+    // First time when user connects drop box would be handled in the config module
+    // Data already in the server 
+    if([metadata.contents count] == 3 && [metadata.path isEqualToString:root])
+    {
+        for(DBMetadata * pData in metadata.contents)
+        {
+            if(!pData.isDirectory)
+                [self.restClient loadFile:pData.path intoPath:[pRoot stringByAppendingPathComponent:pData.path]];
+            else
+                [self.restClient loadMetadata:pData.path];
+        }
+    }else if(metadata.isDirectory)
+    {
+         for(DBMetadata * pData in metadata.contents)
+         {
+             if(!pData.isDirectory)
+                 [self.restClient loadFile:pData.path intoPath:[pRoot stringByAppendingPathComponent:pData.path]];
+             else
+                 [self.restClient loadMetadata:pData.path];
+
+         }
+    }
+    
+    return;
+    //if(metadata.revision ! )
+}
+
+- (void)restClient:(DBRestClient *)client loadedFile:(NSString *)localPath
+       contentType:(NSString *)contentType metadata:(DBMetadata *)metadata {
+    NSLog(@"File loaded into path: %@", localPath);
+    [DBManager clearSharedInstance];
+    [DBManager getSharedInstance];
+    [self.tableView reloadData];
+}
+
+- (void)restClient:(DBRestClient *)client loadFileFailedWithError:(NSError *)error {
+    NSLog(@"There was an error loading the file: %@", error);
+}
+
+
 
 @end
