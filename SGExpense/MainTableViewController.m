@@ -334,6 +334,7 @@
         self.restClient = [[DBRestClient alloc] initWithSession:[DBSession sharedSession]];
         self.restClient.delegate = self;
         [self.restClient loadMetadata:@"/"];
+        [self.view setUserInteractionEnabled:NO];
     }
 }
 
@@ -346,10 +347,8 @@
 {
     // 1. First time when there's no data in dropbox
     NSString * pRoot = [[DBManager getSharedInstance] getDocumentDirectory];
-    NSString * dbFile = [[[DBManager getSharedInstance] getDatabasePath] lastPathComponent];
+
     NSString* root = @"/";
-    NSString* cfg = @"cfgimg";
-    NSString* receipts = @"receipts";
     // First time when user connects drop box would be handled in the config module
     // Data already in the server 
     if([metadata.contents count] == 3 && [metadata.path isEqualToString:root])
@@ -380,9 +379,15 @@
 - (void)restClient:(DBRestClient *)client loadedFile:(NSString *)localPath
        contentType:(NSString *)contentType metadata:(DBMetadata *)metadata {
     NSLog(@"File loaded into path: %@", localPath);
-    [DBManager clearSharedInstance];
-    [DBManager getSharedInstance];
-    [self.tableView reloadData];
+    NSString * dbFile = [[[DBManager getSharedInstance] getDatabasePath] lastPathComponent];
+    NSString * dbFile2 = [localPath lastPathComponent];
+    if([dbFile isEqual:dbFile2])
+    {
+        [DBManager clearSharedInstance];
+        [DBManager getSharedInstance];
+        [self.tableView reloadData];
+        [self.view setUserInteractionEnabled:YES];
+    }
 }
 
 - (void)restClient:(DBRestClient *)client loadFileFailedWithError:(NSError *)error {
