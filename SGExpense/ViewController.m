@@ -24,8 +24,14 @@
         //[[DBSession sharedSession] unlinkAll];
         [self.pButtonLinkDropbox setTitle:@"Sync" forState:UIControlStateNormal];
         // Load meta data of root table
-        [self.restClient loadMetadata:@"/"];
+        [self uploadData];
     }
+}
+
+-(void) uploadData
+{
+    [self.restClient loadMetadata:@"/"];
+
 }
 
 - (void) saveDBFile

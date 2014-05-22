@@ -29,5 +29,6 @@
 -(void) initTableHeader;
 -(void) InitGlobalData;
 -(void) DownloadData;
+@property NSString * m_rev;
 @property (nonatomic, strong) DBRestClient *restClient;
 @end

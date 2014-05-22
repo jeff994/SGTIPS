@@ -26,5 +26,6 @@
 -(void) saveReceiptFile;
 -(void) loadDBFile;
 -(void) LoadCFGFile;
+-(void) uploadData;
 -(void) loadReceiptFile; 
  @end

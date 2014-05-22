@@ -334,7 +334,6 @@
         self.restClient = [[DBRestClient alloc] initWithSession:[DBSession sharedSession]];
         self.restClient.delegate = self;
         [self.restClient loadMetadata:@"/"];
-        [self.view setUserInteractionEnabled:NO];
     }
 }
 
@@ -356,7 +355,13 @@
         for(DBMetadata * pData in metadata.contents)
         {
             if(!pData.isDirectory)
-                [self.restClient loadFile:pData.path intoPath:[pRoot stringByAppendingPathComponent:pData.path]];
+            {
+                [self.view setUserInteractionEnabled:NO];
+                if(self.m_rev != nil)
+                    [self.restClient loadFile:pData.path  atRev:self.m_rev intoPath:[pRoot stringByAppendingPathComponent:pData.path]];
+                else
+                    [self.restClient loadFile:pData.path  intoPath:[pRoot stringByAppendingPathComponent:pData.path]];
+            }
             else
                 [self.restClient loadMetadata:pData.path];
         }
@@ -383,6 +388,7 @@
     NSString * dbFile2 = [localPath lastPathComponent];
     if([dbFile isEqual:dbFile2])
     {
+        self.m_rev = metadata.rev;
         [DBManager clearSharedInstance];
         [DBManager getSharedInstance];
         [self.tableView reloadData];
