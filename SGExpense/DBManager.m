@@ -190,6 +190,24 @@ static sqlite3_stmt  * statement = nil;
     [self SaveConfigFile:@"Summary.png"];
     [self SaveConfigFile:@"Config.png"];
     [self SaveConfigFile:@"Deal.png"];
+    [self SaveConfigFile:@"Bonus.png"];
+    [self SaveConfigFile:@"Clothing.png"];
+    [self SaveConfigFile:@"Debt Payments.png"];
+    [self SaveConfigFile:@"Entertainment.png"];
+    [self SaveConfigFile:@"Family.png"];
+    [self SaveConfigFile:@"Food.png"];
+    [self SaveConfigFile:@"Health and medical.png"];
+    [self SaveConfigFile:@"Home.png"];
+    [self SaveConfigFile:@"Investment and savings.png"];
+    [self SaveConfigFile:@"Investment.png"];
+    [self SaveConfigFile:@"Miscellaneous Expense.png"];
+    [self SaveConfigFile:@"Miscellaneous Income.png"];
+    [self SaveConfigFile:@"Pets.png"];
+    [self SaveConfigFile:@"Recreation.png"];
+    [self SaveConfigFile:@"Transportation.png"];
+    [self SaveConfigFile:@"Wage.png"];
+    [self SaveConfigFile:@"Utilities.png"];
+
     return true;
 }
 

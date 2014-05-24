@@ -44,6 +44,23 @@
 		8F9FDDDC191E674D003593F1 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F9FDDD0191E674D003593F1 /* SBJsonWriter.m */; };
 		8F9FDDDF191EFAE8003593F1 /* EntryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F9FDDDE191EFAE8003593F1 /* EntryTableViewCell.m */; };
 		8F9FDDE2191F43F3003593F1 /* DealTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F9FDDE1191F43F3003593F1 /* DealTableViewCell.m */; };
+		8FA233B519301B60003BBCED /* Bonus.png in Resources */ = {isa = PBXBuildFile; fileRef = 8FA233A419301B60003BBCED /* Bonus.png */; };
+		8FA233B619301B60003BBCED /* Clothing.png in Resources */ = {isa = PBXBuildFile; fileRef = 8FA233A519301B60003BBCED /* Clothing.png */; };
+		8FA233B719301B60003BBCED /* Debt Payments.png in Resources */ = {isa = PBXBuildFile; fileRef = 8FA233A619301B60003BBCED /* Debt Payments.png */; };
+		8FA233B819301B60003BBCED /* Entertainment.png in Resources */ = {isa = PBXBuildFile; fileRef = 8FA233A719301B60003BBCED /* Entertainment.png */; };
+		8FA233B919301B60003BBCED /* Family.png in Resources */ = {isa = PBXBuildFile; fileRef = 8FA233A819301B60003BBCED /* Family.png */; };
+		8FA233BA19301B60003BBCED /* Food.png in Resources */ = {isa = PBXBuildFile; fileRef = 8FA233A919301B60003BBCED /* Food.png */; };
+		8FA233BB19301B60003BBCED /* Health and medical.png in Resources */ = {isa = PBXBuildFile; fileRef = 8FA233AA19301B60003BBCED /* Health and medical.png */; };
+		8FA233BC19301B60003BBCED /* Home.png in Resources */ = {isa = PBXBuildFile; fileRef = 8FA233AB19301B60003BBCED /* Home.png */; };
+		8FA233BD19301B60003BBCED /* Investment and savings.png in Resources */ = {isa = PBXBuildFile; fileRef = 8FA233AC19301B60003BBCED /* Investment and savings.png */; };
+		8FA233BE19301B60003BBCED /* Investment.png in Resources */ = {isa = PBXBuildFile; fileRef = 8FA233AD19301B60003BBCED /* Investment.png */; };
+		8FA233BF19301B60003BBCED /* Miscellaneous Expense.png in Resources */ = {isa = PBXBuildFile; fileRef = 8FA233AE19301B60003BBCED /* Miscellaneous Expense.png */; };
+		8FA233C019301B60003BBCED /* Miscellaneous Income.png in Resources */ = {isa = PBXBuildFile; fileRef = 8FA233AF19301B60003BBCED /* Miscellaneous Income.png */; };
+		8FA233C119301B60003BBCED /* Pets.png in Resources */ = {isa = PBXBuildFile; fileRef = 8FA233B019301B60003BBCED /* Pets.png */; };
+		8FA233C219301B60003BBCED /* Recreation.png in Resources */ = {isa = PBXBuildFile; fileRef = 8FA233B119301B60003BBCED /* Recreation.png */; };
+		8FA233C319301B60003BBCED /* Transportation.png in Resources */ = {isa = PBXBuildFile; fileRef = 8FA233B219301B60003BBCED /* Transportation.png */; };
+		8FA233C419301B60003BBCED /* Utilities.png in Resources */ = {isa = PBXBuildFile; fileRef = 8FA233B319301B60003BBCED /* Utilities.png */; };
+		8FA233C519301B60003BBCED /* Wage.png in Resources */ = {isa = PBXBuildFile; fileRef = 8FA233B419301B60003BBCED /* Wage.png */; };
 		8FD25ECF1927A12E00D24063 /* SummaryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FD25ECE1927A12E00D24063 /* SummaryTableViewCell.m */; };
 		8FD25ED21927A1F300D24063 /* SummaryTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FD25ED11927A1F300D24063 /* SummaryTableViewController.m */; };
 		8FDC33C8190263A80085806C /* SubCategoryTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FDC33C7190263A80085806C /* SubCategoryTableViewController.m */; };
@@ -144,6 +161,23 @@
 		8F9FDDDE191EFAE8003593F1 /* EntryTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EntryTableViewCell.m; sourceTree = "<group>"; };
 		8F9FDDE0191F43F3003593F1 /* DealTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DealTableViewCell.h; sourceTree = "<group>"; };
 		8F9FDDE1191F43F3003593F1 /* DealTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DealTableViewCell.m; sourceTree = "<group>"; };
+		8FA233A419301B60003BBCED /* Bonus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Bonus.png; sourceTree = "<group>"; };
+		8FA233A519301B60003BBCED /* Clothing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Clothing.png; sourceTree = "<group>"; };
+		8FA233A619301B60003BBCED /* Debt Payments.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Debt Payments.png"; sourceTree = "<group>"; };
+		8FA233A719301B60003BBCED /* Entertainment.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Entertainment.png; sourceTree = "<group>"; };
+		8FA233A819301B60003BBCED /* Family.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Family.png; sourceTree = "<group>"; };
+		8FA233A919301B60003BBCED /* Food.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Food.png; sourceTree = "<group>"; };
+		8FA233AA19301B60003BBCED /* Health and medical.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Health and medical.png"; sourceTree = "<group>"; };
+		8FA233AB19301B60003BBCED /* Home.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Home.png; sourceTree = "<group>"; };
+		8FA233AC19301B60003BBCED /* Investment and savings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Investment and savings.png"; sourceTree = "<group>"; };
+		8FA233AD19301B60003BBCED /* Investment.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Investment.png; sourceTree = "<group>"; };
+		8FA233AE19301B60003BBCED /* Miscellaneous Expense.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Miscellaneous Expense.png"; sourceTree = "<group>"; };
+		8FA233AF19301B60003BBCED /* Miscellaneous Income.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Miscellaneous Income.png"; sourceTree = "<group>"; };
+		8FA233B019301B60003BBCED /* Pets.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Pets.png; sourceTree = "<group>"; };
+		8FA233B119301B60003BBCED /* Recreation.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Recreation.png; sourceTree = "<group>"; };
+		8FA233B219301B60003BBCED /* Transportation.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Transportation.png; sourceTree = "<group>"; };
+		8FA233B319301B60003BBCED /* Utilities.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Utilities.png; sourceTree = "<group>"; };
+		8FA233B419301B60003BBCED /* Wage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Wage.png; sourceTree = "<group>"; };
 		8FD25ECD1927A12E00D24063 /* SummaryTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SummaryTableViewCell.h; sourceTree = "<group>"; };
 		8FD25ECE1927A12E00D24063 /* SummaryTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SummaryTableViewCell.m; sourceTree = "<group>"; };
 		8FD25ED01927A1F300D24063 /* SummaryTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SummaryTableViewController.h; sourceTree = "<group>"; };
@@ -263,6 +297,23 @@
 		8FD69DDB1911F1AA00E6D886 /* cfgimg */ = {
 			isa = PBXGroup;
 			children = (
+				8FA233A419301B60003BBCED /* Bonus.png */,
+				8FA233A519301B60003BBCED /* Clothing.png */,
+				8FA233A619301B60003BBCED /* Debt Payments.png */,
+				8FA233A719301B60003BBCED /* Entertainment.png */,
+				8FA233A819301B60003BBCED /* Family.png */,
+				8FA233A919301B60003BBCED /* Food.png */,
+				8FA233AA19301B60003BBCED /* Health and medical.png */,
+				8FA233AB19301B60003BBCED /* Home.png */,
+				8FA233AC19301B60003BBCED /* Investment and savings.png */,
+				8FA233AD19301B60003BBCED /* Investment.png */,
+				8FA233AE19301B60003BBCED /* Miscellaneous Expense.png */,
+				8FA233AF19301B60003BBCED /* Miscellaneous Income.png */,
+				8FA233B019301B60003BBCED /* Pets.png */,
+				8FA233B119301B60003BBCED /* Recreation.png */,
+				8FA233B219301B60003BBCED /* Transportation.png */,
+				8FA233B319301B60003BBCED /* Utilities.png */,
+				8FA233B419301B60003BBCED /* Wage.png */,
 				8FFA404F192F9512009D3CCE /* Default.jpg */,
 				8FFA4049192F86D7009D3CCE /* Default.png */,
 				8FFA404D192F91FD009D3CCE /* Default@2x.png */,
@@ -487,20 +538,37 @@
 			files = (
 				8FFA404E192F91FD009D3CCE /* Default@2x.png in Resources */,
 				8FE8A7701901208D009A8417 /* Images.xcassets in Resources */,
+				8FA233BE19301B60003BBCED /* Investment.png in Resources */,
+				8FA233C219301B60003BBCED /* Recreation.png in Resources */,
 				8F98D25C1921C09F0024DFCE /* Icon.png in Resources */,
+				8FA233B519301B60003BBCED /* Bonus.png in Resources */,
 				8FFA404A192F86D7009D3CCE /* Default.png in Resources */,
 				8F7493E2190A585500320B8F /* Income.png in Resources */,
 				8F98D25E1921FB020024DFCE /* plus.png in Resources */,
+				8FA233B619301B60003BBCED /* Clothing.png in Resources */,
 				8FE8A7621901208D009A8417 /* InfoPlist.strings in Resources */,
+				8FA233B919301B60003BBCED /* Family.png in Resources */,
+				8FA233BD19301B60003BBCED /* Investment and savings.png in Resources */,
 				8F1A9C92191487E100974B9D /* glass.png in Resources */,
+				8FA233B719301B60003BBCED /* Debt Payments.png in Resources */,
+				8FA233BC19301B60003BBCED /* Home.png in Resources */,
+				8FA233C119301B60003BBCED /* Pets.png in Resources */,
 				8F1A9C96191488C600974B9D /* BB_Blue.png in Resources */,
 				8F1A9C941914884000974B9D /* blue.jpg in Resources */,
+				8FA233BF19301B60003BBCED /* Miscellaneous Expense.png in Resources */,
 				8FF7E89E19140A6C00DD27B5 /* Deal.png in Resources */,
+				8FA233BA19301B60003BBCED /* Food.png in Resources */,
 				8F7493E0190A57B300320B8F /* Summary.png in Resources */,
+				8FA233BB19301B60003BBCED /* Health and medical.png in Resources */,
+				8FA233C019301B60003BBCED /* Miscellaneous Income.png in Resources */,
 				8F7493E4190A598600320B8F /* Expense.png in Resources */,
 				8FE8A76B1901208D009A8417 /* Main.storyboard in Resources */,
+				8FA233C519301B60003BBCED /* Wage.png in Resources */,
 				8F7493DE190A56D500320B8F /* Config.png in Resources */,
+				8FA233C419301B60003BBCED /* Utilities.png in Resources */,
+				8FA233B819301B60003BBCED /* Entertainment.png in Resources */,
 				8FFA4050192F9512009D3CCE /* Default.jpg in Resources */,
+				8FA233C319301B60003BBCED /* Transportation.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
