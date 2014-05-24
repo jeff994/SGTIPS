@@ -105,7 +105,20 @@
             [self.pMetadataDictionary setValue:pChildMeta forKey:pChildMeta.path];
             NSString * pLocalPath = [pRoot stringByAppendingPathComponent:pChildMeta.path];
             NSString * destDir = [pChildMeta.path stringByDeletingLastPathComponent];
-            if(pChildMeta.rev != nil) [self.restClient uploadFile:pName toPath:destDir withParentRev:pChildMeta.rev fromPath:pLocalPath];
+            if([metadata.path isEqualToString:root])
+            {
+                NSString * sRev = [[DBManager getSharedInstance] getLastVersion];
+                if([sRev isEqualToString:pChildMeta.rev])
+                {
+                    [self.restClient uploadFile:pName toPath:destDir withParentRev:pChildMeta.rev fromPath:pLocalPath];
+                }else
+                {
+                    [self.pButtonLinkDropbox setTitle:@"Version conflit: editing at two ios device" forState:UIControlStateNormal];
+                }
+            }else
+            {
+                if(pChildMeta.rev != nil) [self.restClient uploadFile:pName toPath:destDir withParentRev:pChildMeta.rev fromPath:pLocalPath];
+            }
         }
     }
     
@@ -237,7 +250,7 @@
     self.restClient.delegate = self;
     [self initCurrency];
     // Init the dictionary for metadata
-    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     appDelegate.m_pViewControler = self;
     self.pMetadataDictionary = [[NSMutableDictionary alloc]init];
     
