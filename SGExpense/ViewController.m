@@ -109,7 +109,6 @@
             [self.pMetadataDictionary setValue:pChildMeta forKey:pChildMeta.path];
             NSString * pLocalPath = [pRoot stringByAppendingPathComponent:pChildMeta.path];
             NSString * destDir = [pChildMeta.path stringByDeletingLastPathComponent];
-            NSString * sValue =[ self.pUploadingDictationary objectForKey:metadata.filename ];
             if([metadata.path isEqualToString:root]  && [self.pUploadingDictationary objectForKey:metadata.filename ] == nil)
             {
                 [self.pUploadingDictationary setValue:pLocalPath forKey:metadata.filename];
