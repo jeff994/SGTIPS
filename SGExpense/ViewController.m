@@ -76,8 +76,12 @@
     // First time when user connects drop box
     if([metadata.contents count] == 0 && [metadata.path isEqualToString:root])
     {
-        [self.restClient uploadFile:dbFile toPath:root
+        if([self.pUploadingDictationary objectForKey:metadata.filename ] == nil)
+        {
+            [self.restClient uploadFile:dbFile toPath:root
                       withParentRev:nil fromPath:[pRoot stringByAppendingPathComponent:dbFile]];
+             [self.pUploadingDictationary setValue:[pRoot stringByAppendingPathComponent:dbFile] forKey:metadata.filename ];
+        }
         NSString * pServerCfgPath =[root stringByAppendingPathComponent:cfg];
         NSString * pServerReceiptPath = [root stringByAppendingString:receipts];
         [[self restClient] createFolder:pServerCfgPath];
@@ -105,8 +109,10 @@
             [self.pMetadataDictionary setValue:pChildMeta forKey:pChildMeta.path];
             NSString * pLocalPath = [pRoot stringByAppendingPathComponent:pChildMeta.path];
             NSString * destDir = [pChildMeta.path stringByDeletingLastPathComponent];
-            if([metadata.path isEqualToString:root])
+            NSString * sValue =[ self.pUploadingDictationary objectForKey:metadata.filename ];
+            if([metadata.path isEqualToString:root]  && [self.pUploadingDictationary objectForKey:metadata.filename ] == nil)
             {
+                [self.pUploadingDictationary setValue:pLocalPath forKey:metadata.filename];
                 NSString * sRev = [[DBManager getSharedInstance] getLastVersion];
                 if([sRev isEqualToString:pChildMeta.rev])
                 {
@@ -121,6 +127,7 @@
             }
         }
     }
+    if([metadata.path isEqualToString:root]) return;
     
     NSString *localDirectory = [pRoot stringByAppendingPathComponent:metadata.path];
     NSFileManager *manager = [NSFileManager defaultManager];
@@ -143,7 +150,7 @@
             {
                 if(self.pUploadingDictationary == nil)
                      self.pUploadingDictationary = [[NSMutableDictionary alloc]init];
-                [self.pUploadingDictationary setValue:pFileName forKey:pLocalPath];
+                [self.pUploadingDictationary setValue:pLocalPath forKey:pFileName];
                 [self.restClient uploadFile:pFileName toPath:metadata.path withParentRev:nil fromPath:pLocalPath];
             }
         }
@@ -204,6 +211,13 @@
 - (void)restClient:(DBRestClient *)client uploadedFile:(NSString *)destPath
               from:(NSString *)srcPath metadata:(DBMetadata *)metadata
 {
+    NSString * pDbPath = [[[DBManager getSharedInstance] getDatabasePath] lastPathComponent];
+    
+    if ([metadata.filename isEqualToString:pDbPath])
+    {
+        [[DBManager getSharedInstance] updateVersion:metadata.rev];
+    }
+    //[self.pUploadingDictationary removeObjectForKey:metadata.filename];
     [self.pMetadataDictionary setValue:metadata forKey:metadata.path];
 }
 
@@ -253,7 +267,7 @@
     AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     appDelegate.m_pViewControler = self;
     self.pMetadataDictionary = [[NSMutableDictionary alloc]init];
-    
+    self.pUploadingDictationary = [[NSMutableDictionary alloc]init];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

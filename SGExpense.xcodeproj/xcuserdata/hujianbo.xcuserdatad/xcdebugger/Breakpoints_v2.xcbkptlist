@@ -23,12 +23,12 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "SGExpense/MainTableViewController.m"
-            timestampString = "422591210.800256"
+            filePath = "SGExpense/ViewController.m"
+            timestampString = "422599229.488317"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "365"
-            endingLineNumber = "365"
+            startingLineNumber = "82"
+            endingLineNumber = "82"
             landmarkName = "-restClient:loadedMetadata:"
             landmarkType = "5">
          </BreakpointContent>
