@@ -30,6 +30,8 @@
 
 -(BOOL)createEntryTable;
 
+-(BOOL)createConfigTable;
+
 -(void) SaveConfigFile:(NSString *)config;
 
 -(BOOL) createCategoryImage;
@@ -53,6 +55,9 @@
              description:(NSString *)description
                     date:(NSDate*)date imgpath:(NSString *)imgpath bRepeat:(BOOL)bRepeat;
 
+-(BOOL) updateVersion:(NSString *) sVersion;
+
+-(NSString *) getLastVersion;
 
 -(NSString *)saveImage:(UIImage*)image directory:(NSString*)directory imgName:(NSString*)imgName overwrite:(BOOL)overwrite;
 

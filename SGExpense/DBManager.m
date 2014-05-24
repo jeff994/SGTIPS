@@ -17,9 +17,9 @@ static sqlite3_stmt  * statement = nil;
 +(DBManager*)getSharedInstance{
     if (!sharedInstance) {
         sharedInstance = [[super allocWithZone:NULL]init];
-        //[sharedInstance cleanSettings];
         [sharedInstance initDatabase];
         [sharedInstance createCategoryImage];
+        [sharedInstance createConfigTable];
         [sharedInstance openDatabase];
         //[sharedInstance initEntryDataForTesting];
     }
@@ -113,6 +113,7 @@ static sqlite3_stmt  * statement = nil;
     {
         [self createCategory];
         [self createEntryTable];
+        [self createConfigTable];
     }
     docsDir = nil;
     dirPaths = nil; 
@@ -138,6 +139,41 @@ static sqlite3_stmt  * statement = nil;
         }
     }
     return true;
+}
+
+-(BOOL) createConfigTable
+{
+    BOOL isSuccess = YES;
+    const char *dbpath = [databasePath UTF8String];
+    if (sqlite3_open(dbpath, &database) == SQLITE_OK)
+    {
+        char *errMsg;
+        // Create table
+        const char *sql_stmt =
+        "CREATE TABLE config(name VCHAR(256)  PRIMARY KEY NOT NULL, value VCHAR(256))";
+        if (sqlite3_exec(database, sql_stmt, NULL, NULL, &errMsg)
+            != SQLITE_OK)
+        {
+            isSuccess = NO;
+            NSLog(@"Failed to create entry table");
+        }
+        if(isSuccess)
+        {
+            const char *sql_insert = "INSERT INTO config VALUES('version', '');";
+            if (sqlite3_exec(database, sql_insert, NULL, NULL, &errMsg) != SQLITE_OK)
+            {
+                isSuccess = NO;
+                NSLog(@"Failed to put the data inside the table");
+            }
+
+        }
+        sqlite3_close(database);
+    }
+    else {
+        isSuccess = NO;
+        NSLog(@"Failed to open/create database");
+    }
+    return isSuccess;
 }
 
 -(BOOL)createCategory
@@ -395,6 +431,42 @@ static sqlite3_stmt  * statement = nil;
         sqlite3_reset(statement);
     }
     return NO;
+}
+
+-(BOOL) updateVersion:(NSString *)sVersion
+{
+    BOOL bRet = NO;
+    {
+        NSString *insertSQL = [NSString stringWithFormat:@"update config set value = \"%@\" where name = 'version'", sVersion];
+        const char *insert_stmt = [insertSQL UTF8String];
+        sqlite3_prepare_v2(database, insert_stmt,-1, &statement, NULL);
+        bRet = (sqlite3_step(statement) == SQLITE_DONE);
+        sqlite3_reset(statement);
+        insertSQL = nil;
+    }
+    return bRet;
+}
+
+-(NSString *) getLastVersion
+{
+    NSString * sVersion;
+    NSString *querySQL = [NSString stringWithFormat:@"select value from config where name = 'version';"];
+    const char *query_stmt = [querySQL UTF8String];
+    if (sqlite3_prepare_v2(database,
+                           query_stmt, -1, &statement, NULL) == SQLITE_OK)
+    {
+        
+        if (sqlite3_step(statement) == SQLITE_ROW)
+        {
+             sVersion = [[NSString alloc] initWithUTF8String:
+                              (const char *) sqlite3_column_text(statement, 0)];
+        }
+        sqlite3_reset(statement);
+    }
+    querySQL = nil;
+    if([sVersion length] ==0) return nil; 
+    return  sVersion;
+
 }
 
 - (BOOL) updateEntryData:(NSInteger)entry_id category:(NSString*)category value:(float)value

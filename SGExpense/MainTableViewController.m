@@ -177,19 +177,22 @@
     [super viewDidLoad];
     __weak AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     appDelegate.m_pMainViewControler = self;
-    
+      _pDbManager = [DBManager getSharedInstance];
     //[[DBSession sharedSession] unlinkAll];
     if (![[DBSession sharedSession] isLinked]) {
         [[DBSession sharedSession] linkFromController:self];
     }
     else
-        [self DownloadData]; //Download data when app started 
+    {
+        self.m_rev = [[DBManager getSharedInstance] getLastVersion];
+        [self DownloadData]; //Download data when app started
+    }
     self.pSelectedCategory = nil;
     // Get the db manager from the DBManager
     [self initTableHeader];
     [self InitGlobalData];
 
-    _pDbManager = [DBManager getSharedInstance];
+  
     NSArray * pMainCat = [_pDbManager getChildCatetory:@"Expense"];
     [self setTitle:@"Expense"];
     [self addRepeatingEntry];
@@ -356,11 +359,13 @@
         {
             if(!pData.isDirectory)
             {
-                [self.view setUserInteractionEnabled:NO];
-                if(self.m_rev != nil)
-                    [self.restClient loadFile:pData.path  atRev:self.m_rev intoPath:[pRoot stringByAppendingPathComponent:pData.path]];
-                else
-                    [self.restClient loadFile:pData.path  intoPath:[pRoot stringByAppendingPathComponent:pData.path]];
+                if([self.m_rev isEqualToString:pData.rev] == NO)
+                {
+                    // Disable editing
+                    [self.view setUserInteractionEnabled:NO];
+                    self.m_rev = metadata.rev;
+                   [self.restClient loadFile:pData.path  atRev:self.m_rev intoPath:[pRoot stringByAppendingPathComponent:pData.path]];
+                }
             }
             else
                 [self.restClient loadMetadata:pData.path];
@@ -390,7 +395,8 @@
     {
         self.m_rev = metadata.rev;
         [DBManager clearSharedInstance];
-        [DBManager getSharedInstance];
+        self.pDbManager = [DBManager getSharedInstance];
+        [[self pDbManager] updateVersion:self.m_rev];
         [self.tableView reloadData];
         [self.view setUserInteractionEnabled:YES];
     }
