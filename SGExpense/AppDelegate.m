@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import <DropboxSDK/DropboxSDK.h>
 #import "DBManager.h"
+#import "RootViewController.h"
 
 @implementation AppDelegate
 
@@ -38,8 +39,8 @@
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
-      [self.m_pMainViewControler DownloadData];
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+  
+// Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
@@ -50,6 +51,7 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminat
+    [self.m_pViewControler uploadData];
     //e. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 

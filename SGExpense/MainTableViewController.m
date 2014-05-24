@@ -175,7 +175,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    __weak AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     appDelegate.m_pMainViewControler = self;
     
     //[[DBSession sharedSession] unlinkAll];
@@ -183,7 +183,7 @@
         [[DBSession sharedSession] linkFromController:self];
     }
     else
-        [self DownloadData];
+        [self DownloadData]; //Download data when app started 
     self.pSelectedCategory = nil;
     // Get the db manager from the DBManager
     [self initTableHeader];
