@@ -199,7 +199,7 @@
     {
         self.pYearData = [[NSMutableArray alloc] init];
     }
-    NSUInteger loopNumber;
+    int loopNumber;
     for(loopNumber = 2000; loopNumber <= 2030; loopNumber++) {
         NSString * pString =[NSString stringWithFormat:@"%d", loopNumber];
         [self.pYearData addObject:pString];
@@ -388,10 +388,6 @@
     
 }
 
--(void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-}
 
 -(void) tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UINavigationController *)viewController
 {

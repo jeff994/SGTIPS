@@ -12,12 +12,12 @@
 
 @interface IncomeTableViewController : UITableViewController<UITextFieldDelegate, UIGestureRecognizerDelegate>
 
-@property DBManager * pDbManager; // Used to get the database manager
 @property NSMutableArray * pCategory;
 @property NSString * pSelectedCategory;
 @property NSString * currency;
 @property NSInteger nMonth;
 @property NSInteger  nYear;
+@property NSString *pDbVersion;
 - (IBAction)backFromSub:(UIStoryboardSegue *)segue;
 @property (strong, nonatomic) IBOutlet UIMonthYearPicker *pMonthYearPicker;
 @property UITextField * pHeaderField;

@@ -294,6 +294,13 @@
 			path = Classes;
 			sourceTree = "<group>";
 		};
+		8FA89A371930AAE300100F1C /* iPad */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = iPad;
+			sourceTree = "<group>";
+		};
 		8FD69DDB1911F1AA00E6D886 /* cfgimg */ = {
 			isa = PBXGroup;
 			children = (
@@ -369,6 +376,7 @@
 		8FE8A75D1901208D009A8417 /* SGExpense */ = {
 			isa = PBXGroup;
 			children = (
+				8FA89A371930AAE300100F1C /* iPad */,
 				8F9133BD1915E10100B3B91F /* SGExpense.entitlements */,
 				8F0BE145190B59DF00DC6907 /* Third Party */,
 				8FE8A79019012173009A8417 /* ViewContollers */,
@@ -758,6 +766,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SGExpense/SGExpense-Prefix.pch";
 				INFOPLIST_FILE = "SGExpense/SGExpense-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -791,6 +800,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SGExpense/SGExpense-Prefix.pch";
 				INFOPLIST_FILE = "SGExpense/SGExpense-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",

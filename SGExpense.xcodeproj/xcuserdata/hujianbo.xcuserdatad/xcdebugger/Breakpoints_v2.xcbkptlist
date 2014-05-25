@@ -20,17 +20,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "SGExpense/ViewController.m"
-            timestampString = "422599229.488317"
+            filePath = "SGExpense/SummaryTableViewController.h"
+            timestampString = "422668260.986161"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "82"
-            endingLineNumber = "82"
-            landmarkName = "-restClient:loadedMetadata:"
-            landmarkType = "5">
+            startingLineNumber = "8"
+            endingLineNumber = "8">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

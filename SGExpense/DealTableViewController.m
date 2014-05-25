@@ -101,7 +101,7 @@
     NSInteger nRows= [self.pAllDeals count];
     if (nRows == 0)
 	{
-        return kCustomRowCount;
+        return 0;
     }
     return nRows;
 }

@@ -39,7 +39,7 @@
     
     for(NSString* key in self.pCategory)
     {
-        fSummary += [self.pDbManager getSummaryLeafCategory:key year:self.nYear month:self.nMonth];
+        fSummary += [[DBManager getSharedInstance] getSummaryLeafCategory:key year:self.nYear month:self.nMonth];
     }
     
     //pHeaderCell.textLabel.text = [NSString stringWithFormat:@"%@ %ld", monthName, (long)self.nYear];
@@ -70,12 +70,12 @@
     [self setTitle:@"Income"];
     [self initCurrency];
     // Get the db manager from the DBManager
-    _pDbManager = [DBManager getSharedInstance];
-    NSArray * pMainCat = [_pDbManager getChildCatetory:@"Income"];
+       NSArray * pMainCat = [[DBManager getSharedInstance] getChildCatetory:@"Income"];
     _pCategory = [NSMutableArray arrayWithArray:pMainCat];
     [self addRepeatingEntry];
     [self initTableHeader];
     [self initTableFooter];
+    self.pDbVersion = [[DBManager getSharedInstance] getLastVersion];
     self.pMonthYearPicker.hidden = YES; 
     return;
 
@@ -86,6 +86,18 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    // There is no version updates
+    if([self.pDbVersion isEqualToString:[[DBManager getSharedInstance] getLastVersion]])
+        return;
+    // Database version not the same from current version
+    [self.tableView reloadData];
+    self.pDbVersion = [[DBManager getSharedInstance] getLastVersion];
+    [self initTableFooter];
+    return;
+}
 
 - (void)didReceiveMemoryWarning
 {
@@ -115,10 +127,10 @@
     
     cell.textLabel.text = pCatName;
     
-    double fSummary = [self.pDbManager getSummaryLeafCategory:pCatName year:self.nYear month:self.nMonth];
+    double fSummary = [[DBManager getSharedInstance] getSummaryLeafCategory:pCatName year:self.nYear month:self.nMonth];
     cell.detailTextLabel.text =  [NSString stringWithFormat:@"%@%.2f", self.currency, fSummary];
     cell.textLabel.text = pCatName;
-    UIImage * pImage = [_pDbManager loadCfgImage:pCatName];
+    UIImage * pImage = [[DBManager getSharedInstance] loadCfgImage:pCatName];
     cell.imageView.image = pImage;
     pCatName = nil;
     pImage = nil;
@@ -127,13 +139,13 @@
 
 - (void) addRepeatingEntry
 {
-    NSMutableArray * pAllEntryCurrentMonth = [self.pDbManager getAllEntry:@"Income" year:self.nYear month:self.nMonth];
+    NSMutableArray * pAllEntryCurrentMonth = [[DBManager getSharedInstance] getAllEntry:@"Income" year:self.nYear month:self.nMonth];
     if([pAllEntryCurrentMonth count] > 0)
     {
         pAllEntryCurrentMonth = nil;
         return;
     }
-    NSMutableArray * pAllEntryRepeatingLastMonth = [self.pDbManager getAllRepeatingEntry:@"Income" year:self.nYear month:self.nMonth - 1];
+    NSMutableArray * pAllEntryRepeatingLastMonth = [[DBManager getSharedInstance] getAllRepeatingEntry:@"Income" year:self.nYear month:self.nMonth - 1];
     if([pAllEntryRepeatingLastMonth count] <= 0) return;
     for(EntryItem * pItem in pAllEntryRepeatingLastMonth)
     {
@@ -141,7 +153,7 @@
         pItem.receipt = nil;
         pItem.receiptPath = nil;
         pItem.entryDate = self.pSelectedDate;
-        [self.pDbManager saveNewEntryData:pItem];
+        [[DBManager getSharedInstance] saveNewEntryData:pItem];
     }
     pAllEntryCurrentMonth = nil;
     pAllEntryRepeatingLastMonth = nil;

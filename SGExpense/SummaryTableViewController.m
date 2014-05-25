@@ -114,7 +114,7 @@
     self.pSelectedDate = date;
     NSCalendar* calendar = [NSCalendar currentCalendar];
     NSDateComponents* components = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:date];
-    self.nYear = [components year];
+    self.nYear = (int)[components year];
     return [NSString stringWithFormat:@"%ld", (long)self.nYear];
 }
 
@@ -145,6 +145,13 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.tableView reloadData];
+    return;
 }
 
 #pragma mark - Table view data source

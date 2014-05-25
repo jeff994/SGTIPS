@@ -13,7 +13,6 @@
 
 @interface MainTableViewController : UITableViewController <UITextFieldDelegate, DBRestClientDelegate>
 
-@property DBManager * pDbManager; // Used to get the database manager
 @property NSMutableArray * pCategory;
 @property NSString * pSelectedCategory;
 @property NSInteger nMonth;

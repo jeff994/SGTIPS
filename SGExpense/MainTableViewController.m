@@ -104,7 +104,7 @@
     
     for(NSString* key in self.pCategory)
     {
-        fSummary += [self.pDbManager getSummaryCategory:key year:self.nYear month:self.nMonth];
+        fSummary += [[DBManager getSharedInstance] getSummaryCategory:key year:self.nYear month:self.nMonth];
     }
     
     //pHeaderCell.textLabel.text = [NSString stringWithFormat:@"%@ %ld", monthName, (long)self.nYear];
@@ -142,13 +142,13 @@
 
 - (void) addRepeatingEntry
 {
-    NSMutableArray * pAllEntryCurrentMonth = [self.pDbManager getAllEntry:@"Expense" year:self.nYear month:self.nMonth];
+    NSMutableArray * pAllEntryCurrentMonth = [[DBManager getSharedInstance] getAllEntry:@"Expense" year:self.nYear month:self.nMonth];
     if([pAllEntryCurrentMonth count] > 0)
     {
         pAllEntryCurrentMonth = nil;
         return;
     }
-    NSMutableArray * pAllEntryRepeatingLastMonth = [self.pDbManager getAllRepeatingEntry:@"Expense" year:self.nYear month:self.nMonth - 1];
+    NSMutableArray * pAllEntryRepeatingLastMonth = [[DBManager getSharedInstance] getAllRepeatingEntry:@"Expense" year:self.nYear month:self.nMonth - 1];
     if([pAllEntryRepeatingLastMonth count] <= 0) return;
     for(EntryItem * pItem in pAllEntryRepeatingLastMonth)
     {
@@ -156,7 +156,7 @@
         pItem.receipt = nil;
         pItem.receiptPath = nil;
         pItem.entryDate = self.pSelectedDate;
-        [self.pDbManager saveNewEntryData:pItem];
+        [[DBManager getSharedInstance] saveNewEntryData:pItem];
     }
     pAllEntryCurrentMonth = nil;
     pAllEntryRepeatingLastMonth = nil;
@@ -177,7 +177,6 @@
     [super viewDidLoad];
     __weak AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     appDelegate.m_pMainViewControler = self;
-      _pDbManager = [DBManager getSharedInstance];
     //[[DBSession sharedSession] unlinkAll];
     if (![[DBSession sharedSession] isLinked]) {
         [[DBSession sharedSession] linkFromController:self];
@@ -193,7 +192,7 @@
     [self InitGlobalData];
 
   
-    NSArray * pMainCat = [_pDbManager getChildCatetory:@"Expense"];
+    NSArray * pMainCat = [[DBManager getSharedInstance] getChildCatetory:@"Expense"];
     [self setTitle:@"Expense"];
     [self addRepeatingEntry];
     _pCategory = [NSMutableArray arrayWithArray:pMainCat];
@@ -237,9 +236,9 @@
     cell.imageView.image = nil;
     cell.textLabel.text = pCatName;
     
-    double fSummary = [self.pDbManager getSummaryCategory:pCatName year:self.nYear month:self.nMonth];
+    double fSummary = [[DBManager getSharedInstance] getSummaryCategory:pCatName year:self.nYear month:self.nMonth];
     cell.detailTextLabel.text =  [NSString stringWithFormat:@"%@%.2f", self.currency, fSummary];
-    UIImage * pImage = [_pDbManager loadCfgImage:pCatName];
+    UIImage * pImage = [[DBManager getSharedInstance] loadCfgImage:pCatName];
     cell.imageView.image = pImage;
     pImage = nil; 
     pCatName = nil;
@@ -395,8 +394,7 @@
     {
         self.m_rev = metadata.rev;
         [DBManager clearSharedInstance];
-        self.pDbManager = [DBManager getSharedInstance];
-        [[self pDbManager] updateVersion:self.m_rev];
+        [[DBManager getSharedInstance]updateVersion:self.m_rev];
         [self.tableView reloadData];
         [self.view setUserInteractionEnabled:YES];
     }

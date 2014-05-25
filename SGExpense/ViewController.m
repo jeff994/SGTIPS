@@ -109,20 +109,24 @@
             [self.pMetadataDictionary setValue:pChildMeta forKey:pChildMeta.path];
             NSString * pLocalPath = [pRoot stringByAppendingPathComponent:pChildMeta.path];
             NSString * destDir = [pChildMeta.path stringByDeletingLastPathComponent];
-            if([metadata.path isEqualToString:root]  && [self.pUploadingDictationary objectForKey:metadata.filename ] == nil)
+            NSString * pUploading = [self.pUploadingDictationary objectForKey:metadata.filename ];
+            if(pUploading == nil)
             {
                 [self.pUploadingDictationary setValue:pLocalPath forKey:metadata.filename];
-                NSString * sRev = [[DBManager getSharedInstance] getLastVersion];
-                if([sRev isEqualToString:pChildMeta.rev])
+                if([metadata.path isEqualToString:root])
                 {
-                    [self.restClient uploadFile:pName toPath:destDir withParentRev:pChildMeta.rev fromPath:pLocalPath];
+                    NSString * sRev = [[DBManager getSharedInstance] getLastVersion];
+                    if([sRev isEqualToString:pChildMeta.rev])
+                    {
+                        [self.restClient uploadFile:pName toPath:destDir withParentRev:pChildMeta.rev fromPath:pLocalPath];
+                    }else
+                    {
+                        [self.pButtonLinkDropbox setTitle:@"Version conflit: editing at two ios device" forState:UIControlStateNormal];
+                    }
                 }else
                 {
-                    [self.pButtonLinkDropbox setTitle:@"Version conflit: editing at two ios device" forState:UIControlStateNormal];
+                    if(pChildMeta.rev != nil) [self.restClient uploadFile:pName toPath:destDir withParentRev:pChildMeta.rev fromPath:pLocalPath];
                 }
-            }else
-            {
-                if(pChildMeta.rev != nil) [self.restClient uploadFile:pName toPath:destDir withParentRev:pChildMeta.rev fromPath:pLocalPath];
             }
         }
     }
@@ -216,7 +220,7 @@
     {
         [[DBManager getSharedInstance] updateVersion:metadata.rev];
     }
-    //[self.pUploadingDictationary removeObjectForKey:metadata.filename];
+    [self.pUploadingDictationary removeObjectForKey:metadata.filename];
     [self.pMetadataDictionary setValue:metadata forKey:metadata.path];
 }
 
