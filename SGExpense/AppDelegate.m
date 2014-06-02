@@ -46,6 +46,11 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    if(self.m_pDealTableController)
+    {
+        [self.m_pDealTableController loadDeals];
+        [self.m_pDealTableController.tableView reloadData];
+    }
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -69,8 +74,7 @@
             {
                 [DBManager clearSharedInstance];
                 [self.m_pMainViewControler DownloadData];
-            }
-            // At this point you can start making API calls
+            }            // At this point you can start making API calls
         }
         return YES;
     }

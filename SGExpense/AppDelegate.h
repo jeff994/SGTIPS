@@ -9,10 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "ViewController.h"
 #import "MainTableViewController.h"
-
+#import "DealTableViewController.h"
 @interface AppDelegate : UIResponder <UIApplicationDelegate,UITabBarControllerDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-@property  (weak, nonatomic) ViewController *m_pViewControler; 
-@property  (weak, nonatomic) MainTableViewController *m_pMainViewControler;
+@property (weak, nonatomic) ViewController *m_pViewControler;
+@property (weak, nonatomic) MainTableViewController *m_pMainViewControler;
+@property (weak, nonatomic) DealTableViewController *m_pDealTableController; 
 @end

@@ -11,6 +11,7 @@
 #import "DealViewController.h"
 #import "IconDownloader.h"
 #import "DealRecord.h"
+#import "AppDelegate.h"
 
 #define kCustomRowCount     7
 
@@ -72,7 +73,9 @@
     [super viewDidLoad];
     [self loadDeals];
     [self setTitle:@"Deals"];
-    
+    __weak AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    appDelegate.m_pDealTableController = self;
+
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
