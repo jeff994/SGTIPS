@@ -30,6 +30,34 @@
     return self;
 }
 
+- (void) initTableHeader
+{
+    UIView* headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 50)];
+    headerView.layer.cornerRadius = 5;
+    headerView.layer.masksToBounds = YES;
+    self.pHeaderField = [[UITextField alloc] initWithFrame:CGRectMake(5, 5, self.tableView.frame.size.width - 10, 40)];
+    self.pHeaderField.backgroundColor = [UIColor clearColor];
+    self.pHeaderField.clearButtonMode = UITextFieldViewModeNever;
+    self.pHeaderField.borderStyle =     UITextBorderStyleNone;
+    self.pHeaderField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+    self.pHeaderField.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+    self.pHeaderField.textAlignment = NSTextAlignmentCenter;
+    [self.pHeaderField setFont:[UIFont boldSystemFontOfSize:15]];
+    self.pHeaderField.backgroundColor = [UIColor clearColor];
+    self.pHeaderField.userInteractionEnabled = NO;
+    if([self.pAllDeals count] > 0)
+        self.pHeaderField.text = @"Featured Deal";
+    else
+        self.pHeaderField.text = @"Go online to get featured deal";
+    [headerView addSubview:self.pHeaderField];
+    CGRect sepFrame = CGRectMake(0, headerView.frame.size.height-1, 320, 1);
+    UIView *seperatorView = [[UIView alloc] initWithFrame:sepFrame];
+    seperatorView.backgroundColor = [UIColor colorWithWhite:224.0/255.0 alpha:1.0];
+    [headerView addSubview:seperatorView];
+
+    self.tableView.tableHeaderView = headerView;
+}
+
 -(void) loadDeals
 {
     NSString * pServerAddress = @"http://sgtips.com/wpmobile/alldeals.php";
@@ -72,6 +100,7 @@
 {
     [super viewDidLoad];
     [self loadDeals];
+    [self initTableHeader];
     [self setTitle:@"Deals"];
     __weak AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     appDelegate.m_pDealTableController = self;
@@ -242,6 +271,11 @@
     return YES;
 }
 */
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 50; // your dynamic height...
+}
 
 
 #pragma mark - Navigation

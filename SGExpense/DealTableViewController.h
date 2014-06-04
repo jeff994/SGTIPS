@@ -10,7 +10,9 @@
 
 @interface DealTableViewController : UITableViewController
 @property   NSMutableArray *pAllDeals;
+@property UITextField * pHeaderField;
 -(void) loadDeals;
+- (void) initTableHeader;
 
 @end
 

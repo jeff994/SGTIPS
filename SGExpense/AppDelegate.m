@@ -49,6 +49,7 @@
     if(self.m_pDealTableController)
     {
         [self.m_pDealTableController loadDeals];
+        [self.m_pDealTableController initTableHeader];
         [self.m_pDealTableController.tableView reloadData];
     }
 }
