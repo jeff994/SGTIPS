@@ -253,7 +253,7 @@
     DealRecord * pRecrod =  [self.pAllDeals objectAtIndex:ip.row];
     NSString * pUrl = pRecrod.dealURLString;
     
-    if([segue.identifier isEqualToString:@"idShowDeal"])
+    if([segue.identifier isEqualToString:@"idShowDeal"] || [segue.identifier isEqualToString:@"idShowDeal2"])
     {
         DealViewController * dest = (DealViewController*)segue.destinationViewController;
         dest.pUrl = pUrl;

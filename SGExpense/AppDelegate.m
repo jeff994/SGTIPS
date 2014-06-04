@@ -17,8 +17,8 @@
 {
     // Override point for customization after application launch.
     DBSession *dbSession = [[DBSession alloc]
-                            initWithAppKey:@"8y9uwba4xjow89n"
-                            appSecret:@"ny8ajc9cxmjgcfe"
+                            initWithAppKey:@"9qm6b2dudl9jmmx"
+                            appSecret:@"gj3wbc4gh9k1l7n"
                             root:kDBRootAppFolder]; // either kDBRootAppFolder or kDBRootDropbox
     [DBSession setSharedSession:dbSession];
     return YES;
