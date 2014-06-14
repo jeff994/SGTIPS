@@ -46,9 +46,9 @@
     self.pHeaderField.backgroundColor = [UIColor clearColor];
     self.pHeaderField.userInteractionEnabled = NO;
     if([self.pAllDeals count] > 0)
-        self.pHeaderField.text = @"Featured Deal";
+        self.pHeaderField.text = @"Featured Deals";
     else
-        self.pHeaderField.text = @"Go online to get featured deal";
+        self.pHeaderField.text = @"Loading data";
     [headerView addSubview:self.pHeaderField];
     CGRect sepFrame = CGRectMake(0, headerView.frame.size.height-1, 320, 1);
     UIView *seperatorView = [[UIView alloc] initWithFrame:sepFrame];
@@ -61,6 +61,53 @@
 -(void) loadDeals
 {
     NSString * pServerAddress = @"http://sgtips.com/wpmobile/alldeals.php";
+    dispatch_queue_t queue = dispatch_get_global_queue(
+                                                       DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_async(queue, ^{
+        //Load the json on another thread
+        
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:pServerAddress]
+                                                               cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
+                                                           timeoutInterval:10];
+        [request setHTTPMethod: @"GET"];
+        
+        NSError *requestError;
+        NSURLResponse *urlResponse = nil;
+        
+        id jsonValue = nil;
+        NSData *response1 = [NSURLConnection sendSynchronousRequest:request returningResponse:&urlResponse error:&requestError];
+        
+        NSString *rawJson = [[NSString alloc] initWithData:response1 encoding:NSUTF8StringEncoding];
+        SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
+        jsonValue = [jsonParser objectWithString:rawJson];
+        NSString *pCode = [jsonValue objectForKey:@"code"];
+        NSInteger nValue = [pCode intValue];
+        if(nValue != 200) return;
+        
+        NSArray * allDeals = [jsonValue objectForKey:@"deals"];
+        self.pAllDeals = [[NSMutableArray alloc] init];
+        for(id pObject in allDeals)
+        {
+            DealRecord *newdeal = [[DealRecord alloc] init];
+            newdeal.dealURLString = (NSString *)[pObject objectForKey:@"displaylink"];
+            newdeal.imageURLString = (NSString *)[pObject objectForKey:@"image"];
+            newdeal.dealDescription = (NSString *)[pObject objectForKey:@"title"];
+            [self.pAllDeals addObject:newdeal];
+        }
+        [self.tableView setSeparatorStyle: UITableViewCellSeparatorStyleSingleLine];
+        //When json is loaded stop the indicator
+        if([allDeals count] == 0)
+        {
+             self.pHeaderField.text = @"Not able to get deals";
+        }else
+        {
+            self.pHeaderField.text = @"Featured Deal";
+            [self.tableView reloadData];
+        }
+    });
+
+    
+   /*
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:pServerAddress]
                                                            cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
                                                        timeoutInterval:10];
@@ -92,6 +139,7 @@
     }
     
     [self.tableView setSeparatorStyle: UITableViewCellSeparatorStyleSingleLine];
+    */
     //[self.tableView setSeparatorInset:UIEdgeInsetsZero];
     return;
 }
@@ -100,6 +148,10 @@
 {
     [super viewDidLoad];
     [self loadDeals];
+    
+    [self.m_activityView startAnimating];
+    self.m_activityView.hidesWhenStopped = YES;
+    
     [self initTableHeader];
     [self setTitle:@"Deals"];
     __weak AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -189,6 +241,14 @@
     }
     
     return cell;
+}
+
+-(void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if([indexPath row] == [self.pAllDeals count] -1)
+    {
+        [self.m_activityView performSelectorOnMainThread:@selector(stopAnimating) withObject:nil waitUntilDone:YES];
+    }
 }
 
 - (void)startIconDownload:(DealRecord *)dealRecord forIndexPath:(NSIndexPath *)indexPath

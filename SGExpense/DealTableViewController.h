@@ -13,6 +13,7 @@
 @property UITextField * pHeaderField;
 -(void) loadDeals;
 - (void) initTableHeader;
+@property (strong, nonatomic) IBOutlet UIActivityIndicatorView *m_activityView;
 
 @end
 
