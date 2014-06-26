@@ -9,17 +9,17 @@
         <scene sceneID="j0k-59-iAY">
             <objects>
                 <tableViewController id="3nA-TU-5I0" customClass="MainTableViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="1Id-zS-2T8">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" allowsSelectionDuringEditing="YES" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="1Id-zS-2T8">
                         <rect key="frame" x="0.0" y="64" width="320" height="455"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <pickerView key="tableFooterView" hidden="YES" contentMode="scaleToFill" id="A2l-dn-QsX" customClass="UIMonthYearPicker">
-                            <rect key="frame" x="0.0" y="66" width="320" height="216"/>
+                            <rect key="frame" x="0.0" y="109" width="320" height="216"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                         </pickerView>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ListMainCatogory" textLabel="nfH-Tm-MRu" detailTextLabel="qRX-xx-fHe" style="IBUITableViewCellStyleSubtitle" id="iWD-jR-m3j">
-                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="55" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="iWD-jR-m3j" id="BaL-B1-7Zn">
                                     <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
@@ -144,7 +144,7 @@
                     <navigationItem key="navigationItem" id="mUF-km-Hpn">
                         <barButtonItem key="leftBarButtonItem" title="Back" id="FuR-pj-jtc">
                             <connections>
-                                <segue destination="a09-5y-rT0" kind="unwind" unwindAction="backFromSub:" id="1gJ-q1-wb8"/>
+                                <segue destination="a09-5y-rT0" kind="unwind" identifier="backFromSub" unwindAction="backFromSub:" id="1gJ-q1-wb8"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" image="plus.png" style="done" id="JQd-az-jOK">
@@ -343,12 +343,12 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                     <navigationItem key="navigationItem" id="oi1-Ms-ZYR">
                         <barButtonItem key="leftBarButtonItem" title="Cancel" id="ACh-cx-tIo">
                             <connections>
-                                <segue destination="GoK-c6-kbf" kind="unwind" unwindAction="unwindToList:" id="m6p-Hh-Qn1"/>
+                                <segue destination="GoK-c6-kbf" kind="unwind" identifier="unwindToList" unwindAction="unwindToList:" id="m6p-Hh-Qn1"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" enabled="NO" title="Done" id="lo7-4N-pTq">
                             <connections>
-                                <segue destination="GoK-c6-kbf" kind="unwind" unwindAction="addNewEntry:" id="oe2-s6-6f0"/>
+                                <segue destination="GoK-c6-kbf" kind="unwind" identifier="addNewEntry" unwindAction="addNewEntry:" id="oe2-s6-6f0"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -574,17 +574,17 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
         <scene sceneID="fRk-Mq-PFJ">
             <objects>
                 <tableViewController id="saW-ZH-PCr" customClass="IncomeTableViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="b4I-7X-iWL">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" allowsSelectionDuringEditing="YES" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="b4I-7X-iWL">
                         <rect key="frame" x="0.0" y="64" width="320" height="455"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <pickerView key="tableFooterView" contentMode="scaleToFill" id="2ST-hi-h9S" customClass="UIMonthYearPicker">
-                            <rect key="frame" x="0.0" y="66" width="320" height="216"/>
+                            <rect key="frame" x="0.0" y="109" width="320" height="216"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                         </pickerView>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ListMainCatogory" textLabel="xD6-r9-9n6" detailTextLabel="4Ya-1Z-bbw" style="IBUITableViewCellStyleSubtitle" id="yT2-F5-CGU">
-                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="55" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="yT2-F5-CGU" id="vkC-cV-xpf">
                                     <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
@@ -756,8 +756,8 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="Yqy-fF-9d9"/>
-        <segue reference="VkY-1i-1We"/>
         <segue reference="L9e-s0-0Jc"/>
+        <segue reference="VkY-1i-1We"/>
+        <segue reference="Yqy-fF-9d9"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "EntryItem.h"
 
-@interface ExpenseViewController : UIViewController <UITextFieldDelegate, UIPickerViewDataSource,UIPickerViewDelegate,  UIScrollViewDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface ExpenseViewController : UIViewController <UITextFieldDelegate, UIPickerViewDataSource,UIPickerViewDelegate,  UIScrollViewDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate>
 
 @property (strong, nonatomic) IBOutlet UISwitch     *repeatSwitch;
 @property (strong, nonatomic) IBOutlet UILabel      *currencyLabel;
@@ -30,6 +30,9 @@
 @property                               NSString    *currency;
 @property                               NSInteger   nMonth;
 @property                               NSInteger   nYear;
+
+@property  UISwipeGestureRecognizer *swipeRight;
+@property  UISwipeGestureRecognizer *swipeLeft;
 
 -(void) initCategoryPicker;
 -(void) initDatePicker;

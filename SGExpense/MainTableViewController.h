@@ -11,7 +11,7 @@
 #import "UIMonthYearPicker.h"
 #import <DropboxSDK/DropboxSDK.h>
 
-@interface MainTableViewController : UITableViewController <UITextFieldDelegate, DBRestClientDelegate>
+@interface MainTableViewController : UITableViewController <UITextFieldDelegate, DBRestClientDelegate, UIGestureRecognizerDelegate>
 
 @property NSMutableArray * pCategory;
 @property NSString * pSelectedCategory;
@@ -30,4 +30,6 @@
 -(void) DownloadData;
 @property NSString * m_rev;
 @property (nonatomic, strong) DBRestClient *restClient;
+@property  UISwipeGestureRecognizer *swipeRight;
+@property  UISwipeGestureRecognizer *swipeLeft;
 @end

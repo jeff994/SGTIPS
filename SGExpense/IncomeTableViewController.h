@@ -24,4 +24,7 @@
 -(NSString *) formatMonthString:(NSDate *) date;
 @property NSDate    *pSelectedDate;
 -(void)donePickMonth:(id)sender;
+@property  UISwipeGestureRecognizer *swipeRight;
+@property  UISwipeGestureRecognizer *swipeLeft;
+
 @end

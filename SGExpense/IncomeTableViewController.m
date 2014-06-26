@@ -62,6 +62,19 @@
     Getdollarsymbol = nil;
 }
 
+-(void) initSwiper
+{
+    self.swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeRight:)];
+    self.swipeRight.direction = UISwipeGestureRecognizerDirectionRight;
+    self.swipeRight.delegate = self;
+    [self.view addGestureRecognizer:self.swipeRight];
+    
+    self.swipeLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeLeft:)];
+    self.swipeLeft.direction = UISwipeGestureRecognizerDirectionLeft;
+    self.swipeLeft.delegate = self;
+    [self.view addGestureRecognizer:self.swipeLeft];
+}
+
 - (void)viewDidLoad
 {
     
@@ -84,6 +97,16 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+}
+
+- (void)handleSwipeLeft:(UITapGestureRecognizer *)recognizer {
+    //[self performSegueWithIdentifier:@"unwindToList" sender:self];
+    // Insert your own code to handle swipe left
+}
+
+- (void)handleSwipeRight:(UITapGestureRecognizer *)recognizer {
+    [self performSegueWithIdentifier:@"id_income" sender:self];
+    // Insert your own code to handle swipe right
 }
 
 -(void)viewWillAppear:(BOOL)animated

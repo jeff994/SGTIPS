@@ -230,9 +230,23 @@
     self.pEntryDate.text = formattedDateString;
 }
 
+-(void) initSwiper
+{
+    self.swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeRight:)];
+    self.swipeRight.direction = UISwipeGestureRecognizerDirectionRight;
+    self.swipeRight.delegate = self;
+    [self.view addGestureRecognizer:self.swipeRight];
+    
+    self.swipeLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeLeft:)];
+    self.swipeLeft.direction = UISwipeGestureRecognizerDirectionLeft;
+    self.swipeLeft.delegate = self;
+    [self.view addGestureRecognizer:self.swipeLeft];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self initSwiper];
     
     [self.pDescriptionField setDelegate:self];
     [self initCategoryPicker];
@@ -243,8 +257,20 @@
     [self initUIData];
     // Do any additional setup after loading the view.
 }
+
 - (IBAction)repeatSwitched:(id)sender {
     self.pEntry.bRepat = [self.repeatSwitch isOn];
+}
+
+- (void)handleSwipeLeft:(UITapGestureRecognizer *)recognizer {
+    [self performSegueWithIdentifier:@"unwindToList" sender:self];
+    // Insert your own code to handle swipe left
+}
+
+- (void)handleSwipeRight:(UITapGestureRecognizer *)recognizer {
+    if(self.doneButton.isEnabled)
+        [self performSegueWithIdentifier:@"addNewEntry" sender:self];
+    // Insert your own code to handle swipe right
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField

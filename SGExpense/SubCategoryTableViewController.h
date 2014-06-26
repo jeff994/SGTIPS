@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "DBManager.h"
 
-@interface SubCategoryTableViewController : UITableViewController
+@interface SubCategoryTableViewController : UITableViewController <UIGestureRecognizerDelegate>
 
 // U
 @property NSString *pMainCat;
@@ -25,6 +25,9 @@
 @property UIView* pHeaderView;
 @property UITableViewCell * pHeaderCell;
 @property UIView * pSeperatorView;
+
+@property  UISwipeGestureRecognizer *swipeRight;
+@property  UISwipeGestureRecognizer *swipeLeft;
 
 - (IBAction)unwindToList:(UIStoryboardSegue *)segue;
 - (IBAction)addNewEntry:(UIStoryboardSegue *)segue;

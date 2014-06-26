@@ -172,6 +172,20 @@
     [self initTableFooter];
 }
 
+-(void) initSwiper
+{
+    self.swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeRight:)];
+    self.swipeRight.direction = UISwipeGestureRecognizerDirectionRight;
+    self.swipeRight.delegate = self;
+    [self.view addGestureRecognizer:self.swipeRight];
+    
+    self.swipeLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeLeft:)];
+    self.swipeLeft.direction = UISwipeGestureRecognizerDirectionLeft;
+    self.swipeLeft.delegate = self;
+    [self.view addGestureRecognizer:self.swipeLeft];
+}
+
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -204,6 +218,31 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
+
+- (void)handleSwipeLeft:(UITapGestureRecognizer *)recognizer {
+    //[self performSegueWithIdentifier:@"unwindToList" sender:self];
+    // Insert your own code to handle swipe left
+}
+
+- (void)handleSwipeRight:(UITapGestureRecognizer *)recognizer {
+    [self performSegueWithIdentifier:@"idNavigateSubCat" sender:self];
+    // Insert your own code to handle swipe right
+}
+
+#pragma mark UIGestureRecognizerDelegate methods
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+{
+    if ([touch.view isDescendantOfView:self.view]) {
+        
+        // Don't let selections of auto-complete entries fire the
+        // gesture recognizer
+        return NO;
+    }
+    
+    return YES;
+}
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -253,46 +292,6 @@
     [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
     
 }
-
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
 
 #pragma mark - Navigation
 
