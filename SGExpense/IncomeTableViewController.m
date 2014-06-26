@@ -79,6 +79,7 @@
 {
     
     [super viewDidLoad];
+    [self initSwiper];
     self.pSelectedCategory = @"Income";
     [self setTitle:@"Income"];
     [self initCurrency];

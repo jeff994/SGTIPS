@@ -189,6 +189,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self initSwiper];
     __weak AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     appDelegate.m_pMainViewControler = self;
     //[[DBSession sharedSession] unlinkAll];
@@ -219,6 +220,10 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
+-(void)didSwipe:(UIGestureRecognizer *)gestureRecognizer {
+    return;
+}
+
 - (void)handleSwipeLeft:(UITapGestureRecognizer *)recognizer {
     //[self performSegueWithIdentifier:@"unwindToList" sender:self];
     // Insert your own code to handle swipe left
@@ -229,6 +234,7 @@
     // Insert your own code to handle swipe right
 }
 
+/*
 #pragma mark UIGestureRecognizerDelegate methods
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
@@ -242,6 +248,7 @@
     
     return YES;
 }
+ */
 
 
 - (void)didReceiveMemoryWarning
