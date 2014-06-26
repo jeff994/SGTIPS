@@ -171,17 +171,15 @@
             [self.pImageButton setTitle:nil forState:UIControlStateNormal];
             [ self.pImageButton setBackgroundImage:self.pEntry.receipt forState:UIControlStateNormal];
         }
-        else
-        {
-            if([[DBManager getSharedInstance] isChildOf:@"Expense" child:self.pMainCategoryName])
-            {
-                [self.pImageButton setTitle:@"Add a receipt" forState:UIControlStateNormal];
-            }else if ([[DBManager getSharedInstance] isChildOf:@"Income" child:self.pMainCategoryName])
-            {
-                [self.pImageButton setTitle:@"Add a payment slip" forState:UIControlStateNormal];
-            }
-        }
     }
+    if([[DBManager getSharedInstance] isChildOf:@"Expense" child:self.pMainCategoryName])
+    {
+        [self.pImageButton setTitle:@"Add a receipt" forState:UIControlStateNormal];
+    }else if ([[DBManager getSharedInstance] isChildOf:@"Income" child:self.pMainCategoryName])
+    {
+        [self.pImageButton setTitle:@"Add a payment slip" forState:UIControlStateNormal];
+    }
+
  
 }
 
