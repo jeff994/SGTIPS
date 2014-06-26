@@ -179,7 +179,7 @@
                                         <rect key="frame" x="4" y="2" width="313" height="442"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <subviews>
-                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="***Select categoty***" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UP1-6H-Ii9">
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="***Select category***" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UP1-6H-Ii9">
                                                 <rect key="frame" x="20" y="15" width="279" height="30"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -234,7 +234,7 @@
                                                     <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="getReceiptImage:" destination="FV4-Yf-n3Y" eventType="touchDownRepeat" id="amn-dN-zHZ"/>
+                                                    <action selector="getReceiptImage:" destination="FV4-Yf-n3Y" eventType="touchDown" id="A1K-4n-WDi"/>
                                                 </connections>
                                             </button>
                                             <datePicker hidden="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="gtv-rG-8f5">

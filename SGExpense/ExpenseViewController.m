@@ -122,7 +122,7 @@
                                   destructiveButtonTitle:destructiveTitle
                                   otherButtonTitles:other1, nil];
     actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
-    [actionSheet showInView:self.view];
+    [actionSheet showInView:[self.view window]];
 }
 
 - (void) initDatePicker
@@ -488,7 +488,10 @@
         case 1:
              [self selectPhoto];
             break;
-    } 
+        case 2:
+            [self tap:actionSheet];
+            break;
+    }
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
