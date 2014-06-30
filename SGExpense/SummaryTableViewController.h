@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SummaryTableViewController : UITableViewController <UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate>
+@interface SummaryTableViewController : UITableViewController <UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UIGestureRecognizerDelegate>
 
 @property UIView* pHeaderView;
 @property UITextField *pHeaderLabel;
@@ -21,5 +21,7 @@
 @property NSDate    *pSelectedDate;
 @property float fTotalExpense; 
 -(NSString *) formatYearString:(NSDate *) date;
+@property  UISwipeGestureRecognizer *swipeRight;
+@property  UISwipeGestureRecognizer *swipeLeft;
 
 @end

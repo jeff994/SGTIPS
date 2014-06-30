@@ -144,11 +144,34 @@
     return;
 }
 
+-(void) initSwiper
+{
+    self.swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeRight:)];
+    self.swipeRight.direction = UISwipeGestureRecognizerDirectionRight;
+    self.swipeRight.delegate = self;
+    [self.view addGestureRecognizer:self.swipeRight];
+    
+    self.swipeLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeLeft:)];
+    self.swipeLeft.direction = UISwipeGestureRecognizerDirectionLeft;
+    self.swipeLeft.delegate = self;
+    [self.view addGestureRecognizer:self.swipeLeft];
+}
+
+- (void)handleSwipeLeft:(UITapGestureRecognizer *)recognizer {
+    [self.tabBarController setSelectedIndex:4];
+}
+
+- (void)handleSwipeRight:(UITapGestureRecognizer *)recognizer {
+    [self.tabBarController setSelectedIndex:2];
+    
+    // Insert your own code to handle swipe right
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     [self loadDeals];
-    
+    [self initSwiper];
     [self.m_activityView startAnimating];
     self.m_activityView.hidesWhenStopped = YES;
     
@@ -180,6 +203,11 @@
     }
     return;
 }
+
+- (IBAction)unwindfromweb:(UIStoryboardSegue *)segue
+{
+}
+
 
 #pragma mark - Table view data source
 
@@ -245,7 +273,7 @@
 
 -(void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if([indexPath row] == [self.pAllDeals count] -1)
+    if([indexPath row] == [self.pAllDeals count] - 5)
     {
         [self.m_activityView performSelectorOnMainThread:@selector(stopAnimating) withObject:nil waitUntilDone:YES];
     }

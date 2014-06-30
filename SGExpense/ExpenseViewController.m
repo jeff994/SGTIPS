@@ -255,6 +255,7 @@
     [self initReciptButton];
     [self initEntryData];
     [self initUIData];
+    
     // Do any additional setup after loading the view.
 }
 

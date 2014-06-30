@@ -220,17 +220,14 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
--(void)didSwipe:(UIGestureRecognizer *)gestureRecognizer {
-    return;
-}
 
 - (void)handleSwipeLeft:(UITapGestureRecognizer *)recognizer {
-    //[self performSegueWithIdentifier:@"unwindToList" sender:self];
-    // Insert your own code to handle swipe left
+    [self.tabBarController setSelectedIndex:1];
 }
 
 - (void)handleSwipeRight:(UITapGestureRecognizer *)recognizer {
-    [self performSegueWithIdentifier:@"idNavigateSubCat" sender:self];
+    [self.tabBarController setSelectedIndex:4];
+
     // Insert your own code to handle swipe right
 }
 

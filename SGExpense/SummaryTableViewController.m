@@ -126,9 +126,33 @@
     return monthName;
 }
 
+-(void) initSwiper
+{
+    self.swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeRight:)];
+    self.swipeRight.direction = UISwipeGestureRecognizerDirectionRight;
+    self.swipeRight.delegate = self;
+    [self.view addGestureRecognizer:self.swipeRight];
+    
+    self.swipeLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeLeft:)];
+    self.swipeLeft.direction = UISwipeGestureRecognizerDirectionLeft;
+    self.swipeLeft.delegate = self;
+    [self.view addGestureRecognizer:self.swipeLeft];
+}
+
+- (void)handleSwipeLeft:(UITapGestureRecognizer *)recognizer {
+    [self.tabBarController setSelectedIndex:3];
+}
+
+- (void)handleSwipeRight:(UITapGestureRecognizer *)recognizer {
+    [self.tabBarController setSelectedIndex:1];
+    
+    // Insert your own code to handle swipe right
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self initSwiper];
     [self setTitle:@"Summary"];
     [self configYearPicker];
     [self initHeaderView];

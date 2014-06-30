@@ -151,6 +151,20 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
+    NSString * pCatName = [_pCategory objectAtIndex:section];
+    NSMutableArray *array = [self.pAllEntryData objectForKey:pCatName];
+    double fSummary = 0.0;
+    for (EntryItem * pItem in array) {
+        fSummary += pItem.fAmountSpent;
+    }
+    
+    if(fSummary > 0)
+    {
+        NSString *summary = [NSString stringWithFormat:@"%@: %@%.2f", pCatName, self.pCurrency, fSummary];
+        return summary;
+    }else
+        return [NSString stringWithFormat:@"%@: %@0.00", pCatName, self.pCurrency];
+    
     return [_pCategory objectAtIndex:section];
 }
 
@@ -164,6 +178,7 @@
     return nRows;
 }
 
+/*
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
 {
     NSString * pCatName = [_pCategory objectAtIndex:section];
@@ -183,6 +198,7 @@
     }else
         return @"Subotal:$0.00";
 }
+ */
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {

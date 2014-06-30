@@ -101,12 +101,12 @@
 }
 
 - (void)handleSwipeLeft:(UITapGestureRecognizer *)recognizer {
-    //[self performSegueWithIdentifier:@"unwindToList" sender:self];
-    // Insert your own code to handle swipe left
+    [self.tabBarController setSelectedIndex:2];
 }
 
 - (void)handleSwipeRight:(UITapGestureRecognizer *)recognizer {
-    [self performSegueWithIdentifier:@"id_income" sender:self];
+    [self.tabBarController setSelectedIndex:0];
+
     // Insert your own code to handle swipe right
 }
 

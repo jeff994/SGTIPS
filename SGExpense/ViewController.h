@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <DropboxSDK/DropboxSDK.h>
 
-@interface ViewController : UIViewController <DBRestClientDelegate>
+@interface ViewController : UIViewController <DBRestClientDelegate, UIGestureRecognizerDelegate>
 
 @property (strong, nonatomic) IBOutlet UIView *pHeaderView;
 @property (strong, nonatomic) IBOutlet UITextField *pCurrency;
@@ -27,5 +27,7 @@
 -(void) loadDBFile;
 -(void) LoadCFGFile;
 -(void) uploadData;
--(void) loadReceiptFile; 
+-(void) loadReceiptFile;
+@property  UISwipeGestureRecognizer *swipeRight;
+@property  UISwipeGestureRecognizer *swipeLeft;
  @end
