@@ -67,7 +67,7 @@
 {
     self.activeDownload = [NSMutableData data];
     
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:self.dealRecord.imageURLString]];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:self.appRecord.imageURLString]];
     
     // alloc+init and start an NSURLConnection; release on completion/failure
     NSURLConnection *conn = [[NSURLConnection alloc] initWithRequest:request delegate:self];
@@ -109,12 +109,12 @@
 		UIGraphicsBeginImageContextWithOptions(itemSize, NO, 0.0f);
 		CGRect imageRect = CGRectMake(0.0, 0.0, itemSize.width, itemSize.height);
 		[image drawInRect:imageRect];
-		self.dealRecord.dealImage = UIGraphicsGetImageFromCurrentImageContext();
+		self.appRecord.dealImage = UIGraphicsGetImageFromCurrentImageContext();
 		UIGraphicsEndImageContext();
     }
     else
     {
-        self.dealRecord.dealImage = image;
+        self.appRecord.dealImage = image;
     }
     
     self.activeDownload = nil;

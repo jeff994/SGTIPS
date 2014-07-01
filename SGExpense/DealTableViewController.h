@@ -8,14 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DealTableViewController : UITableViewController
+@interface DealTableViewController : UITableViewController <UIGestureRecognizerDelegate>
 @property   NSMutableArray *pAllDeals;
 @property UITextField * pHeaderField;
 -(void) loadDeals;
 - (void) initTableHeader;
 @property (strong, nonatomic) IBOutlet UIActivityIndicatorView *m_activityView;
 - (IBAction)unwindfromdeal:(UIStoryboardSegue *)segue;
-
+@property  UISwipeGestureRecognizer *swipeRight;
+@property  UISwipeGestureRecognizer *swipeLeft;
 
 @end
 

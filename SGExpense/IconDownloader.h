@@ -53,7 +53,7 @@
 
 @interface IconDownloader : NSObject
 
-@property (nonatomic, strong) DealRecord *dealRecord;
+@property (nonatomic, strong) DealRecord *appRecord;
 @property (nonatomic, copy) void (^completionHandler)(void);
 
 - (void)startDownload;

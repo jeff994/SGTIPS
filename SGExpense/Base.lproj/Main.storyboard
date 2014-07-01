@@ -385,6 +385,9 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                         <outlet property="pDescriptionField" destination="ABs-MV-Cka" id="gfx-P3-G1Y"/>
                         <outlet property="pEntryDate" destination="3c9-ln-gsf" id="p7C-un-f4C"/>
                         <outlet property="pImageButton" destination="ZjQ-vX-50P" id="lR7-1r-wdK"/>
+                        <outlet property="pLabelAmount" destination="cnJ-Fc-dPR" id="0hh-rD-YWk"/>
+                        <outlet property="pLabelCategory" destination="9g5-l6-tJr" id="THj-ZG-OJt"/>
+                        <outlet property="pLabelDate" destination="FWl-ON-6zz" id="IHq-WS-zVE"/>
                         <outlet property="repeatSwitch" destination="jQK-lC-hRN" id="xt9-ex-bTP"/>
                     </connections>
                 </viewController>

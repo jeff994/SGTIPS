@@ -60,6 +60,7 @@
         self.pCategory.text = [self.pCategoryArray objectAtIndex:0];
         [self.pCategory setUserInteractionEnabled:NO];
         self.pEntry.categoryName = [self.pCategoryArray objectAtIndex:0];
+        self.pLabelCategory.text = @"";
     }
     else
     {
@@ -185,6 +186,7 @@
 
 - (IBAction)categoryChanged:(id)sender {
     self.pEntry.categoryName = self.pCategory.text;
+    self.pLabelCategory.text = @"";
 }
 
 - (IBAction)dateChanged:(id)sender {
@@ -192,7 +194,7 @@
     {
         self.pEntry.entryDate = nil ;
     }
-
+    self.pEntryDate.text = @"";
 }
 
 -(void) initEntryData
@@ -228,6 +230,18 @@
     [dateFormatter setDateFormat:@"yyyy-MM-dd"];
     NSString *formattedDateString = [dateFormatter stringFromDate:self.pEntry.entryDate];
     self.pEntryDate.text = formattedDateString;
+    if([self.pAmountField.text length] > 0)
+    {
+        self.pLabelAmount.text = @"";
+    }
+    if([self.pCategory.text length] > 0)
+    {
+        self.pLabelCategory.text = @"";
+    }
+    if([self.pEntryDate.text length] > 0)
+    {
+        self.pLabelDate.text = @"";
+    }
 }
 
 -(void) initSwiper
@@ -408,6 +422,20 @@
         self.navigationItem.rightBarButtonItem.enabled = YES;
     else
         self.navigationItem.rightBarButtonItem.enabled = NO;
+    
+    if([self.pAmountField.text length] > 0)
+    {
+        self.pLabelAmount.text = @"";
+    }
+    if([self.pCategory.text length] > 0)
+    {
+        self.pLabelCategory.text = @"";
+    }
+    if([self.pEntryDate.text length] > 0)
+    {
+        self.pLabelDate.text = @"";
+    }
+    
 }
 
 - (IBAction)amountSpecified:(id)sender {
@@ -416,7 +444,18 @@
         self.navigationItem.rightBarButtonItem.enabled = YES;
     else
         self.navigationItem.rightBarButtonItem.enabled = NO;
-
+    if([self.pAmountField.text length] > 0)
+    {
+        self.pLabelAmount.text = @"";
+    }
+    if([self.pCategory.text length] > 0)
+    {
+        self.pLabelCategory.text = @"";
+    }
+    if([self.pEntryDate.text length] > 0)
+    {
+        self.pLabelDate.text = @"";
+    }
     
 }
 
@@ -433,7 +472,18 @@
         self.navigationItem.rightBarButtonItem.enabled = YES;
     else
         self.navigationItem.rightBarButtonItem.enabled = NO;
-
+    if([self.pAmountField.text length] > 0)
+    {
+        self.pLabelAmount.text = @"";
+    }
+    if([self.pCategory.text length] > 0)
+    {
+         self.pLabelCategory.text = @"";
+    }
+    if([self.pEntryDate.text length] > 0)
+    {
+        self.pLabelDate.text = @"";
+    }
 }
 
 -(void)tap:(id)sender
@@ -451,6 +501,19 @@
     else
         self.navigationItem.rightBarButtonItem.enabled = NO;
 
+    if([self.pAmountField.text length] > 0)
+    {
+        self.pLabelAmount.text = @"";
+    }
+    if([self.pCategory.text length] > 0)
+    {
+        self.pLabelCategory.text = @"";
+    }
+    if([self.pEntryDate.text length] > 0)
+    {
+        self.pLabelDate.text = @"";
+    }
+    
 }
 
 - (IBAction)datePickerValueChanged:(id)sender {
