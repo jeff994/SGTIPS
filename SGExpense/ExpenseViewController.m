@@ -264,13 +264,13 @@
 }
 
 - (void)handleSwipeLeft:(UITapGestureRecognizer *)recognizer {
-    [self performSegueWithIdentifier:@"unwindToList" sender:self];
+    if(self.doneButton.isEnabled)
+        [self performSegueWithIdentifier:@"addNewEntry" sender:self];
     // Insert your own code to handle swipe left
 }
 
 - (void)handleSwipeRight:(UITapGestureRecognizer *)recognizer {
-    if(self.doneButton.isEnabled)
-        [self performSegueWithIdentifier:@"addNewEntry" sender:self];
+    [self performSegueWithIdentifier:@"unwindToList" sender:self];
     // Insert your own code to handle swipe right
 }
 

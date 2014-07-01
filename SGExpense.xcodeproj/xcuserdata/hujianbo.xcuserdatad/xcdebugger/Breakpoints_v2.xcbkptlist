@@ -9,14 +9,14 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "SGExpense/MainTableViewController.m"
-            timestampString = "425825942.913812"
+            filePath = "SGExpense/DealTableViewController.m"
+            timestampString = "425917086.613461"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "237"
-            endingLineNumber = "237"
-            landmarkName = "@implementation MainTableViewController"
-            landmarkType = "3">
+            startingLineNumber = "175"
+            endingLineNumber = "175"
+            landmarkName = "-viewDidLoad"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

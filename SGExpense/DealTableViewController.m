@@ -143,7 +143,7 @@
     //[self.tableView setSeparatorInset:UIEdgeInsetsZero];
     return;
 }
-
+/*
 -(void) initSwiper
 {
     self.swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeRight:)];
@@ -166,12 +166,13 @@
     
     // Insert your own code to handle swipe right
 }
+*/
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     [self loadDeals];
-    [self initSwiper];
+    //[self initSwiper];
     [self.m_activityView startAnimating];
     self.m_activityView.hidesWhenStopped = YES;
     
@@ -284,7 +285,7 @@
     IconDownloader *iconDownloader = [self.imageDownloadsInProgress objectForKey:indexPath];
     if (iconDownloader == nil)
     {
-        iconDownloader = [[IconDownloader alloc] init];
+        IconDownloader *iconDownloader  = [[IconDownloader alloc] init];
         iconDownloader.dealRecord = dealRecord;
         [iconDownloader setCompletionHandler:^{
             

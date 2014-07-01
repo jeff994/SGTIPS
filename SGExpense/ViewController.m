@@ -263,7 +263,7 @@
 }
 
 - (void)handleSwipeLeft:(UITapGestureRecognizer *)recognizer {
-    [self.tabBarController setSelectedIndex:0];
+    //[self.tabBarController setSelectedIndex:0];
 }
 
 - (void)handleSwipeRight:(UITapGestureRecognizer *)recognizer {

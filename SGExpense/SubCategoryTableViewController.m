@@ -127,12 +127,12 @@
 
 
 - (void)handleSwipeLeft:(UITapGestureRecognizer *)recognizer {
-    [self performSegueWithIdentifier:@"backFromSub" sender:self];
+    [self performSegueWithIdentifier:@"idNewEntry" sender:self];
     // Insert your own code to handle swipe left
 }
 
 - (void)handleSwipeRight:(UITapGestureRecognizer *)recognizer {
-    [self performSegueWithIdentifier:@"idNewEntry" sender:self];
+    [self performSegueWithIdentifier:@"backFromSub" sender:self];
     // Insert your own code to handle swipe right
 }
 

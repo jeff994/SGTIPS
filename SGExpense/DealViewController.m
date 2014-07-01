@@ -45,7 +45,8 @@
 
 - (void)handleSwipeRight:(UITapGestureRecognizer *)recognizer {
     //[self.tabBarController setSelectedIndex:1];
-    
+    [self performSegueWithIdentifier:@"idbackfromweb" sender:self];
+
     // Insert your own code to handle swipe right
 }
 
