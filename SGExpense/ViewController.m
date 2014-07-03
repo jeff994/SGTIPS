@@ -262,13 +262,47 @@
     [self.view addGestureRecognizer:self.swipeLeft];
 }
 
+-(void) animate:(NSInteger) controllerIndex
+{
+    UIView * fromView = self.tabBarController.selectedViewController.view;
+    UIView * toView = [[self.tabBarController.viewControllers objectAtIndex:controllerIndex] view];
+    
+    // Get the size of the view area.
+    CGRect viewSize = fromView.frame;
+    BOOL scrollRight = controllerIndex > self.tabBarController.selectedIndex;
+    
+    // Add the to view to the tab bar view.
+    [fromView.superview addSubview:toView];
+    
+    // Position it off screen.
+    toView.frame = CGRectMake((scrollRight ? 320 : -320), viewSize.origin.y, 320, viewSize.size.height);
+    
+    [UIView animateWithDuration:1.0
+                     animations: ^{
+                         
+                         // Animate the views on and off the screen. This will appear to slide.
+                         fromView.frame =CGRectMake((scrollRight ? -320 : 320), viewSize.origin.y, 320, viewSize.size.height);
+                         toView.frame =CGRectMake(0, viewSize.origin.y, 320, viewSize.size.height);
+                     }
+     
+                     completion:^(BOOL finished) {
+                         if (finished) {
+                             
+                             // Remove the old view from the tabbar view.
+                             [fromView removeFromSuperview];
+                             self.tabBarController.selectedIndex = controllerIndex;
+                         }
+                     }];
+    
+}
+
 - (void)handleSwipeLeft:(UITapGestureRecognizer *)recognizer {
     //[self.tabBarController setSelectedIndex:0];
+    //[self animate:0];
 }
 
 - (void)handleSwipeRight:(UITapGestureRecognizer *)recognizer {
-    [self.tabBarController setSelectedIndex:3];
-    
+    [self animate:3];
     // Insert your own code to handle swipe right
 }
 

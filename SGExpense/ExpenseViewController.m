@@ -55,6 +55,12 @@
     NSArray *toolbarItems = [NSArray arrayWithObjects:
                              doneButton, nil];
     [toolBar setItems:toolbarItems];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    NSDate *now = [NSDate date];
+    self.pEntryDate.text = [dateFormatter stringFromDate:now];
+    self.pEntry.entryDate = now;
+    
     if([self.pCategoryArray count] == 1)
     {
         self.pCategory.text = [self.pCategoryArray objectAtIndex:0];
@@ -64,11 +70,32 @@
     }
     else
     {
+        NSInteger randomNumber = arc4random() % [self.pCategoryArray count] ;
         self.pCategory.inputView = self.pCategoryPicker;
+        self.pCategory.text = [self.pCategoryArray objectAtIndex:randomNumber];
+        self.pEntry.categoryName = [self.pCategoryArray objectAtIndex:randomNumber];
         self.pCategory.inputAccessoryView = toolBar;
         self.categoryRow = 0;
     }
     
+    self.pAmountField.text = @"0.0";
+    self.pAmountField.layer.cornerRadius= 3.0f;
+    self.pAmountField.layer.masksToBounds=YES;
+    self.pAmountField.layer.borderColor=[[UIColor magentaColor]CGColor];
+    self.pAmountField.layer.borderWidth= 1.0f;
+    if([self.pAmountField.text length] > 0)
+    {
+        self.pLabelAmount.text = @"";
+    }
+    if([self.pCategory.text length] > 0)
+    {
+        self.pLabelCategory.text = @"";
+    }
+    if([self.pEntryDate.text length] > 0)
+    {
+        self.pLabelDate.text = @"";
+    }
+    self.navigationItem.rightBarButtonItem.enabled = NO;
 }
 
 
@@ -230,18 +257,6 @@
     [dateFormatter setDateFormat:@"yyyy-MM-dd"];
     NSString *formattedDateString = [dateFormatter stringFromDate:self.pEntry.entryDate];
     self.pEntryDate.text = formattedDateString;
-    if([self.pAmountField.text length] > 0)
-    {
-        self.pLabelAmount.text = @"";
-    }
-    if([self.pCategory.text length] > 0)
-    {
-        self.pLabelCategory.text = @"";
-    }
-    if([self.pEntryDate.text length] > 0)
-    {
-        self.pLabelDate.text = @"";
-    }
 }
 
 -(void) initSwiper
@@ -496,11 +511,6 @@
         self.pEntry.categoryName = self.pCategory.text;
     
     [self.view endEditing:YES];
-    if ([self.pEntry validEntry])
-        self.navigationItem.rightBarButtonItem.enabled = YES;
-    else
-        self.navigationItem.rightBarButtonItem.enabled = NO;
-
     if([self.pAmountField.text length] > 0)
     {
         self.pLabelAmount.text = @"";
@@ -513,7 +523,16 @@
     {
         self.pLabelDate.text = @"";
     }
-    
+    if ([self.pEntry validEntry])
+    {
+        self.pAmountField.layer.borderColor=[[UIColor clearColor]CGColor];
+        self.pAmountField.layer.borderWidth= 1.0f;
+        self.navigationItem.rightBarButtonItem.enabled = YES;
+    }
+    else
+        self.navigationItem.rightBarButtonItem.enabled = NO;
+
+  
 }
 
 - (IBAction)datePickerValueChanged:(id)sender {

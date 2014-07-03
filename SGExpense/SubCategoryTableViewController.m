@@ -217,7 +217,7 @@
     if([pEntry.description length] <= 0)
     {
         long nRowIndex = indexPath.row + 1;
-        cell.textLabel.text = [NSString stringWithFormat:@"***%@ %ld***", pCatName, nRowIndex];
+        cell.textLabel.text = [NSString stringWithFormat:@"%@ %ld", pCatName, nRowIndex];
     }else
         cell.textLabel.text = pEntry.description;
     NSString * pDetailed = [NSString stringWithFormat:@" %@%.2f",self.pCurrency, pEntry.fAmountSpent];
