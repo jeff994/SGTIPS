@@ -121,9 +121,9 @@
     
     [UIView animateWithDuration:0.4
                      animations: ^{
-                         CGRect fromFrame = CGRectMake((scrollRight ? -320 : 320), viewSize.origin.y, 320, viewSize.size.height);
+                         //CGRect fromFrame = CGRectMake((scrollRight ? -320 : 320), viewSize.origin.y, 320, viewSize.size.height);
                          // Animate the views on and off the screen. This will appear to slide.
-                         fromView.frame = fromFrame;
+                         //fromView.frame = fromFrame;
                          toView.frame =CGRectMake(0, viewSize.origin.y, 320, viewSize.size.height);
                      }
      

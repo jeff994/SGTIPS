@@ -281,7 +281,7 @@
                      animations: ^{
                          
                          // Animate the views on and off the screen. This will appear to slide.
-                         fromView.frame =CGRectMake((scrollRight ? -320 : 320), viewSize.origin.y, 320, viewSize.size.height);
+                         //fromView.frame =CGRectMake((scrollRight ? -320 : 320), viewSize.origin.y, 320, viewSize.size.height);
                          toView.frame =CGRectMake(0, viewSize.origin.y, 320, viewSize.size.height);
                      }
      
