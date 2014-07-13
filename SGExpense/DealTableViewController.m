@@ -101,7 +101,7 @@
              self.pHeaderField.text = @"Not able to get deals";
         }else
         {
-            self.pHeaderField.text = @"Featured Deal";
+            self.pHeaderField.text = @"Featured Deals";
             [self.tableView reloadData];
         }
     });
@@ -172,7 +172,7 @@
     // Position it off screen.
     toView.frame = CGRectMake((scrollRight ? 320 : -320), viewSize.origin.y, 320, viewSize.size.height);
     
-    [UIView animateWithDuration:1.0
+    [UIView animateWithDuration:0.4
                      animations: ^{
                          
                          // Animate the views on and off the screen. This will appear to slide.
@@ -213,7 +213,7 @@
     [self setTitle:@"Deals"];
     __weak AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     appDelegate.m_pDealTableController = self;
-
+    self.pHeaderField.text = @"Featured Deals";
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     

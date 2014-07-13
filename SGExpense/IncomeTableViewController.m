@@ -108,18 +108,22 @@
     // Get the size of the view area.
     CGRect viewSize = fromView.frame;
     BOOL scrollRight = controllerIndex > self.tabBarController.selectedIndex;
-    
-    // Add the to view to the tab bar view.
+    if(controllerIndex == 2) {
+        scrollRight = YES;
+        fromView = [[self.tabBarController.viewControllers objectAtIndex:1] view];
+    }    // Add the to view to the tab bar view.
     [fromView.superview addSubview:toView];
     
     // Position it off screen.
     toView.frame = CGRectMake((scrollRight ? 320 : -320), viewSize.origin.y, 320, viewSize.size.height);
     
-    [UIView animateWithDuration:1.0
+    
+    
+    [UIView animateWithDuration:0.4
                      animations: ^{
-                         
+                         CGRect fromFrame = CGRectMake((scrollRight ? -320 : 320), viewSize.origin.y, 320, viewSize.size.height);
                          // Animate the views on and off the screen. This will appear to slide.
-                         fromView.frame =CGRectMake((scrollRight ? -320 : 320), viewSize.origin.y, 320, viewSize.size.height);
+                         fromView.frame = fromFrame;
                          toView.frame =CGRectMake(0, viewSize.origin.y, 320, viewSize.size.height);
                      }
      
@@ -135,7 +139,8 @@
 }
 
 - (void)handleSwipeLeft:(UITapGestureRecognizer *)recognizer {
-    [self animate:2];
+    NSInteger index = 2;
+    [self animate:index];
 }
 
 - (void)handleSwipeRight:(UITapGestureRecognizer *)recognizer {

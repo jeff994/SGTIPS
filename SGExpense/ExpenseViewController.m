@@ -78,7 +78,7 @@
         self.categoryRow = 0;
     }
     
-    self.pAmountField.text = @"0.0";
+    //self.pAmountField.text = @"0.0";
     self.pAmountField.layer.cornerRadius= 3.0f;
     self.pAmountField.layer.masksToBounds=YES;
     self.pAmountField.layer.borderColor=[[UIColor magentaColor]CGColor];
@@ -95,7 +95,6 @@
     {
         self.pLabelDate.text = @"";
     }
-    self.navigationItem.rightBarButtonItem.enabled = NO;
 }
 
 
@@ -192,6 +191,13 @@
     [[self.pImageButton layer] setBorderWidth:1.0f];
     [self.pImageButton layer].masksToBounds = YES;
     self.pImageButton.contentMode = UIViewContentModeScaleAspectFit;
+    if([[DBManager getSharedInstance] isChildOf:@"Expense" child:self.pMainCategoryName])
+    {
+        [self.pImageButton setTitle:@"Add a receipt" forState:UIControlStateNormal];
+    }else if ([[DBManager getSharedInstance] isChildOf:@"Income" child:self.pMainCategoryName])
+    {
+        [self.pImageButton setTitle:@"Add a payment slip" forState:UIControlStateNormal];
+    }
     if(self.pEntry)
     {
         if(self.pEntry.receipt)
@@ -200,15 +206,6 @@
             [ self.pImageButton setBackgroundImage:self.pEntry.receipt forState:UIControlStateNormal];
         }
     }
-    if([[DBManager getSharedInstance] isChildOf:@"Expense" child:self.pMainCategoryName])
-    {
-        [self.pImageButton setTitle:@"Add a receipt" forState:UIControlStateNormal];
-    }else if ([[DBManager getSharedInstance] isChildOf:@"Income" child:self.pMainCategoryName])
-    {
-        [self.pImageButton setTitle:@"Add a payment slip" forState:UIControlStateNormal];
-    }
-
- 
 }
 
 - (IBAction)categoryChanged:(id)sender {
@@ -252,11 +249,16 @@
     if([self.pEntry.description length] > 0)
         self.pDescriptionField.text = self.pEntry.description;
     self.pCategory.text = self.pEntry.categoryName;
-    if(self.pEntry.fAmountSpent > 0) self.pAmountField.text = [NSString stringWithFormat:@"%.2f", self.pEntry.fAmountSpent];
+    self.pAmountField.text = [NSString stringWithFormat:@"%.2f", self.pEntry.fAmountSpent];
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd"];
     NSString *formattedDateString = [dateFormatter stringFromDate:self.pEntry.entryDate];
     self.pEntryDate.text = formattedDateString;
+    if ([self.pEntry validEntry])
+        self.navigationItem.rightBarButtonItem.enabled = YES;
+    else
+        self.navigationItem.rightBarButtonItem.enabled = NO;
+
 }
 
 -(void) initSwiper
@@ -270,6 +272,7 @@
     self.swipeLeft.direction = UISwipeGestureRecognizerDirectionLeft;
     self.swipeLeft.delegate = self;
     [self.view addGestureRecognizer:self.swipeLeft];
+    
 }
 
 - (void)viewDidLoad

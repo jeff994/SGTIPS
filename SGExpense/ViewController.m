@@ -277,7 +277,7 @@
     // Position it off screen.
     toView.frame = CGRectMake((scrollRight ? 320 : -320), viewSize.origin.y, 320, viewSize.size.height);
     
-    [UIView animateWithDuration:1.0
+    [UIView animateWithDuration:0.4
                      animations: ^{
                          
                          // Animate the views on and off the screen. This will appear to slide.
