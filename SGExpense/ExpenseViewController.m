@@ -78,15 +78,6 @@
         self.categoryRow = 0;
     }
     
-    //self.pAmountField.text = @"0.0";
-    self.pAmountField.layer.cornerRadius= 3.0f;
-    self.pAmountField.layer.masksToBounds=YES;
-    self.pAmountField.layer.borderColor=[[UIColor magentaColor]CGColor];
-    self.pAmountField.layer.borderWidth= 1.0f;
-    if([self.pAmountField.text length] > 0)
-    {
-        self.pLabelAmount.text = @"";
-    }
     if([self.pCategory.text length] > 0)
     {
         self.pLabelCategory.text = @"";
@@ -180,6 +171,18 @@
     [self.pAmountField setDelegate:self];
     UITapGestureRecognizer * tapRecognizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tap:)];
     [self.view addGestureRecognizer:tapRecognizer];
+    //self.pAmountField.text = @"0.0";
+    if ([self.pEntry validEntry] == NO)
+    {
+        self.pAmountField.layer.cornerRadius= 3.0f;
+        self.pAmountField.layer.masksToBounds=YES;
+        self.pAmountField.layer.borderColor=[[UIColor magentaColor]CGColor];
+        self.pAmountField.layer.borderWidth= 1.0f;
+    }
+    if([self.pAmountField.text length] > 0)
+    {
+        self.pLabelAmount.text = @"";
+    }
 }
 
 - (void) initReciptButton
@@ -545,14 +548,6 @@
     NSString *formattedDateString = [dateFormatter stringFromDate:self.pDatePicker.date];
     self.pEntryDate.text = formattedDateString;
     self.pEntry.entryDate = self.pDatePicker.date;
-    [self.view endEditing:YES];
-    if ([self.pEntry validEntry])
-        self.navigationItem.rightBarButtonItem.enabled = YES;
-    else
-        self.navigationItem.rightBarButtonItem.enabled = NO;
-
- 
-  
 }
 
 -(void)takePhoto
