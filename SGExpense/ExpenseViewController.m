@@ -66,7 +66,6 @@
         self.pCategory.text = [self.pCategoryArray objectAtIndex:0];
         [self.pCategory setUserInteractionEnabled:NO];
         self.pEntry.categoryName = [self.pCategoryArray objectAtIndex:0];
-        self.pLabelCategory.text = @"";
     }
     else
     {
@@ -76,15 +75,6 @@
         self.pEntry.categoryName = [self.pCategoryArray objectAtIndex:randomNumber];
         self.pCategory.inputAccessoryView = toolBar;
         self.categoryRow = 0;
-    }
-    
-    if([self.pCategory.text length] > 0)
-    {
-        self.pLabelCategory.text = @"";
-    }
-    if([self.pEntryDate.text length] > 0)
-    {
-        self.pLabelDate.text = @"";
     }
 }
 
@@ -179,10 +169,6 @@
         self.pAmountField.layer.borderColor=[[UIColor magentaColor]CGColor];
         self.pAmountField.layer.borderWidth= 1.0f;
     }
-    if([self.pAmountField.text length] > 0)
-    {
-        self.pLabelAmount.text = @"";
-    }
 }
 
 - (void) initReciptButton
@@ -213,7 +199,6 @@
 
 - (IBAction)categoryChanged:(id)sender {
     self.pEntry.categoryName = self.pCategory.text;
-    self.pLabelCategory.text = @"";
 }
 
 - (IBAction)dateChanged:(id)sender {
@@ -444,40 +429,22 @@
     else
         self.navigationItem.rightBarButtonItem.enabled = NO;
     
-    if([self.pAmountField.text length] > 0)
-    {
-        self.pLabelAmount.text = @"";
-    }
-    if([self.pCategory.text length] > 0)
-    {
-        self.pLabelCategory.text = @"";
-    }
-    if([self.pEntryDate.text length] > 0)
-    {
-        self.pLabelDate.text = @"";
-    }
-    
 }
 
 - (IBAction)amountSpecified:(id)sender {
     self.pEntry.fAmountSpent = [self.pAmountField.text doubleValue];
     if ([self.pEntry validEntry])
+    {
+        self.pAmountField.layer.borderColor=[[UIColor clearColor]CGColor];
+        self.pAmountField.layer.borderWidth= 1.0f;
         self.navigationItem.rightBarButtonItem.enabled = YES;
+    }
     else
+    {
         self.navigationItem.rightBarButtonItem.enabled = NO;
-    if([self.pAmountField.text length] > 0)
-    {
-        self.pLabelAmount.text = @"";
+        self.pAmountField.layer.borderColor=[[UIColor magentaColor]CGColor];
+        self.pAmountField.layer.borderWidth= 1.0f;
     }
-    if([self.pCategory.text length] > 0)
-    {
-        self.pLabelCategory.text = @"";
-    }
-    if([self.pEntryDate.text length] > 0)
-    {
-        self.pLabelDate.text = @"";
-    }
-    
 }
 
 -(void) donePickDate:(id)sender
@@ -493,18 +460,6 @@
         self.navigationItem.rightBarButtonItem.enabled = YES;
     else
         self.navigationItem.rightBarButtonItem.enabled = NO;
-    if([self.pAmountField.text length] > 0)
-    {
-        self.pLabelAmount.text = @"";
-    }
-    if([self.pCategory.text length] > 0)
-    {
-         self.pLabelCategory.text = @"";
-    }
-    if([self.pEntryDate.text length] > 0)
-    {
-        self.pLabelDate.text = @"";
-    }
 }
 
 -(void)tap:(id)sender
@@ -517,18 +472,7 @@
         self.pEntry.categoryName = self.pCategory.text;
     
     [self.view endEditing:YES];
-    if([self.pAmountField.text length] > 0)
-    {
-        self.pLabelAmount.text = @"";
-    }
-    if([self.pCategory.text length] > 0)
-    {
-        self.pLabelCategory.text = @"";
-    }
-    if([self.pEntryDate.text length] > 0)
-    {
-        self.pLabelDate.text = @"";
-    }
+    
     if ([self.pEntry validEntry])
     {
         self.pAmountField.layer.borderColor=[[UIColor clearColor]CGColor];
@@ -536,7 +480,11 @@
         self.navigationItem.rightBarButtonItem.enabled = YES;
     }
     else
+    {
         self.navigationItem.rightBarButtonItem.enabled = NO;
+        self.pAmountField.layer.borderColor=[[UIColor magentaColor]CGColor];
+        self.pAmountField.layer.borderWidth= 1.0f;
+    }
 
   
 }

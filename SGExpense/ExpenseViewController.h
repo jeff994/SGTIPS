@@ -10,9 +10,7 @@
 #import "EntryItem.h"
 
 @interface ExpenseViewController : UIViewController <UITextFieldDelegate, UIPickerViewDataSource,UIPickerViewDelegate,  UIScrollViewDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate>
-@property (strong, nonatomic) IBOutlet UILabel *pLabelDate;
-@property (strong, nonatomic) IBOutlet UILabel *pLabelAmount;
-@property (strong, nonatomic) IBOutlet UILabel *pLabelCategory;
+
 @property (strong, nonatomic) IBOutlet UISwitch     *repeatSwitch;
 @property (strong, nonatomic) IBOutlet UILabel      *currencyLabel;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *doneButton;
